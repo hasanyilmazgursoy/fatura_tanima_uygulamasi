@@ -1,3 +1,4 @@
+#4.gün
 import cv2
 import pytesseract
 from pytesseract import Output

@@ -1,3 +1,4 @@
+#1.gün
 import cv2
 
 # Görüntüyü yükle
