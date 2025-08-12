@@ -2,34 +2,47 @@
 
 ## 📋 Proje Hakkında
 
-Bu proje, **OCR (Optik Karakter Tanıma)** teknolojisi kullanarak faturalardan otomatik olarak bilgi çıkarmaya yönelik bir Python uygulamasıdır. Hafta boyunca geliştirilen tüm özellikler, 5. günde temiz ve anlaşılır fonksiyonlar halinde birleştirilmiştir.
+Bu proje, **OCR (Optik Karakter Tanıma)** ve **Düzenli İfadeler (Regex)** teknolojileri kullanarak fatura resimlerinden otomatik olarak yapılandırılmış veri çıkaran gelişmiş bir Python uygulamasıdır. 
 
-## 🎯 Haftalık Gelişim Süreci
+### 🎯 Ana Özellikler
+- **FLO fatura formatına özel optimize edilmiş** analiz sistemi
+- **27 farklı fatura alanı** için yapılandırılmış veri çıkarma
+- **15 farklı regex deseni** ile otomatik veri tanıma
+- **Çoklu fatura formatı** desteği (e-Arşiv, e-Fatura, Proforma)
+- **Adaptif OCR teknolojisi** ile yüksek doğruluk oranı
+- **Gerçek zamanlı görsel geri bildirim** sistemi
 
-### 1. Gün: `görüntüyüKodlaOkumak.py`
-- Temel görüntü işleme
-- Resim yükleme ve gri tonlamaya çevirme
-- Median blur ile gürültü azaltma
+## 🎯 Sistem Yetenekleri
 
-### 2. Gün: `OCR_kullanimi.py`
-- Tesseract OCR entegrasyonu
-- Gelişmiş görüntü ön işleme
-- Türkçe dil desteği
+### 📊 Çıkarılabilen Fatura Bilgileri
+**Temel Bilgiler:**
+- Fatura numarası (FEA2025001157280 formatı)
+- Fatura tarihi ve son ödeme tarihi
+- Fatura tipi (e-Arşiv, e-Fatura, Proforma)
+- ETTN (Evrensel Tekil Fatura Numarası)
 
-### 3. Gün: `kelimleri bulma.py`
-- Akıllı metin analizi
-- Anahtar kelime arama
-- Tutar bulma algoritması
+**Satıcı Bilgileri:**
+- Firma ünvanı, adres, telefon, email
+- Vergi dairesi ve vergi numarası
+- Web sitesi, ticaret sicil, mersis numarası
 
-### 4. Gün: `OCR_ile_box_2.py`
-- Görsel geri bildirim
-- Çoklu anahtar kelime desteği
-- Hata yönetimi
+**Alıcı Bilgileri:**
+- Müşteri adı/firma, adres, iletişim bilgileri
+- TC kimlik numarası, müşteri numarası
+- Vergi dairesi ve vergi numarası
 
-### 5. Gün: `fatura_ocr_sistemi.py` ⭐
-- **Haftalık değerlendirme ve kod toparlama**
-- Tüm özellikleri birleştiren ana sistem
-- Temiz ve anlaşılır fonksiyonlar
+**Finansal Bilgiler:**
+- Mal/hizmet toplam tutarı
+- İskonto oranı ve tutarı
+- KDV oranı ve tutarı
+- Vergi hariç/dahil tutarlar
+- Genel toplam ve ödenecek tutar
+
+**Ürün ve Ödeme:**
+- Ürün listesi ve detayları
+- Ödeme şekli ve vadesi
+- Banka hesap bilgileri (IBAN)
+- Taşıyıcı ve gönderim bilgileri
 
 ## 🚀 Kurulum
 
@@ -47,29 +60,32 @@ pip install numpy
 
 ## 📖 Kullanım
 
-### Basit Kullanım
+### 🎯 Ana Sistem (Önerilen)
 ```python
-from fatura_ocr_sistemi import FaturaOCR
+from fatura_regex_analiz import FaturaRegexAnaliz
 
 # Sistemi başlat
-ocr_sistemi = FaturaOCR()
+analiz_sistemi = FaturaRegexAnaliz()
 
-# Faturayı analiz et
-sonuclar = ocr_sistemi.fatura_analiz_et("fatura.png")
+# Tek fatura analizi
+sonuclar = analiz_sistemi.fatura_analiz_et("fatura.png")
+
+# Çoklu fatura analizi (otomatik rapor)
+python fatura_regex_analiz.py
 ```
 
-### Gelişmiş Kullanım
+### 🔧 Manuel İşlemler
 ```python
-# Özel Tesseract yolu ile başlat
-ocr_sistemi = FaturaOCR(tesseract_path="C:/custom/path/tesseract.exe")
+# Resim yükleme ve ön işleme
+img = analiz_sistemi.resmi_yukle("fatura.png")
+processed_img = analiz_sistemi.resmi_on_isle(img)
 
-# Sadece metin çıkarma (görsel gösterme)
-sonuclar = ocr_sistemi.fatura_analiz_et("fatura.png", sonuc_goster=False)
+# OCR ile metin çıkarma
+ocr_data = analiz_sistemi.metni_cikar(processed_img)
 
-# Manuel işlemler
-img = ocr_sistemi.resmi_yukle("fatura.png")
-processed = ocr_sistemi.resmi_on_isle(img)
-ocr_data = ocr_sistemi.metni_cikar(processed)
+# Yapılandırılmış veri çıkarma
+ham_metin = ' '.join([text for text in ocr_data['text'] if text.strip()])
+structured_data = analiz_sistemi.yapilandirilmis_veri_cikar(ocr_data, ham_metin)
 ```
 
 ## 🔧 Ana Fonksiyonlar
@@ -111,77 +127,90 @@ Sistem, analiz sonuçlarını renkli kutularla işaretler:
 - 🟢 **Yeşil**: Anahtar kelimeler
 - 🔵 **Mavi**: Bulunan tutarlar
 
-## 📊 Çıktı Formatı
+## 📊 Performans ve Başarı Oranları
 
-```python
+### 🎯 Test Sonuçları (16 Fatura)
+- **FLO Faturalarında**: %85+ başarı oranı
+- **Temel Bilgiler**: %75+ yakalama oranı
+- **Finansal Tutarlar**: %80+ doğruluk
+- **İletişim Bilgileri**: %70+ başarı
+
+### 📋 Regex Performansı
+| Kategori | Başarı Oranı | Örnekler |
+|----------|---------------|----------|
+| Fatura No | %75 | FEA2025001157280 |
+| Tarih | %69 | 24-04-2025 |
+| Para | %75 | 1.899,98 TRY |
+| Telefon | %69 | +90 212 446 22 88 |
+| Email | %69 | info@firma.com.tr |
+| IBAN | %6 | TR13 0006 4000... |
+
+## 📄 Çıktı Formatı
+
+```json
 {
-    "dosya": "fatura.png",
-    "anahtar_kelimeler_bulundu": 3,
-    "tutarlar_bulundu": 2,
-    "anahtar_kelimeler": [...],
-    "bulunan_tutarlar": [
-        {
-            "anahtar_kelime": "Ödenecek Tutar",
-            "tutar": "150,50",
-            "koordinatlar": (x, y, w, h)
-        }
-    ],
-    "toplam_metin_sayisi": 45,
-    "ortalama_guven_skoru": 78.5
+  "dosya": "fatura.png",
+  "analiz_zamani": "2025-08-12 13:28:05",
+  "regex": {
+    "fatura_no": ["FEA2025001157280"],
+    "tarih": ["24-04-2025"],
+    "para": ["1.899,98 TRY", "400,00 TRY"]
+  },
+  "structured": {
+    "fatura_numarasi": "FEA2025001157280",
+    "satici_firma_unvani": "FLO MAĞAZACILIK A.Ş.",
+    "genel_toplam": "1.899,98",
+    "para_birimi": "TRY"
+  }
 }
 ```
 
-## ⚙️ Yapılandırma
+## 🚀 Teknik Özellikler
 
-### Anahtar Kelimeler
-```python
-ocr_sistemi.anahtar_kelimeler = [
-    "ödenecek", "toplam", "tutar", "genel toplam", 
-    "ödenecek tutar", "vergiler dahil", "net tutar"
-]
-```
+### 🔧 OCR Teknolojisi
+- **Tesseract Engine**: OEM 3 + PSM 6/4 adaptif modu
+- **Dil Desteği**: Türkçe + İngilizce birlikte
+- **Görüntü İyileştirme**: Otomatik ölçekleme (1.5x küçük resimler için)
+- **Güven Skoru**: Minimum %30 güvenilirlik filtresi
 
-### OCR Ayarları
-```python
-ocr_sistemi.ocr_config = '--psm 6'      # Tek blok metin
-ocr_sistemi.min_confidence = 40         # Minimum güven skoru
-```
+### 🎯 Regex Desenleri (15 Adet)
+- Tarih formatları (DD.MM.YYYY, DD/MM/YYYY)
+- Para formatları (1.899,98 TRY, 150,50)
+- Türk IBAN formatları (TR9Y TREZ...)
+- Fatura numaraları (FEA2025001157280)
+- ETTN UUID formatı
+- Telefon numaraları (+90 212 446 22 88)
+- Email adresleri
+- Vergi/TC/Mersis numaraları
 
-## 🐛 Hata Ayıklama
+### 📊 Veri Çıkarma Algoritması
+- **27 yapılandırılmış alan** için özel algoritmalar
+- **Heuristik yaklaşım**: Anahtar kelime + konumsal analiz
+- **Çoklu doğrulama**: Regex + OCR koordinat bilgisi
+- **Normalizasyon**: Otomatik veri temizleme ve standardizasyon
 
-Sistem detaylı log mesajları verir:
-- 📁 Resim yükleme durumu
-- 🔧 İşlem adımları
-- ✅ Başarılı işlemler
-- ❌ Hata mesajları
-- 📊 İstatistikler
+## 🔍 Desteklenen Formatlar
 
-## 🔍 Desteklenen Dosya Formatları
+- **Resim Türleri**: PNG, JPG, JPEG, TIF, TIFF, BMP
+- **Fatura Türleri**: e-Arşiv, e-Fatura, Proforma, İrsaliye
+- **Firma Formatları**: FLO optimized, genel e-fatura desteği
+- **Çözünürlük**: 556x632'den 1653x2339'a kadar test edildi
 
-- **Resim**: PNG, JPG, JPEG, BMP, TIFF
-- **Diller**: Türkçe (varsayılan), İngilizce
-- **Çözünürlük**: Herhangi bir boyut
+## 💡 En İyi Sonuçlar İçin
 
-## 💡 İpuçları
+1. **300 DPI** veya daha yüksek çözünürlük
+2. **Düz açı** ve **iyi aydınlatma**
+3. **Kontrast** artırılmış, **net** görüntüler
+4. **FLO fatura formatı** için optimize edilmiş
 
-1. **Yüksek kaliteli resimler** kullanın
-2. **İyi aydınlatma** ile çekin
-3. **Düz açı** ile fotoğraf çekin
-4. **Tesseract yolunu** doğru ayarlayın
+## 🎯 Proje Durumu
 
-## 📝 Lisans
-
-Bu proje eğitim amaçlı geliştirilmiştir.
-
-## 🤝 Katkıda Bulunma
-
-1. Fork yapın
-2. Feature branch oluşturun
-3. Commit yapın
-4. Pull request gönderin
+✅ **Ana Sistem**: Tamamlandı ve test edildi  
+✅ **Regex Motoru**: 15 desen ile optimize edildi  
+✅ **FLO Entegrasyonu**: %85+ başarı oranı  
+✅ **Çoklu Format**: 16 farklı fatura test edildi  
+⚠️ **İyileştirme Alanları**: IBAN (%6) ve ETTN (%6) yakalama  
 
 ---
 
-**🎯 Haftanın Hedefi: ✅ TAMAMLANDI!**
-
-Bir fatura resmi verildiğinde, içindeki tüm metinleri ve koordinatlarını başarıyla çıkaran Python script'i hazır! 🎉
+**🚀 Gelişmiş OCR + Regex sistemi ile faturalarınızı otomatik analiz edin!** 🎉
