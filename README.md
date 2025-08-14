@@ -1,216 +1,89 @@
 # 🧾 Akıllı Fatura Tanıma Uygulaması
 
-## 📋 Proje Hakkında
+Bu proje, **OCR (Optik Karakter Tanıma)** ve **Düzenli İfadeler (Regex)** teknolojilerini kullanarak fatura görsellerinden ve PDF dosyalarından otomatik olarak yapılandırılmış veri çıkaran bir Python uygulamasıdır.
 
-Bu proje, **OCR (Optik Karakter Tanıma)** ve **Düzenli İfadeler (Regex)** teknolojileri kullanarak fatura resimlerinden otomatik olarak yapılandırılmış veri çıkaran gelişmiş bir Python uygulamasıdır. 
+## ✨ Ana Özellikler
 
-### 🎯 Ana Özellikler
-- **FLO fatura formatına özel optimize edilmiş** analiz sistemi
-- **27 farklı fatura alanı** için yapılandırılmış veri çıkarma
-- **15 farklı regex deseni** ile otomatik veri tanıma
-- **Çoklu fatura formatı** desteği (e-Arşiv, e-Fatura, Proforma)
-- **Adaptif OCR teknolojisi** ile yüksek doğruluk oranı
-- **Gerçek zamanlı görsel geri bildirim** sistemi
-
-## 🎯 Sistem Yetenekleri
-
-### 📊 Çıkarılabilen Fatura Bilgileri
-**Temel Bilgiler:**
-- Fatura numarası (FEA2025001157280 formatı)
-- Fatura tarihi ve son ödeme tarihi
-- Fatura tipi (e-Arşiv, e-Fatura, Proforma)
-- ETTN (Evrensel Tekil Fatura Numarası)
-
-**Satıcı Bilgileri:**
-- Firma ünvanı, adres, telefon, email
-- Vergi dairesi ve vergi numarası
-- Web sitesi, ticaret sicil, mersis numarası
-
-**Alıcı Bilgileri:**
-- Müşteri adı/firma, adres, iletişim bilgileri
-- TC kimlik numarası, müşteri numarası
-- Vergi dairesi ve vergi numarası
-
-**Finansal Bilgiler:**
-- Mal/hizmet toplam tutarı
-- İskonto oranı ve tutarı
-- KDV oranı ve tutarı
-- Vergi hariç/dahil tutarlar
-- Genel toplam ve ödenecek tutar
-
-**Ürün ve Ödeme:**
-- Ürün listesi ve detayları
-- Ödeme şekli ve vadesi
-- Banka hesap bilgileri (IBAN)
-- Taşıyıcı ve gönderim bilgileri
+- **Geniş Format Desteği:** Hem resim dosyalarını (`.png`, `.jpg` vb.) hem de `.pdf` formatındaki faturaları doğrudan işleyebilir.
+- **Esnek Yapılandırma:** Tüm ayarlar (dosya yolları, formatlar) `config.json` dosyası üzerinden kolayca yönetilebilir.
+- **Kapsamlı Veri Çıkarma:** Fatura No, Tarih, Tutar, VKN, TCKN, Adres gibi onlarca farklı alanı tanımak için gelişmiş Regex desenleri kullanır.
+- **Çift Raporlama Sistemi:** Analiz sonuçlarını hem makine tarafından okunabilir `JSON` hem de Excel gibi programlarla uyumlu `CSV` formatında sunar.
+- **Gelişmiş Hata Yönetimi:** Analiz sırasında oluşan hataları `analiz_hatalari.log` dosyasına kaydederek sorun takibini kolaylaştırır.
+- **Yüksek Başarılı OCR:** Tesseract motoru, Türkçe ve İngilizce dilleri için optimize edilmiştir.
 
 ## 🚀 Kurulum
 
-### Gereksinimler
+#### 1. Gerekli Kütüphaneler
+
+Projeyi çalıştırmak için aşağıdaki Python kütüphanelerini yükleyin:
+
 ```bash
-pip install opencv-python
-pip install pytesseract
-pip install numpy
+pip install opencv-python pytesseract numpy PyMuPDF pdf2image
 ```
 
-### Tesseract Kurulumu
-1. [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) indirin
-2. Windows için: `C:\Program Files\Tesseract-OCR\` klasörüne kurun
-3. Sistem PATH'ine ekleyin
+#### 2. Tesseract OCR Kurulumu
 
-## 📖 Kullanım
+Bu uygulama, metin tanıma için Tesseract OCR motorunu kullanır.
 
-### 🎯 Ana Sistem (Önerilen)
-```python
-from fatura_regex_analiz import FaturaRegexAnaliz
+1.  **İndirme:** [Tesseract'ın Windows kurulum sayfasından](https://github.com/UB-Mannheim/tesseract/wiki) en güncel sürümü indirin.
+2.  **Kurulum:** Kurulum sırasında, "Additional language data" (Ek dil verileri) seçeneğini işaretleyerek **Turkish** (`tur`) dil paketini de eklediğinizden emin olun.
+3.  **Sistem Yolu (PATH):** Tesseract'ı kurduğunuz dizini (genellikle `C:\Program Files\Tesseract-OCR`) sisteminizin `PATH` ortam değişkenine ekleyin. Bu, programın Tesseract'ı komut satırından bulabilmesi için gereklidir.
 
-# Sistemi başlat
-analiz_sistemi = FaturaRegexAnaliz()
+## 📖 Nasıl Kullanılır?
 
-# Tek fatura analizi
-sonuclar = analiz_sistemi.fatura_analiz_et("fatura.png")
+Projenin kullanımı oldukça basittir.
 
-# Çoklu fatura analizi (otomatik rapor)
-python fatura_regex_analiz.py
-```
+#### 1. Faturaları Hazırlama
 
-### 🔧 Manuel İşlemler
-```python
-# Resim yükleme ve ön işleme
-img = analiz_sistemi.resmi_yukle("fatura.png")
-processed_img = analiz_sistemi.resmi_on_isle(img)
+Analiz etmek istediğiniz tüm fatura dosyalarını (`.png`, `.jpg`, `.pdf` vb.) proje ana dizinindeki `fatura` klasörünün içine veya bu klasörün altındaki herhangi bir klasöre koyun.
 
-# OCR ile metin çıkarma
-ocr_data = analiz_sistemi.metni_cikar(processed_img)
+#### 2. Ayarları Gözden Geçirme (İsteğe Bağlı)
 
-# Yapılandırılmış veri çıkarma
-ham_metin = ' '.join([text for text in ocr_data['text'] if text.strip()])
-structured_data = analiz_sistemi.yapilandirilmis_veri_cikar(ocr_data, ham_metin)
-```
-
-## 🔧 Ana Fonksiyonlar
-
-### `resmi_yukle(dosya_yolu)`
-- Belirtilen dosya yolundan fatura resmini yükler
-- Dosya varlığını ve formatını kontrol eder
-- Hata durumunda None döndürür
-
-### `resmi_on_isle(img, gurultu_azaltma=True)`
-- OCR için resmi ön işlemden geçirir
-- Gri tonlama, blur, eşikleme işlemleri
-- Gürültü azaltma seçeneği
-
-### `metni_cikar(img, dil='tur')`
-- OCR ile metin ve koordinat bilgilerini çıkarır
-- Türkçe dil desteği
-- Güven skorları ile filtreleme
-
-### `anahtar_kelimeleri_bul(ocr_data)`
-- OCR verilerinde anahtar kelimeleri arar
-- "ödenecek", "toplam", "tutar" gibi terimleri bulur
-- Koordinat ve güven bilgilerini döndürür
-
-### `tutar_bul(ocr_data, anahtar_kelime_bilgisi)`
-- Anahtar kelime ile aynı satırdaki tutarı arar
-- Regex ile tutar formatını doğrular
-- Konumsal analiz yapar
-
-### `fatura_analiz_et(dosya_yolu, sonuc_goster=True)`
-- **Ana fonksiyon**: Tüm işlemleri sırayla yapar
-- Sonuçları görsel olarak gösterir
-- Detaylı analiz raporu döndürür
-
-## 🎨 Görsel Çıktı
-
-Sistem, analiz sonuçlarını renkli kutularla işaretler:
-- 🔴 **Kırmızı**: Tüm tanınan kelimeler
-- 🟢 **Yeşil**: Anahtar kelimeler
-- 🔵 **Mavi**: Bulunan tutarlar
-
-## 📊 Performans ve Başarı Oranları
-
-### 🎯 Test Sonuçları (16 Fatura)
-- **FLO Faturalarında**: %85+ başarı oranı
-- **Temel Bilgiler**: %75+ yakalama oranı
-- **Finansal Tutarlar**: %80+ doğruluk
-- **İletişim Bilgileri**: %70+ başarı
-
-### 📋 Regex Performansı
-| Kategori | Başarı Oranı | Örnekler |
-|----------|---------------|----------|
-| Fatura No | %75 | FEA2025001157280 |
-| Tarih | %69 | 24-04-2025 |
-| Para | %75 | 1.899,98 TRY |
-| Telefon | %69 | +90 212 446 22 88 |
-| Email | %69 | info@firma.com.tr |
-| IBAN | %6 | TR13 0006 4000... |
-
-## 📄 Çıktı Formatı
+`config.json` dosyasını açarak faturaların bulunduğu veya raporların kaydedileceği klasör isimlerini değiştirebilirsiniz.
 
 ```json
 {
-  "dosya": "fatura.png",
-  "analiz_zamani": "2025-08-12 13:28:05",
-  "regex": {
-    "fatura_no": ["FEA2025001157280"],
-    "tarih": ["24-04-2025"],
-    "para": ["1.899,98 TRY", "400,00 TRY"]
-  },
-  "structured": {
-    "fatura_numarasi": "FEA2025001157280",
-    "satici_firma_unvani": "FLO MAĞAZACILIK A.Ş.",
-    "genel_toplam": "1.899,98",
-    "para_birimi": "TRY"
-  }
+    "klasor_yollari": {
+        "fatura_klasoru": "fatura",
+        "rapor_klasoru": "test_reports"
+    },
+    "desteklenen_formatlar": [
+        ".png", ".jpg", ".jpeg", ".pdf"
+    ]
 }
 ```
 
-## 🚀 Teknik Özellikler
+#### 3. Analizi Başlatma
 
-### 🔧 OCR Teknolojisi
-- **Tesseract Engine**: OEM 3 + PSM 6/4 adaptif modu
-- **Dil Desteği**: Türkçe + İngilizce birlikte
-- **Görüntü İyileştirme**: Otomatik ölçekleme (1.5x küçük resimler için)
-- **Güven Skoru**: Minimum %30 güvenilirlik filtresi
+Aşağıdaki komutu terminalde çalıştırarak tüm analiz sürecini başlatın:
 
-### 🎯 Regex Desenleri (15 Adet)
-- Tarih formatları (DD.MM.YYYY, DD/MM/YYYY)
-- Para formatları (1.899,98 TRY, 150,50)
-- Türk IBAN formatları (TR9Y TREZ...)
-- Fatura numaraları (FEA2025001157280)
-- ETTN UUID formatı
-- Telefon numaraları (+90 212 446 22 88)
-- Email adresleri
-- Vergi/TC/Mersis numaraları
+```bash
+python main.py
+```
 
-### 📊 Veri Çıkarma Algoritması
-- **27 yapılandırılmış alan** için özel algoritmalar
-- **Heuristik yaklaşım**: Anahtar kelime + konumsal analiz
-- **Çoklu doğrulama**: Regex + OCR koordinat bilgisi
-- **Normalizasyon**: Otomatik veri temizleme ve standardizasyon
+Program, `fatura` klasöründeki tüm dosyaları tarayacak, analiz edecek ve sonuçları `test_reports` klasörüne `toplu_fatura_raporu_....json` ve `toplu_fatura_raporu_....csv` olarak kaydedecektir. Oluşan hatalar ise aynı klasördeki `analiz_hatalari.log` dosyasına yazılacaktır.
 
-## 🔍 Desteklenen Formatlar
+## 📂 Proje Yapısı
 
-- **Resim Türleri**: PNG, JPG, JPEG, TIF, TIFF, BMP
-- **Fatura Türleri**: e-Arşiv, e-Fatura, Proforma, İrsaliye
-- **Firma Formatları**: FLO optimized, genel e-fatura desteği
-- **Çözünürlük**: 556x632'den 1653x2339'a kadar test edildi
+```
+.
+├── fatura/                  # Analiz edilecek faturaların bulunduğu klasör
+│   └── test/                # Alt klasörler de taranır
+├── test_reports/            # Analiz sonrası raporların kaydedildiği klasör
+│   ├── analiz_hatalari.log
+│   ├── toplu_fatura_raporu_....csv
+│   └── toplu_fatura_raporu_....json
+├── config.json              # Uygulama ayarları
+├── fatura_regex_analiz_yeni.py  # Ana OCR ve Regex analiz mantığı
+├── main.py                  # Projenin ana giriş noktası
+└── README.md                # Bu dosya
+```
 
-## 💡 En İyi Sonuçlar İçin
+## 🎯 İyileştirme ve Gelecek Adımlar
 
-1. **300 DPI** veya daha yüksek çözünürlük
-2. **Düz açı** ve **iyi aydınlatma**
-3. **Kontrast** artırılmış, **net** görüntüler
-4. **FLO fatura formatı** için optimize edilmiş
+Bu projenin mevcut durumu sağlam bir temel oluşturmaktadır. Gelecekte yapılabilecek potansiyel iyileştirmeler şunlardır:
 
-## 🎯 Proje Durumu
-
-✅ **Ana Sistem**: Tamamlandı ve test edildi  
-✅ **Regex Motoru**: 15 desen ile optimize edildi  
-✅ **FLO Entegrasyonu**: %85+ başarı oranı  
-✅ **Çoklu Format**: 16 farklı fatura test edildi  
-⚠️ **İyileştirme Alanları**: IBAN (%6) ve ETTN (%6) yakalama  
-
----
-
-**🚀 Gelişmiş OCR + Regex sistemi ile faturalarınızı otomatik analiz edin!** 🎉
+- **Regex Desenlerini Genişletme:** Daha fazla fatura formatını tanımak için `fatura_regex_analiz_yeni.py` dosyasındaki desenleri zenginleştirmek.
+- **Konumsal Analiz:** Sadece metne değil, metnin faturadaki konumuna göre daha akıllı veri çıkarma (örneğin, "en alttaki en büyük tutar genel toplamdır" gibi).
+- **Web Arayüzü:** Flask veya Django kullanarak kullanıcıların faturaları tarayıcı üzerinden yükleyebileceği bir arayüz oluşturmak.
+- **Makine Öğrenmesi Modelleri:** Veri çıkarma doğruluğunu en üst seviyeye taşımak için Named Entity Recognition (NER) veya Layout-Aware (örn: LayoutLM) modelleri eğitmek.

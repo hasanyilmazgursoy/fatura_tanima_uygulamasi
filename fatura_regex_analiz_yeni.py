@@ -14,6 +14,7 @@ from typing import Dict, List, Optional, Any, Tuple
 import os
 import json
 from datetime import datetime
+import fitz  # PyMuPDF kütüphanesini ekle
 
 
 class FaturaRegexAnaliz:
@@ -543,36 +544,69 @@ class FaturaRegexAnaliz:
     def resmi_yukle(self, dosya_yolu: str) -> Optional[np.ndarray]:
         """
         Belirtilen dosya yolundan fatura resmini yükler.
+        PDF dosyalarını otomatik olarak resme çevirir.
         
         Args:
-            dosya_yolu (str): Resim dosyasının tam yolu
+            dosya_yolu (str): Resim veya PDF dosyasının tam yolu
             
         Returns:
             np.ndarray: Yüklenen resim (BGR formatında) veya None (hata durumunda)
         """
+        print(f"📁 Dosya yükleniyor: {dosya_yolu}")
         try:
-            print(f"📁 Resim yükleniyor: {dosya_yolu}")
-            
-            # Resmi yükle (Unicode yol desteği için iki aşamalı dene)
-            img = cv2.imread(dosya_yolu)
-            if img is None:
-                try:
-                    arr = np.fromfile(dosya_yolu, dtype=np.uint8)
-                    img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
-                except Exception:
-                    img = None
+            # Dosya uzantısını kontrol et
+            dosya_uzantisi = os.path.splitext(dosya_yolu)[1].lower()
+
+            if dosya_uzantisi == '.pdf':
+                print("   📄 PDF dosyası algılandı, resme çevriliyor...")
+                # PDF'i aç
+                pdf_doc = fitz.open(dosya_yolu)
+                
+                # Sadece ilk sayfayı işle
+                if len(pdf_doc) == 0:
+                    print("❌ Hata: PDF dosyası boş.")
+                    return None
+                
+                page = pdf_doc.load_page(0)
+                
+                # Yüksek çözünürlüklü resim oluştur (DPI ayarı)
+                pix = page.get_pixmap(dpi=300)
+                
+                # Pixmap'i Numpy array'e çevir (Daha güvenilir yöntem)
+                # pix.samples bir byte dizisidir. Bunu (height, width, 3) şeklinde bir numpy array'e dönüştürürüz.
+                img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+                
+                # PyMuPDF RGB formatında verir, OpenCV BGR formatını kullanır. Renk kanallarını dönüştür.
+                if pix.n == 4: # RGBA ise A kanalını at
+                    img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
+                elif pix.n == 3: # RGB ise
+                    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+                print("   ✅ PDF'in ilk sayfası başarıyla resme çevrildi.")
+
+            else:
+                # Geleneksel resim yükleme
+                img = cv2.imread(dosya_yolu)
+                if img is None:
+                    try:
+                        # Unicode yol desteği
+                        arr = np.fromfile(dosya_yolu, dtype=np.uint8)
+                        img = cv2.imdecode(arr, cv2.IMREAD_COLOR)
+                    except Exception:
+                        img = None
+
             if img is None:
                 print(f"❌ Hata: '{dosya_yolu}' dosyası yüklenemedi!")
                 return None
             
             # Resim boyutlarını kontrol et
             height, width = img.shape[:2]
-            print(f"✅ Resim başarıyla yüklendi: {width}x{height} piksel")
+            print(f"✅ Dosya başarıyla yüklendi ve hazırlandı: {width}x{height} piksel")
             
             return img
             
         except Exception as e:
-            print(f"❌ Resim yükleme hatası: {e}")
+            print(f"❌ Dosya yükleme hatası: {e}")
             return None
 
     def resmi_on_isle(self, img: np.ndarray, gurultu_azaltma: bool = True) -> np.ndarray:
