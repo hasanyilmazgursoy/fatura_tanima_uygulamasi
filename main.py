@@ -47,8 +47,14 @@ def sonuclari_csv_kaydet(rapor_klasoru: str, tum_sonuclar: list):
 
     csv_dosyasi = os.path.join(rapor_klasoru, f"toplu_fatura_raporu_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv")
     
-    # Sadece yapılandırılmış verileri al
-    yazilacak_veriler = [sonuc.get('structured', {}) for sonuc in tum_sonuclar]
+    # Yapılandırılmış verileri ve OCR skorunu al
+    yazilacak_veriler = []
+    for sonuc in tum_sonuclar:
+        veri = sonuc.get('structured', {})
+        # OCR istatistiklerinden güven skorunu ekle
+        ocr_stats = sonuc.get('ocr_istatistikleri', {})
+        veri['ortalama_guven_skoru'] = ocr_stats.get('ortalama_guven_skoru')
+        yazilacak_veriler.append(veri)
     
     # CSV başlıklarını (sütun isimlerini) dinamik olarak belirle
     # Tüm faturalardaki bütün olası alanları topla
@@ -56,8 +62,10 @@ def sonuclari_csv_kaydet(rapor_klasoru: str, tum_sonuclar: list):
     for veri in yazilacak_veriler:
         basliklar.update(veri.keys())
     
-    # Başlık sırasını belirle (isteğe bağlı olarak sıralanabilir)
+    # Başlık sırasını belirle (güven skorunu başa alabiliriz)
     sirali_basliklar = sorted(list(basliklar))
+    if 'ortalama_guven_skoru' in sirali_basliklar:
+        sirali_basliklar.insert(0, sirali_basliklar.pop(sirali_basliklar.index('ortalama_guven_skoru')))
 
     try:
         with open(csv_dosyasi, 'w', newline='', encoding='utf-8-sig') as f:
@@ -74,6 +82,66 @@ def sonuclari_csv_kaydet(rapor_klasoru: str, tum_sonuclar: list):
     except Exception as e:
         print(f"❌ CSV dosyası yazılırken bir hata oluştu: {e}")
         logging.error(f"CSV dosyası yazılırken bir hata oluştu: {e}")
+
+
+def ocr_metnini_disa_aktar(analiz_sistemi: FaturaRegexAnaliz, dosya_yolu: str, rapor_klasoru: str):
+    """
+    Belirli bir faturayı analiz eder ve OCR'dan çıkan ham metni bir .txt dosyasına kaydeder.
+    Bu, Regex ve veri çıkarma mantığını test etmek için kullanılır.
+    """
+    print(f"\n📄 OCR Ham Metin Dışa Aktarma: {os.path.basename(dosya_yolu)}")
+    img = analiz_sistemi.resmi_yukle(dosya_yolu)
+    if img is None:
+        return
+    
+    processed_img = analiz_sistemi.resmi_on_isle(img)
+    ocr_data, _ = analiz_sistemi.metni_cikar(processed_img)
+    
+    valid_texts = [
+        text.strip()
+        for conf, text in zip(ocr_data['conf'], ocr_data['text'])
+        if int(conf) >= analiz_sistemi.min_confidence and text and text.strip()
+    ]
+    ham_metin = ' '.join(valid_texts)
+    
+    # Çıktı dosyasının adını oluştur
+    base_name = os.path.splitext(os.path.basename(dosya_yolu))[0]
+    txt_dosyasi = os.path.join(rapor_klasoru, f"hizli_test_{base_name}.txt")
+    
+    with open(txt_dosyasi, 'w', encoding='utf-8') as f:
+        f.write(ham_metin)
+        
+    print(f"✅ Ham metin başarıyla kaydedildi: {txt_dosyasi}")
+
+
+def hizli_test_calistir(analiz_sistemi: FaturaRegexAnaliz, txt_dosya_yolu: str):
+    """
+    Kaydedilmiş bir .txt dosyasındaki ham metni kullanarak sadece veri çıkarma adımını test eder.
+    """
+    print(f"\n⚡ Hızlı Test Başlatılıyor: {os.path.basename(txt_dosya_yolu)}")
+    if not os.path.exists(txt_dosya_yolu):
+        print(f"❌ Hata: Test metin dosyası bulunamadı: {txt_dosya_yolu}")
+        return
+
+    with open(txt_dosya_yolu, 'r', encoding='utf-8') as f:
+        ham_metin = f.read()
+
+    # Sadece Regex ve yapılandırılmış veri çıkarma adımlarını çalıştır
+    print("   🔍 Regex ile veri çıkarma...")
+    regex_sonuclari = analiz_sistemi.regex_ile_veri_cikar(ham_metin)
+    
+    print("   🏗️ Yapılandırılmış veri çıkarma...")
+    # Hızlı testte OCR verisi olmadığı için boş bir dict gönderiyoruz.
+    # Bu, `yapilandirilmis_veri_cikar` fonksiyonunun bu duruma göre
+    # ayarlanmasını gerektirebilir (örn. bloklara ayırmayı atlamak).
+    # Şimdilik, sadece ham metne dayalı kısımlar çalışacaktır.
+    # Daha gelişmiş bir versiyon için ocr_data'yı da JSON olarak saklayabiliriz.
+    dummy_ocr_data = {'text': [], 'conf': [], 'left': [], 'top': [], 'width': [], 'height': []}
+    structured_data = analiz_sistemi.yapilandirilmis_veri_cikar(dummy_ocr_data, ham_metin)
+
+    print("\n📊 HIZLI TEST SONUÇLARI:")
+    sonuclar = {"regex": regex_sonuclari, "structured": structured_data}
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
 
 
 def ana_analiz_süreci():
@@ -138,10 +206,24 @@ def ana_analiz_süreci():
             # Gorsellestirmeyi kapatarak analiz et
             sonuclar = analiz_sistemi.fatura_analiz_et(dosya_yolu, gorsellestir=False)
             
-            # Sonuçları ekle
+            # Sonuçları ekle ve kritik alanları kontrol et
             if "hata" not in sonuclar:
                 tum_sonuclar.append(sonuclar)
                 analiz_sistemi.sonuclari_yazdir(sonuclar)
+                
+                # Başarısızlık analizi için loglama
+                structured_data = sonuclar.get('structured', {})
+                kritik_alanlar = ['fatura_numarasi', 'fatura_tarihi', 'genel_toplam']
+                eksik_alanlar = [alan for alan in kritik_alanlar if not structured_data.get(alan)]
+                
+                if eksik_alanlar:
+                    basarisizlik_log_yolu = os.path.join(rapor_klasoru, "basarisiz_faturalar.log")
+                    with open(basarisizlik_log_yolu, 'a', encoding='utf-8') as log_f:
+                        log_f.write(f"--- BASARISIZ VAKA: {os.path.basename(dosya_yolu)} ---\n")
+                        log_f.write(f"Eksik Kritik Alanlar: {', '.join(eksik_alanlar)}\n")
+                        # OCR'dan çıkan ham metni de log'a ekleyelim
+                        ham_metin = sonuclar.get('ocr_istatistikleri', {}).get('ham_metin', 'METIN_CIKARILAMADI')
+                        log_f.write(f"Ham Metin: {ham_metin[:500]}...\n\n") # Metnin bir kısmını al
             else:
                 hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilemedi. Hata: {sonuclar['hata']}"
                 print(f"⚠️  Uyarı: {hata_mesaji}")
@@ -179,4 +261,16 @@ def ana_analiz_süreci():
         print("="*50)
 
 if __name__ == "__main__":
+    # --- KULLANIM MODLARI ---
+    # 1. Normal Analiz (Tüm faturaları işler)
     ana_analiz_süreci()
+
+    # 2. Ham Metin Dışa Aktarma (Sadece bir fatura için OCR metnini .txt olarak kaydeder)
+    # Yorum satırını kaldırıp, dosya yolunu güncelleyerek kullanabilirsiniz.
+    # sistem = FaturaRegexAnaliz()
+    # ocr_metnini_disa_aktar(sistem, r"fatura/5c565ea6-b2f6-4e4a-b004-75cface23500.pdf", "test_reports")
+
+    # 3. Hızlı Test (Kaydedilmiş .txt üzerinden sadece veri çıkarma testi yapar)
+    # Yorum satırını kaldırıp, .txt dosyasının yolunu vererek kullanabilirsiniz.
+    # sistem = FaturaRegexAnaliz()
+    # hizli_test_calistir(sistem, r"test_reports/hizli_test_5c565ea6-b2f6-4e4a-b004-75cface23500.txt")

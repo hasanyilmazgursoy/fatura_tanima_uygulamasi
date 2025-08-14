@@ -17,6 +17,8 @@ from datetime import datetime
 import fitz  # PyMuPDF kütüphanesini ekle
 from scipy.ndimage import interpolation as inter
 
+# Yeni eklenen kütüphane
+from collections import defaultdict
 
 class FaturaRegexAnaliz:
     """FLO fatura formatına özel geliştirilmiş OCR ve Regex analiz sistemi."""
@@ -52,10 +54,10 @@ class FaturaRegexAnaliz:
                 'ornek': 'TR9Y TREZ 0006 2000 4320 0006 2978 70'
             },
             'fatura_no': {
-                # FEA2023001157280 tarzı alfanumerik fatura numaraları
-                'desen': r'(?:fatura\s*no|fatura\s*numarası|invoice\s*no)[\s:]*([A-Z0-9]{8,20})\b|\b[A-Z]{2,4}\d{8,15}\b',
-                'aciklama': 'Fatura numaraları (FEA2023001157280)',
-                'ornek': 'FEA2023001157280'
+                # FEA2023001157280, Belge No, Fatura No:, Seri/Sıra gibi formatlar
+                'desen': r'(?:fatura\s*no|belge\s*no|fatura\s*numarası|invoice\s*no|seri\s*sira)[\s:]*([A-Z0-9/]{8,25})\b|\b[A-Z]{3}\d{13}\b',
+                'aciklama': 'Fatura numaraları (FEA2023001157280, GIB2023000000001)',
+                'ornek': 'Fatura No: FEA2023001157280'
             },
             'vergi_no': {
                 # 10-11 haneli vergi numaraları
@@ -260,6 +262,125 @@ class FaturaRegexAnaliz:
 
         return None
     
+    def _bloklara_ayir(self, ocr_data: Dict, line_height_multiplier: float = 1.5) -> List[Dict]:
+        """
+        OCR verisindeki kelimeleri, konumlarına göre mantıksal metin bloklarına ayırır.
+        """
+        if 'text' not in ocr_data:
+            return []
+
+        # 1. Geçerli kelimeleri ve ortalama yüksekliklerini bul
+        words = []
+        heights = []
+        for i, conf in enumerate(ocr_data['conf']):
+            if int(conf) > self.min_confidence:
+                word_info = {
+                    'text': ocr_data['text'][i],
+                    'left': ocr_data['left'][i],
+                    'top': ocr_data['top'][i],
+                    'width': ocr_data['width'][i],
+                    'height': ocr_data['height'][i]
+                }
+                words.append(word_info)
+                heights.append(word_info['height'])
+        
+        if not words:
+            return []
+        
+        avg_height = sum(heights) / len(heights)
+        vertical_tolerance = avg_height * 0.4
+
+        # 2. Kelimeleri satırlara grupla
+        words.sort(key=lambda w: (w['top'], w['left']))
+        lines = []
+        current_line = []
+        if words:
+            current_line.append(words[0])
+            for word in words[1:]:
+                # Eğer kelime bir önceki kelimeyle aynı satırdaysa
+                if abs(word['top'] - current_line[-1]['top']) < vertical_tolerance:
+                    current_line.append(word)
+                else:
+                    lines.append(current_line)
+                    current_line = [word]
+            lines.append(current_line)
+
+        # 3. Satırları bloklara birleştir
+        blocks = []
+        if lines:
+            current_block_words = lines[0]
+            last_line_top = lines[0][0]['top']
+            
+            for line in lines[1:]:
+                current_line_top = line[0]['top']
+                # Eğer satırlar arası dikey boşluk çok fazlaysa yeni bir blok başlat
+                if current_line_top > last_line_top + (avg_height * line_height_multiplier):
+                    blocks.append(current_block_words)
+                    current_block_words = line
+                else:
+                    current_block_words.extend(line)
+                last_line_top = current_line_top
+            blocks.append(current_block_words)
+
+        # 4. Blokları metin ve koordinat bilgisiyle formatla
+        formatted_blocks = []
+        for block_words in blocks:
+            block_words.sort(key=lambda w: (w['top'], w['left']))
+            text = ' '.join(w['text'] for w in block_words if w['text'].strip())
+            if text:
+                formatted_blocks.append({'text': text})
+
+        return formatted_blocks
+
+    def _blogu_tanimla(self, block_text: str) -> str:
+        """
+        Bir metin bloğunun içeriğine bakarak onu anlamsal olarak etiketler.
+        """
+        block_text = block_text.lower()
+        scores = defaultdict(int)
+
+        # Anahtar kelimeler ve puanları - Daha belirgin ve ayrıştırıcı
+        satici_keywords = {
+            'vkn': 3, 'vergi no': 3, 'mersis': 3, 'ticaret sicil': 2, 
+            'a.ş.': 1, 'ltd.': 1, 'satıcı': 2, 'şirketi': 1, 'vergi dairesi': 2
+        }
+        alici_keywords = {
+            'sayın': 3, 'alıcı': 3, 'tckn': 3, 'müşteri': 2, 
+            'ad soyad': 2, 'teslimat adresi': 1, 'fatura adresi': 1
+        }
+        toplamlar_keywords = {
+            'genel toplam': 3, 'ödenecek tutar': 3, 'toplam kdv': 2, 
+            'ara toplam': 1, 'iskonto': 1, 'vergiler dahil': 1
+        }
+        banka_keywords = {'iban': 3, 'hesap no': 2, 'bankası': 1, 'swift': 1}
+
+        keyword_map = {
+            'satici': satici_keywords,
+            'alici': alici_keywords,
+            'toplamlar': toplamlar_keywords,
+            'banka': banka_keywords,
+        }
+
+        for category, keywords in keyword_map.items():
+            for keyword, score in keywords.items():
+                if keyword in block_text:
+                    scores[category] += score
+        
+        # Eğer bir blok hem satıcı hem de alıcı anahtar kelimeleri içeriyorsa,
+        # hangisinin daha güçlü olduğuna karar ver.
+        if 'satici' in scores and 'alici' in scores:
+            if scores['satici'] > scores['alici'] * 1.5:
+                del scores['alici'] # Satıcı çok daha baskın
+            elif scores['alici'] > scores['satici'] * 1.5:
+                del scores['satici'] # Alıcı çok daha baskın
+            # Aksi halde belirsiz kalabilir, en yüksek skorluya gider.
+
+        if not scores:
+            return 'diger'
+        
+        # En yüksek skoru alan kategoriyi döndür
+        return max(scores, key=scores.get)
+
     def _find_multiline_value_below_keyword(self, ocr_data: Dict, keywords: List[str], stop_keywords: List[str]) -> Optional[str]:
         """
         Bir anahtar kelimenin altındaki birden çok satıra yayılmış metni bulur.
@@ -330,16 +451,145 @@ class FaturaRegexAnaliz:
             last_top = word['top']
 
         return ' '.join(full_text_parts).replace('\n ', '\n').strip() if full_text_parts else None
-    
+
+    def _urun_kalemlerini_cikar(self, ocr_data: Dict, ham_metin: str) -> List[Dict]:
+        """
+        OCR verisinden ürün listesini (kalemleri) tablo yapısını analiz ederek çıkarır.
+        Bu fonksiyon, başlıkları bulur, sütunları belirler ve satırları ayrıştırır.
+        """
+        # Güvenilir kelimeleri ve konumlarını al
+        words = []
+        for i, conf in enumerate(ocr_data['conf']):
+            try:
+                if int(conf) > self.min_confidence:
+                    words.append({
+                        'text': ocr_data['text'][i],
+                        'left': ocr_data['left'][i],
+                        'top': ocr_data['top'][i],
+                        'width': ocr_data['width'][i],
+                        'height': ocr_data['height'][i]
+                    })
+            except (ValueError, IndexError):
+                continue
+        
+        if not words:
+            return []
+
+        # 1. Başlık anahtar kelimelerini ve sütunlarını bul
+        header_keywords = {
+            'aciklama': ['açıklama', 'ürün', 'hizmet', 'description', 'cinsi', 'ürün adı'],
+            'miktar': ['miktar', 'mik', 'adet', 'qty', 'quantity'],
+            'birim_fiyat': ['birim', 'fiyat', 'fiyatı', 'unit price'],
+            'tutar': ['tutar', 'toplam', 'amount', 'total', 'net tutar']
+        }
+        
+        # Kelimeleri satırlara grupla
+        lines = defaultdict(list)
+        words.sort(key=lambda w: (w['top'], w['left']))
+        if not words: return []
+        
+        avg_line_height = sum(w['height'] for w in words) / len(words)
+        
+        current_line_top = words[0]['top']
+        for word in words:
+            if abs(word['top'] - current_line_top) > avg_line_height * 0.6:
+                current_line_top = word['top']
+            lines[current_line_top].append(word)
+
+        # Başlık satırını ve sütun konumlarını bul
+        header_line_y = -1
+        columns = {}
+        stop_y = float('inf')
+        
+        sorted_lines = sorted(lines.items())
+
+        for y, line_words in sorted_lines:
+            line_text = ' '.join(w['text'] for w in line_words).lower()
+            
+            # Başlıkları ara
+            if len(columns) < 2: # Başlıkları bulana kadar devam et
+                found_headers = {}
+                for cat, kws in header_keywords.items():
+                    for word in line_words:
+                        if any(kw in word['text'].lower() for kw in kws):
+                            found_headers[cat] = word['left']
+                            break
+                if len(found_headers) >= 2: # En az 2 başlık içeren satırı kabul et
+                    header_line_y = y
+                    columns = found_headers
+
+            # Durdurma anahtar kelimelerini ara (toplamlar bölümü)
+            stop_keywords = ['mal hizmet toplam', 'ara toplam', 'genel toplam', 'ödenecek', 'toplam kdv']
+            if any(kw in line_text for kw in stop_keywords):
+                stop_y = y
+                break # Toplamlar bölümünü bulduktan sonra aramayı durdur
+
+        # Eğer sütunlar bulunamadıysa, işlemi sonlandır
+        if not columns or header_line_y == -1:
+            return []
+
+        # 2. Başlık satırından sonraki ve toplamlar bloğundan önceki satırları işle
+        kalemler = []
+        for y, line_words in sorted_lines:
+            # Sadece ürün kalemlerinin olduğu bölgeye odaklan
+            if y > header_line_y + (avg_line_height * 0.5) and y < stop_y:
+                
+                # Satırı sütunlara ayır
+                item = defaultdict(list)
+                for word in line_words:
+                    # Kelimeyi en yakın sütuna ata
+                    if not columns: continue
+                    closest_col_name = min(columns.keys(), key=lambda col: abs(word['left'] - columns.get(col, float('inf'))))
+                    item[closest_col_name].append(word['text'])
+
+                # Ayrıştırılmış veriyi yapılandır
+                if item:
+                    # En azından bir açıklama ve bir sayısal değer (tutar/fiyat) olmalı
+                    has_description = 'aciklama' in item and item['aciklama']
+                    has_amount = ('tutar' in item and item['tutar']) or ('birim_fiyat' in item and item['birim_fiyat'])
+                    
+                    if has_description and has_amount:
+                        kalem = {cat: ' '.join(texts) for cat, texts in item.items()}
+                        kalemler.append(kalem)
+        
+        # 3. Adım: Çıkarılan kalemleri temizle ve normalize et
+        temizlenmis_kalemler = []
+        for kalem in kalemler:
+            temiz_kalem = {}
+            for anahtar, deger in kalem.items():
+                # Sayısal alanları temizle (tutar, birim_fiyat, miktar)
+                if anahtar in ['tutar', 'birim_fiyat', 'miktar']:
+                    # Parasal değeri bulmaya çalış
+                    para_eslesmesi = re.search(self.regex_desenleri['para']['desen'], deger)
+                    if para_eslesmesi:
+                        temiz_deger = self._normalize_amount(para_eslesmesi.group(0))
+                    else:
+                        # Sadece sayıları ve temel noktalama işaretlerini al
+                        temiz_deger = re.sub(r'[^0-9.,]', '', deger)
+                # Metinsel alanları temizle (aciklama)
+                else:
+                    # Gereksiz karakterleri ve kısa anlamsız kelimeleri kaldır
+                    temiz_deger = re.sub(r'[|\[\]\'"‘’]', '', deger) # İstenmeyen karakterler
+                    temiz_deger = ' '.join(word for word in temiz_deger.split() if len(word) > 1) # 1 harflik kelimeleri at
+                
+                temiz_kalem[anahtar] = temiz_deger.strip()
+            
+            # Eğer temizlik sonrası hala anlamlı veri varsa listeye ekle
+            if temiz_kalem.get('aciklama') and (temiz_kalem.get('tutar') or temiz_kalem.get('birim_fiyat')):
+                temizlenmis_kalemler.append(temiz_kalem)
+
+        return temizlenmis_kalemler
+
     def _normalize_amount(self, amount: str) -> str:
         """Tutar değerini normalize et."""
         if not amount:
             return ""
-        # Gereksiz karakterleri temizle
-        cleaned = re.sub(r'[|\s]', '', amount)
-        # Sadece rakam, nokta, virgül ve para birimi sembolleri bırak
-        cleaned = re.sub(r'[^0-9.,TL₺TRYERUSD]', '', cleaned)
-        return cleaned
+        # Para birimi ve diğer metinsel ifadeleri kaldır
+        cleaned = re.sub(r'(TL|TRY|₺|EUR|USD)', '', amount, flags=re.IGNORECASE)
+        # Sadece rakam, nokta ve virgül bırak, diğer her şeyi temizle
+        cleaned = re.sub(r'[^0-9.,]', '', cleaned)
+        # Baştaki ve sondaki boşlukları temizle
+        return cleaned.strip()
     
     def _normalize_date(self, date: str) -> str:
         """Tarih değerini normalize et."""
@@ -408,206 +658,103 @@ class FaturaRegexAnaliz:
 
     def yapilandirilmis_veri_cikar(self, ocr_data: Dict, ham_metin: str) -> Dict:
         """
-        Hibrit bir yaklaşımla (koordinat + regex) fatura verilerini çıkarır.
-        Önce anahtar kelimelerin yanındaki değerleri koordinatlarla arar,
-        bulamazsa tüm metinde RegEx ile yedek arama yapar.
+        Faturayı mantıksal bloklara ayırır, her bloğu anlamlandırır ve
+        hedefli veri çıkarma işlemi yapar.
         """
         data: Dict[str, Optional[str]] = {}
         
-        # 1. ADIM: EVRENSEL FORMATLARI REGEX İLE DOĞRUDAN ÇIKAR
-        # Bu desenler (email, ETTN) genellikle fatura üzerinde tekildir ve güvenilirdir.
-        data['satici_email'] = self._extract_first([r'\b([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})\b'], ham_metin)
+        # Hızlı test modunda OCR verisi olmayabilir, bu durumu kontrol et
+        is_fast_test = not any(ocr_data.values())
+
+        # 1. Adım: Faturayı mantıksal bloklara ayır (Sadece OCR verisi varsa)
+        if not is_fast_test:
+            blocks = self._bloklara_ayir(ocr_data)
+            
+            # 2. Adım: Blokları anlamlandır
+            satici_blok_text = ""
+            alici_blok_text = ""
+            toplamlar_blok_text = ""
+            banka_blok_text = ""
+            
+            for block in blocks:
+                label = self._blogu_tanimla(block['text'])
+                if label == 'satici' and not satici_blok_text:
+                    satici_blok_text = block['text']
+                elif label == 'alici' and not alici_blok_text:
+                    alici_blok_text = block['text']
+                elif label == 'toplamlar' and not toplamlar_blok_text:
+                    toplamlar_blok_text = block['text']
+                elif label == 'banka' and not banka_blok_text:
+                    banka_blok_text = block['text']
+        else:
+            # Hızlı test modunda blok metinleri boş olur, tüm analiz ham metinden yapılır
+            satici_blok_text = alici_blok_text = toplamlar_blok_text = banka_blok_text = ham_metin
+
+
+        # 3. Adım: Hedeflenmiş Veri Çıkarma
+        # Öncelikli olarak tüm metinde aranacak genel bilgiler
+        data['fatura_numarasi'] = self._extract_first([
+            r'\b([A-Z]{3}\d{13})\b',  # GIB formatı: GIB2023000000001
+            r'\b([A-Z]{2,4}\d{12,15})\b', # Genel e-fatura formatı: FEA2023001157280
+            r'(?:Fatura\s*No|Belge\s*Numarası)[\s:]*([A-Z0-9/]+)', # Etiketli format: Fatura No: ABC/123
+            r'\b([A-Z]\d{14,16})\b'
+        ], ham_metin)
+        data['fatura_tarihi'] = self._extract_first([r"\b(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})\b"], ham_metin)
         data['ettn'] = self._extract_first([r'\b([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\b'], ham_metin, flags=re.IGNORECASE)
         data['para_birimi'] = self._extract_first([r"\b(TRY|TL|₺|USD|EUR|GBP)\b"], ham_metin)
 
-        # 2. ADIM: HİBRİT YAKLAŞIMLA (KOORDİNAT + REGEX) ALANLARI ÇIKAR
-        # Tanimlamalar: `anahtar`: ( (koordinat_anahtar_kelimeleri, değer_regex), [yedek_regex_desenleri] )
-        extraction_map = {
-            'fatura_numarasi': (
-                # Koordinat arama desenini daha esnek hale getiriyoruz.
-                (['fatura no', 'faturano', 'fatura numarası', 'invoice no'], r'([A-Z0-9\-\/.]{6,20})'), 
-                # Yedek desenler, spesifik formatlar için kalabilir.
-                [r"\b(?!irsaliye)([A-Z]{2,4}\d{12,15})\b", r"\b(?!irsaliye)([A-Z]\d{14,16})\b"]
-            ),
-            'fatura_tarihi': (
-                (['fatura tarihi', 'düzenleme tarihi', 'tarih'], r'(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})'),
-                [r"\b(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})\b"] # En bariz tarih
-            ),
-            'son_odeme_tarihi': (
-                (['son ödeme tarihi', 'ödeme tarihi'], r'(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})'), []
-            ),
-            'fatura_tipi': (
-                (['fatura tipi', 'tipi'], r'([e\-]?(?:arşiv|arsiv|fatura|proforma|irsaliye)(?:\s*fatura)?)'),
-                [r"\b(e-?(?:arşiv|arsiv|fatura))\b"]
-            ),
-            'satici_firma_unvani': (
-                (['firma adı', 'firma adi', 'satıcı', 'satici'], r'([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.)?)'),
-                [r"(?:^|\n)([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.|MAĞ\.|PAZ\.))"]
-            ),
-            'satici_vergi_dairesi': (
-                (['vergi dairesi', 'v.d.'], r'([A-ZÇĞİÖŞÜ\s]+)'), []
-            ),
-            'satici_vergi_numarasi': (
-                (['vergi numarası', 'vergi no', 'vkn'], r'(\d{10,11})'),
-                [r'\b(\d{10})\b'] # Etiketsiz 10 haneli numara
-            ),
-            'satici_ticaret_sicil': (
-                (['ticaret sicil', 'sicil no'], r'(\d{6,10})'), []
-            ),
-            'satici_mersis_no': (
-                (['mersis no', 'mersis'], r'(\d{15})'), []
-            ),
-            'alici_firma_unvani': (
-                (['sayın', 'alici', 'alıcı', 'müşteri', 'müsteri'], r'([A-ZÇĞİÖŞÜa-zçğıöşü\s\-\.]{4,})'),
-                []
-            ),
-            'alici_vergi_dairesi': (
-                (['vergi dairesi', 'v.d.'], r'([A-ZÇĞİÖŞÜ\s]+)'), [] # Satıcı ile aynı, OCR verisinde hangisini önce bulursa...
-            ),
-             'mal_hizmet_toplam': (
-                (['mal hizmet toplam', 'ara toplam'], self.regex_desenleri['para']['desen']), []
-            ),
-            'toplam_iskonto': (
-                (['toplam iskonto', 'indirim'], self.regex_desenleri['para']['desen']), []
-            ),
-            'vergi_haric_tutar': (
-                (['vergi hariç tutar', 'vergi haric', 'alt toplam'], self.regex_desenleri['para']['desen']), []
-            ),
-            'hesaplanan_kdv': (
-                (['hesaplanan kdv', 'toplam kdv', 'kdv'], self.regex_desenleri['para']['desen']), []
-            ),
-            'vergiler_dahil_toplam': (
-                (['vergiler dahil toplam', 'toplam tutar'], self.regex_desenleri['para']['desen']), []
-            ),
-            'genel_toplam': (
-                (['ödenecek tutar', 'genel toplam', 'toplam'], self.regex_desenleri['para']['desen']), []
-            ),
-            'banka_bilgileri': (
-                (['garanti bankası', 'yapı kredi', 'akbank', 'ziraat'], self.regex_desenleri['iban']['desen']),
-                [r'\b(TR\d{2}\s*(?:[A-Z]{4}\s*)?(?:\d{4}\s*){5}\d{2})\b']
-            ),
-        }
+        # Satıcı Bloğu Analizi
+        if satici_blok_text:
+            data['satici_firma_unvani'] = self._extract_first([r'([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.|MAĞ\.|PAZ\.))'], satici_blok_text)
+            data['satici_vergi_numarasi'] = self._extract_first([r'(?:vergi\s*no|vkn)[\s:]*(\d{10,11})', r'\b(\d{10})\b'], satici_blok_text)
+            data['satici_mersis_no'] = self._extract_first([r'(?:mersis\s*no)[\s:]*(\d{15})'], satici_blok_text)
 
-        # Adresleri ve diğer çok satırlı alanları özel fonksiyonla ara
-        stop_keywords = ['vergi dairesi', 'v.d.', 'vergi no', 'vkn', 'telefon', 'tel', 'email', 'e-posta', 'web']
-        data['satici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['adres'], stop_keywords)
-        # Alıcı adresi için hem "adres" hem de "sayın" gibi anahtar kelimeler referans olabilir
-        data['alici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['alıcı', 'alici', 'sayın'], stop_keywords)
+        # Alıcı Bloğu Analizi
+        if alici_blok_text:
+            # Alıcı unvanı/ismi için daha çeşitli desenler
+            data['alici_firma_unvani'] = self._extract_first([
+                r'(?:Sayın|Alıcı|ALICI|Sayin)[\s:]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-\.]{4,})',
+                r'(?:Ad\s*Soyad|İsim)[\s:]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-\.]{4,})'
+            ], alici_blok_text)
+            data['alici_tckn'] = self._extract_first([r'(?:tckn|TCKN)[\s:]*(\d{11})'], alici_blok_text)
+            # TCKN için yedek arama (doğrulama ile)
+            if not data.get('alici_tckn'):
+                olasi_tckn_list = self._extract_all(r"(\d{11})", alici_blok_text)
+                for olasi_tckn in olasi_tckn_list:
+                    if self._tckn_dogrula(olasi_tckn):
+                        data['alici_tckn'] = olasi_tckn
+                        break
 
+        # Toplamlar Bloğu Analizi
+        if toplamlar_blok_text:
+            para_deseni = self.regex_desenleri['para']['desen']
+            data['toplam_iskonto'] = self._extract_first([r'(?:toplam\s*iskonto|indirim)[\s:]*(' + para_deseni + ')'], toplamlar_blok_text)
+            data['hesaplanan_kdv'] = self._extract_first([r'(?:hesaplanan\s*kdv|toplam\s*kdv)[\s:]*(' + para_deseni + ')'], toplamlar_blok_text)
+            data['genel_toplam'] = self._extract_first([r'(?:ödenecek\s*tutar|genel\s*toplam|toplam)[\s:]*(' + para_deseni + ')'], toplamlar_blok_text)
 
-        for field, (coord_rule, fallback_patterns) in extraction_map.items():
-            # Eğer veri zaten bulunduysa (örn: adres), tekrar arama
-            if data.get(field) is not None:
-                continue
+        # Banka Bloğu Analizi
+        if banka_blok_text:
+            data['banka_bilgileri'] = self._extract_first([self.regex_desenleri['iban']['desen']], banka_blok_text)
 
-            keywords, value_pattern = coord_rule
-            
-            # 1. Yöntem: Koordinat tabanlı arama
-            value = self._find_value_right_of_keywords(ocr_data, keywords, value_pattern)
+        # Yeni Adım: Ürün kalemlerini çıkar (Sadece OCR verisi varsa)
+        if not is_fast_test:
+            data['kalemler'] = self._urun_kalemlerini_cikar(ocr_data, ham_metin)
+        else:
+            data['kalemler'] = [] # Hızlı testte bu analiz yapılamaz
 
-            # Alıcı Adı için ek filtreleme
-            if field == 'alici_firma_unvani' and value:
-                anlamsiz_kelimeler = ['no', 'fatura', 'adres', 'tarih', 'ödeme', 'vkn']
-                if len(value.strip()) < 4 or any(kelime in value.lower() for kelime in anlamsiz_kelimeler):
-                    value = None # Değeri geçersiz say
-            
-            # 2. Yöntem: Eğer koordinat ile bulunamazsa, yedek RegEx'leri tüm metinde dene
-            if not value and fallback_patterns:
-                value = self._extract_first(fallback_patterns, ham_metin)
-            
-            data[field] = value
-
-        # 3. ADIM: ÖZEL KURALLAR VE HEURİSTİKLER (SEZGİSEL YÖNTEMLER)
-        
-        # TCKN: 11 haneli ve algoritma ile doğrulanabilir olduğu için özel olarak aranır.
-        olasi_tckn_list = self._extract_all(r"(\d{11})", ham_metin)
-        for olasi_tckn in olasi_tckn_list:
-            if self._tckn_dogrula(olasi_tckn):
-                data['alici_tckn'] = olasi_tckn
-                break # İlk geçerli olanı al
-        
-        # Genel Toplam için son çare: Eğer hiçbir şekilde bulunamadıysa, faturadaki en büyük tutarı al.
+        # 4. Adım: Sezgisel Kurallar ve Normalizasyon (Yedekler)
+        # Eğer genel toplam bulunamadıysa, en büyük tutarı al.
         if not data.get('genel_toplam'):
             data['genel_toplam'] = self._en_buyuk_tutari_bul(ham_metin)
-            
-        # 4. ADIM: VERİYİ TEMİZLE VE NORMALIZE ET
-        
-        # Normalizasyon gerektiren alanlar
+
+        # Normalizasyon
         if data.get('fatura_tarihi'):
             data['fatura_tarihi'] = self._normalize_date(data['fatura_tarihi'])
-        if data.get('son_odeme_tarihi'):
-            data['son_odeme_tarihi'] = self._normalize_date(data['son_odeme_tarihi'])
-            
         amount_fields = ['mal_hizmet_toplam', 'toplam_iskonto', 'vergi_haric_tutar', 
                          'hesaplanan_kdv', 'vergiler_dahil_toplam', 'genel_toplam']
         for field in amount_fields:
             if data.get(field):
                 data[field] = self._normalize_amount(data[field])
-        
-        # ==================== ÜRÜN LİSTESİ (KALEMLERİ) ====================
-        
-        # Ürün listesi - gelişmiş kolon analizi
-        def extract_product_items(ocr: Dict) -> List[Dict]:
-            """Ürün listesini tablo formatından çıkar."""
-            if 'text' not in ocr:
-                return []
-                
-            products = []
-            n = len(ocr.get('text', []))
-            
-            # Ürün anahtar kelimelerini ara
-            product_keywords = ['u.s. polo', 'salvano', 'sneaker', 'erkek', 'siyah', 'beyaz']
-            product_lines = []
-            
-            for i in range(n):
-                try:
-                    if int(ocr['conf'][i]) < self.min_confidence:
-                        continue
-                except (ValueError, IndexError):
-                    continue
-                
-                text = (ocr['text'][i] or '').lower()
-                for keyword in product_keywords:
-                    if keyword in text and len(text) > 5:
-                        y = ocr['top'][i]
-                        # Aynı satırdaki diğer bilgileri topla
-                        line_items = []
-                        for j in range(max(0, i-5), min(n, i+10)):
-                            try:
-                                if int(ocr['conf'][j]) < self.min_confidence:
-                                    continue
-                            except (ValueError, IndexError):
-                                continue
-                            
-                            y_candidate = ocr['top'][j]
-                            if abs(y_candidate - y) < 15:
-                                line_items.append(ocr['text'][j] or '')
-                        
-                        if line_items:
-                            product_info = {
-                                'urun_adi': ' '.join([item for item in line_items if len(item) > 3]),
-                                'satir_y': y
-                            }
-                            product_lines.append(product_info)
-                        break
-            
-            # Ürün listesini temizle ve sınırla
-            seen_products = set()
-            for product in product_lines[:5]:  # En fazla 5 ürün
-                name = product['urun_adi'][:100]  # Adı kısalt
-                if name and name not in seen_products:
-                    products.append({'urun_adi': name})
-                    seen_products.add(name)
-            
-            return products
-        
-        data['kalemler'] = extract_product_items(ocr_data)
-        
-        # Miktar ve birim fiyat örnekleri
-        data['miktar_ornekleri'] = self._extract_all(r"\b(\d{1,4})\s*(?:çift|adet|kg|paket|kutu)\b", ham_metin)[:3]
-        data['birim_fiyat_ornekleri'] = self._extract_all(r"\b([0-9]{1,4}[.,][0-9]{2})\s*(?:tl|₺|try)?\b", ham_metin)[:5]
-        
-        # ==================== NORMALIZE ET ====================
         
         # Boş değerleri temizle
         cleaned_data = {}
@@ -787,7 +934,7 @@ class FaturaRegexAnaliz:
             print(f"❌ Resim ön işleme hatası: {e}")
             return img
 
-    def metni_cikar(self, img: np.ndarray, dil: str = 'tur') -> Dict:
+    def metni_cikar(self, img: np.ndarray, dil: str = 'tur') -> Tuple[Dict, float]:
         """
         Resimden OCR kullanarak metin ve koordinat bilgilerini çıkarır.
         
@@ -796,17 +943,18 @@ class FaturaRegexAnaliz:
             dil (str): OCR dili ('tur' veya 'eng')
             
         Returns:
-            Dict: OCR sonuçları (text, conf, left, top, width, height listeleri)
+            Tuple[Dict, float]: OCR sonuçları ve ortalama güven skoru
         """
         print("🤖 OCR ile metin çıkarma başlatılıyor...")
         
+        avg_confidence = 0.0
         try:
             # İlk OCR denemesi
             ocr_data = pytesseract.image_to_data(img, config=self.ocr_config, output_type=pytesseract.Output.DICT)
             
             # Ortalama güven skorunu kontrol et
             confidences = [int(conf) for conf in ocr_data['conf'] if str(conf).isdigit()]
-            avg_confidence = sum(confidences) / len(confidences) if confidences else 0
+            avg_confidence = sum(confidences) / len(confidences) if confidences else 0.0
             
             print(f"   📊 Ortalama güven skoru: {avg_confidence:.1f}%")
             
@@ -817,7 +965,7 @@ class FaturaRegexAnaliz:
                 ocr_data_alt = pytesseract.image_to_data(img, config=alternative_config, output_type=pytesseract.Output.DICT)
                 
                 confidences_alt = [int(conf) for conf in ocr_data_alt['conf'] if str(conf).isdigit()]
-                avg_confidence_alt = sum(confidences_alt) / len(confidences_alt) if confidences_alt else 0
+                avg_confidence_alt = sum(confidences_alt) / len(confidences_alt) if confidences_alt else 0.0
                 
                 if avg_confidence_alt > avg_confidence:
                     print(f"   ✅ PSM 4 daha iyi sonuç verdi: {avg_confidence_alt:.1f}%")
@@ -830,7 +978,7 @@ class FaturaRegexAnaliz:
             
             print(f"   ✅ OCR tamamlandı: {valid_count}/{total_count} adet güvenilir metin bulundu")
             
-            return ocr_data
+            return ocr_data, avg_confidence
             
         except Exception as e:
             print(f"❌ OCR hatası: {e}")
@@ -842,7 +990,7 @@ class FaturaRegexAnaliz:
                 'top': [],
                 'width': [],
                 'height': []
-            }
+            }, 0.0
 
     def fatura_analiz_et(self, dosya_yolu: str, gorsellestir: bool = True) -> Dict:
         """
@@ -867,7 +1015,7 @@ class FaturaRegexAnaliz:
         processed_img = self.resmi_on_isle(img)
         
         # 3. OCR ile metni çıkar
-        ocr_data = self.metni_cikar(processed_img)
+        ocr_data, avg_confidence = self.metni_cikar(processed_img)
         
         # 4. Ham metni oluştur
         valid_texts = []
@@ -897,6 +1045,7 @@ class FaturaRegexAnaliz:
             "dosya": dosya_yolu,
             "analiz_zamani": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "ocr_istatistikleri": {
+                "ortalama_guven_skoru": f"{avg_confidence:.2f}%",
                 "toplam_kelime": len(ocr_data['text']),
                 "gecerli_kelime": len(valid_texts),
                 "ham_metin_uzunlugu": len(ham_metin)
@@ -1014,6 +1163,7 @@ class FaturaRegexAnaliz:
         # OCR istatistikleri
         istatistikler = sonuclar.get('ocr_istatistikleri', {})
         print(f"\n📈 OCR İstatistikleri:")
+        print(f"   • Ortalama Güven Skoru: {istatistikler.get('ortalama_guven_skoru', 'N/A')}")
         print(f"   • Toplam kelime: {istatistikler.get('toplam_kelime', 0)}")
         print(f"   • Geçerli kelime: {istatistikler.get('gecerli_kelime', 0)}")
         print(f"   • Ham metin uzunluğu: {istatistikler.get('ham_metin_uzunlugu', 0)} karakter")

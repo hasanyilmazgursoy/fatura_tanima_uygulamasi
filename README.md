@@ -87,3 +87,30 @@ Bu projenin mevcut durumu sağlam bir temel oluşturmaktadır. Gelecekte yapıla
 - **Konumsal Analiz:** Sadece metne değil, metnin faturadaki konumuna göre daha akıllı veri çıkarma (örneğin, "en alttaki en büyük tutar genel toplamdır" gibi).
 - **Web Arayüzü:** Flask veya Django kullanarak kullanıcıların faturaları tarayıcı üzerinden yükleyebileceği bir arayüz oluşturmak.
 - **Makine Öğrenmesi Modelleri:** Veri çıkarma doğruluğunu en üst seviyeye taşımak için Named Entity Recognition (NER) veya Layout-Aware (örn: LayoutLM) modelleri eğitmek.
+
+Bu proje, fatura görüntülerinden (PDF, PNG, JPG vb.) metinleri tanımak ve bu metinleri yapılandırılmış (JSON, CSV) verilere dönüştürmek için geliştirilmiş akıllı bir OCR ve veri çıkarma sistemidir.
+
+Sistem, Tesseract OCR motorunu, gelişmiş görüntü işleme tekniklerini (OpenCV) ve karmaşık Regex desenlerini kullanarak faturalardaki bilgileri yüksek doğrulukla çıkarmayı hedefler.
+
+## Gelecek Vizyonu: Makine Öğrenmesi Yol Haritası
+
+Mevcut kural tabanlı sistem, yüksek doğrulukla veri etiketleme kapasitesine sahiptir. Bu, sistemi bir sonraki seviyeye taşımak için mükemmel bir zemin hazırlar: Makine Öğrenmesi (ML) ile daha esnek ve akıllı bir yapıya geçiş.
+
+### Aşama 1: Veri Seti Oluşturma ve Zenginleştirme
+- **Mevcut Sistemin Kullanımı:** Geliştirdiğimiz `FaturaRegexAnaliz` sistemi, yüzlerce veya binlerce faturayı işleyerek otomatik olarak etiketlenmiş bir veri seti oluşturmak için kullanılacaktır. Her fatura için çıkarılan yapılandırılmış JSON çıktısı, model eğitimi için temel veri kaynağımız olacaktır.
+- **Doğrulama ve Düzeltme Arayüzü:** (Opsiyonel) Kullanıcıların, sistem tarafından yanlış etiketlenen verileri düzeltebileceği basit bir web arayüzü (örn. Flask veya Django ile) geliştirilebilir. Bu, "insan-döngüde" (human-in-the-loop) bir yaklaşım sağlayarak veri setinin kalitesini en üst düzeye çıkaracaktır.
+- **Veri Formatı:** Veriler, NER (Named Entity Recognition - İsimlendirilmiş Varlık Tanıma) modellerinin eğitimi için uygun bir formata dönüştürülecektir (örn. IOB2 formatı: B-SATICI, I-SATICI, B-TARIH, O).
+
+### Aşama 2: Model Seçimi ve Eğitimi
+- **Model Mimarisi:** Fatura anlama görevleri için state-of-the-art sonuçlar veren LayoutLM, LiLT veya Donut gibi Transformer tabanlı, metin ve düzen (layout) bilgisini bir arada kullanan bir model seçilecektir. Bu modeller, sadece metni değil, metnin faturadaki konumunu da anladıkları için çok daha isabetli sonuçlar verirler.
+- **Eğitim Süreci:** Oluşturulan etiketli veri seti kullanılarak seçilen model, belirli varlıkları (fatura numarası, tarih, toplam tutar, satıcı adı vb.) tanımak üzere eğitilecektir.
+- **Fine-Tuning:** Önceden eğitilmiş (pre-trained) bir modelin kendi veri setimizle yeniden eğitilmesi (fine-tuning), daha az veri ile daha yüksek başarı elde etmemizi sağlayacaktır.
+
+### Aşama 3: Entegrasyon ve Hibrit Model
+- **ML Modelinin Entegrasyonu:** Eğitilen model, mevcut sisteme yeni bir "analiz motoru" olarak entegre edilecektir.
+- **Hibrit Yaklaşım:** Başlangıçta, hem Regex tabanlı sistemin hem de ML modelinin sonuçları karşılaştırılabilir.
+  - Eğer ML modeli bir alanda düşük bir güven skoru verirse, Regex sisteminin sonucu yedek olarak kullanılabilir.
+  - Bu hibrit yaklaşım, sistemin genel güvenilirliğini artırır ve geçiş sürecini daha pürüzsüz hale getirir.
+- **Sürekli İyileştirme:** Yeni gelen ve doğrulanan faturalar, modelin periyodik olarak yeniden eğitilmesi için kullanılarak sistemin zamanla daha da akıllı hale gelmesi sağlanacaktır.
+
+Bu yol haritası, projenin sadece mevcut sorunları çözmekle kalmayıp, aynı zamanda endüstri standardı teknolojileri kullanarak geleceğe dönük, ölçeklenebilir ve çok daha güçlü bir yapıya kavuşmasını sağlayacaktır.
