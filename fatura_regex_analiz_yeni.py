@@ -176,6 +176,34 @@ class FaturaRegexAnaliz:
         matches = re.findall(pattern, text, flags)
         return matches if matches else []
     
+    def _duzeltme(self, img: np.ndarray) -> np.ndarray:
+        """
+        Görüntüdeki eğikliği otomatik olarak tespit eder ve düzeltir.
+        """
+        def find_score(arr, angle):
+            data = inter.rotate(arr, angle, reshape=False, order=0)
+            hist = np.sum(data, axis=1)
+            score = np.sum((hist[1:] - hist[:-1]) ** 2)
+            return hist, score
+
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1] 
+
+        scores = []
+        angles = np.arange(-5, 5, 0.1)
+        for angle in angles:
+            hist, score = find_score(thresh, angle)
+            scores.append(score)
+
+        best_angle = angles[np.argmax(scores)]
+
+        (h, w) = img.shape[:2]
+        center = (w // 2, h // 2)
+        M = cv2.getRotationMatrix2D(center, best_angle, 1.0)
+        rotated = cv2.warpAffine(img, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+        
+        return rotated
+
     def _find_value_right_of_keywords(self, ocr_data: Dict, keywords: List[str], value_pattern: str, y_tolerance: int = 15) -> Optional[str]:
         """
         Bir anahtar kelimeyle aynı hizada (satırda), genellikle sağa hizalanmış olan değeri bulur.
@@ -205,7 +233,8 @@ class FaturaRegexAnaliz:
 
         # 3. Aynı satırda bulunan ve aranan desene uyan tüm adayları bul
         line_candidates = []
-        for i in range(anchor_word_idx + 1, n):
+        # Not: anchor_word_idx'den başlamıyoruz, tüm satırı taramalıyız
+        for i in range(n):
             try:
                 word_text = ocr_data['text'][i] or ''
                 word_y = ocr_data['top'][i]
@@ -452,6 +481,10 @@ class FaturaRegexAnaliz:
             ),
             'genel_toplam': (
                 (['ödenecek tutar', 'genel toplam', 'toplam'], self.regex_desenleri['para']['desen']), []
+            ),
+            'banka_bilgileri': (
+                (['garanti bankası', 'yapı kredi', 'akbank', 'ziraat'], self.regex_desenleri['iban']['desen']),
+                [r'\b(TR\d{2}\s*(?:[A-Z]{4}\s*)?(?:\d{4}\s*){5}\d{2})\b']
             ),
         }
 
