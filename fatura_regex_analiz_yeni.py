@@ -213,6 +213,49 @@ class FaturaRegexAnaliz:
                                 return candidate_text
         return None
     
+    def _find_multiline_value_below_keyword(self, ocr_data: Dict, keywords: List[str]) -> Optional[str]:
+        """
+        Bir anahtar kelimenin altındaki birden çok satıra yayılmış metni bulur.
+        Adres gibi çok satırlı verileri çıkarmak için idealdir.
+        """
+        if 'text' not in ocr_data:
+            return None
+
+        n = len(ocr_data['text'])
+        for i in range(n):
+            try:
+                keyword_conf = int(ocr_data['conf'][i])
+                keyword_text = (ocr_data['text'][i] or '').lower().strip('.:')
+                if keyword_conf < self.min_confidence:
+                    continue
+            except (ValueError, IndexError):
+                continue
+
+            if any(keyword.lower() in keyword_text for keyword in keywords):
+                # Anahtar kelimeyi bulduk. Şimdi altındaki alanı tarayalım.
+                x_keyword = ocr_data['left'][i]
+                y_keyword_bottom = ocr_data['top'][i] + ocr_data['height'][i]
+                
+                # Altındaki metinleri topla
+                address_parts = []
+                for j in range(i + 1, n):
+                    try:
+                        x_word = ocr_data['left'][j]
+                        y_word = ocr_data['top'][j]
+                        word_text = ocr_data['text'][j] or ''
+                        
+                        # Kelime, anahtar kelimenin altındaki bir bölgede mi?
+                        # Dikeyde 100 piksel aşağı, yatayda ise -50/+300 piksel aralığını tarayalım.
+                        if (y_keyword_bottom < y_word < y_keyword_bottom + 100) and \
+                           (x_keyword - 50 < x_word < x_keyword + 300):
+                            address_parts.append(word_text)
+                    except (ValueError, IndexError):
+                        continue
+                
+                if address_parts:
+                    return ' '.join(address_parts)
+        return None
+
     def _normalize_amount(self, amount: str) -> str:
         """Tutar değerini normalize et."""
         if not amount:
@@ -290,201 +333,133 @@ class FaturaRegexAnaliz:
 
     def yapilandirilmis_veri_cikar(self, ocr_data: Dict, ham_metin: str) -> Dict:
         """
-        FLO fatura örneğindeki tüm önemli alanları elde etmeye çalışır.
-        Regex (ham metin) + anahtar kelime-sağdaki değer sezgileri birlikte kullanılır.
+        Hibrit bir yaklaşımla (koordinat + regex) fatura verilerini çıkarır.
+        Önce anahtar kelimelerin yanındaki değerleri koordinatlarla arar,
+        bulamazsa tüm metinde RegEx ile yedek arama yapar.
         """
         data: Dict[str, Optional[str]] = {}
         
-        # ==================== TEMEL FATURA BİLGİLERİ ====================
+        # 1. ADIM: EVRENSEL FORMATLARI REGEX İLE DOĞRUDAN ÇIKAR
+        # Bu desenler (email, ETTN) genellikle fatura üzerinde tekildir ve güvenilirdir.
+        data['satici_email'] = self._extract_first([r'\b([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})\b'], ham_metin)
+        data['ettn'] = self._extract_first([r'\b([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\b'], ham_metin, flags=re.IGNORECASE)
+        data['para_birimi'] = self._extract_first([r"\b(TRY|TL|₺|USD|EUR|GBP)\b"], ham_metin)
+
+        # 2. ADIM: HİBRİT YAKLAŞIMLA (KOORDİNAT + REGEX) ALANLARI ÇIKAR
+        # Tanimlamalar: `anahtar`: ( (koordinat_anahtar_kelimeleri, değer_regex), [yedek_regex_desenleri] )
+        extraction_map = {
+            'fatura_numarasi': (
+                (['fatura no', 'faturano', 'fatura numarası', 'invoice no'], r'(?!irsaliye)([A-Z0-9]{8,20})'),
+                [r"\b(?!irsaliye)([A-Z]{2,4}\d{12,15})\b", r"\b(?!irsaliye)([A-Z]\d{14,16})\b"]
+            ),
+            'fatura_tarihi': (
+                (['fatura tarihi', 'düzenleme tarihi', 'tarih'], r'(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})'),
+                [r"\b(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})\b"] # En bariz tarih
+            ),
+            'son_odeme_tarihi': (
+                (['son ödeme tarihi', 'ödeme tarihi'], r'(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})'), []
+            ),
+            'fatura_tipi': (
+                (['fatura tipi', 'tipi'], r'([e\-]?(?:arşiv|arsiv|fatura|proforma|irsaliye)(?:\s*fatura)?)'),
+                [r"\b(e-?(?:arşiv|arsiv|fatura))\b"]
+            ),
+            'satici_firma_unvani': (
+                (['firma adı', 'firma adi', 'satıcı', 'satici'], r'([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.)?)'),
+                [r"(?:^|\n)([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.|MAĞ\.|PAZ\.))"]
+            ),
+            'satici_vergi_dairesi': (
+                (['vergi dairesi', 'v.d.'], r'([A-ZÇĞİÖŞÜ\s]+)'), []
+            ),
+            'satici_vergi_numarasi': (
+                (['vergi numarası', 'vergi no', 'vkn'], r'(\d{10,11})'),
+                [r'\b(\d{10})\b'] # Etiketsiz 10 haneli numara
+            ),
+            'satici_ticaret_sicil': (
+                (['ticaret sicil', 'sicil no'], r'(\d{6,10})'), []
+            ),
+            'satici_mersis_no': (
+                (['mersis no', 'mersis'], r'(\d{15})'), []
+            ),
+            'alici_firma_unvani': (
+                (['sayın', 'alici', 'alıcı', 'müşteri', 'müsteri'], r'([A-ZÇĞİÖŞÜa-zçğıöşü\s\-\.]{4,})'),
+                []
+            ),
+            'alici_vergi_dairesi': (
+                (['vergi dairesi', 'v.d.'], r'([A-ZÇĞİÖŞÜ\s]+)'), [] # Satıcı ile aynı, OCR verisinde hangisini önce bulursa...
+            ),
+             'mal_hizmet_toplam': (
+                (['mal hizmet toplam', 'ara toplam'], self.regex_desenleri['para']['desen']), []
+            ),
+            'toplam_iskonto': (
+                (['toplam iskonto', 'indirim'], self.regex_desenleri['para']['desen']), []
+            ),
+            'vergi_haric_tutar': (
+                (['vergi hariç tutar', 'vergi haric', 'alt toplam'], self.regex_desenleri['para']['desen']), []
+            ),
+            'hesaplanan_kdv': (
+                (['hesaplanan kdv', 'toplam kdv', 'kdv'], self.regex_desenleri['para']['desen']), []
+            ),
+            'vergiler_dahil_toplam': (
+                (['vergiler dahil toplam', 'toplam tutar'], self.regex_desenleri['para']['desen']), []
+            ),
+            'genel_toplam': (
+                (['ödenecek tutar', 'genel toplam', 'toplam'], self.regex_desenleri['para']['desen']), []
+            ),
+        }
+
+        # Önce adresleri özel fonksiyonla arayalım
+        data['satici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['satıcı', 'satici', 'firma adres'])
+        data['alici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['alıcı', 'alici', 'müşteri adres', 'sayın'])
+
+
+        for field, (coord_rule, fallback_patterns) in extraction_map.items():
+            # Eğer veri zaten bulunduysa (örn: adres), tekrar arama
+            if data.get(field):
+                continue
+
+            keywords, value_pattern = coord_rule
+            
+            # 1. Yöntem: Koordinat tabanlı arama
+            value = self._find_value_right_of_keywords(ocr_data, keywords, value_pattern)
+
+            # Alıcı Adı için ek filtreleme
+            if field == 'alici_firma_unvani' and value:
+                anlamsiz_kelimeler = ['no', 'fatura', 'adres', 'tarih', 'ödeme', 'vkn']
+                if len(value.strip()) < 4 or any(kelime in value.lower() for kelime in anlamsiz_kelimeler):
+                    value = None # Değeri geçersiz say
+            
+            # 2. Yöntem: Eğer koordinat ile bulunamazsa, yedek RegEx'leri tüm metinde dene
+            if not value and fallback_patterns:
+                value = self._extract_first(fallback_patterns, ham_metin)
+            
+            data[field] = value
+
+        # 3. ADIM: ÖZEL KURALLAR VE HEURİSTİKLER (SEZGİSEL YÖNTEMLER)
         
-        # Fatura Numarası - FEA2023001157280, N012024000012739 gibi farklı formatlar için genişletildi
-        data['fatura_numarasi'] = self._extract_first([
-            # 1. Öncelik: Etiketli arama (en güvenilir)
-            r"(?:fatura\s*no|fatura\s*numarası|invoice\s*no)[:\s]*([A-Z0-9]{8,20})",
-            # 2. Öncelik: Yaygın e-fatura formatları
-            r"\b([A-Z]{2,4}\d{12,15})\b",  # Örn: FEA2023001157280
-            r"\b([A-Z]\d{14,16})\b",         # Örn: N012024000012739
-            # 3. Öncelik: Genel arama (daha az güvenilir, son çare)
-            r"(?:fatura)[:\s]*([A-Z0-9\-\./]{8,})",
-        ], ham_metin)
-        
-        # Fatura Tarihi
-        data['fatura_tarihi'] = self._normalize_date(self._extract_first([
-            r"(?:fatura\s*tarihi|düzenleme\s*tarihi)[:\s]*([0-3]?\d[\./\-][0-3]?\d[\./\-](?:\d{2}|\d{4}))",
-            r"\b([0-3]?\d[\./\-][0-3]?\d[\./\-](?:\d{2}|\d{4}))\b",
-        ], ham_metin))
-        
-        # Son Ödeme Tarihi
-        data['son_odeme_tarihi'] = self._normalize_date(self._extract_first([
-            r"(?:son\s*ödeme\s*tarihi|ödeme\s*tarihi)[:\s]*([0-3]?\d[\./\-][0-3]?\d[\./\-](?:\d{2}|\d{4}))",
-        ], ham_metin))
-        
-        # Fatura Tipi - e-Arşiv Fatura, Proforma vs.
-        data['fatura_tipi'] = self._normalize_text(self._extract_first([
-            r"(?:fatura\s*tipi)[:\s]*([e\-]?(?:arşiv|arsiv|fatura|proforma|irsaliye)(?:\s*fatura)?)",
-            r"\b(e-?(?:arşiv|arsiv|fatura))\b",
-            r"(?:tipi)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-/]+)",
-        ], ham_metin))
-        
-        # ETTN - UUID formatı (etiketsiz arama eklendi)
-        data['ettn'] = self._extract_first([
-            # 1. Öncelik: Etiketli arama
-            r"(?:ettn|evrensel\s*tekil)[:\s]*([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})",
-            # 2. Öncelik: Etiketsiz, sadece formata göre arama (çok güvenilir bir desen)
-            r"\b([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\b",
-        ], ham_metin)
-        
-        # ==================== SATICI BİLGİLERİ ====================
-        
-        # Satıcı Firma Ünvanı - "FLO MAĞAZACILIK VE PAZARLAMA A.Ş."
-        data['satici_firma_unvani'] = self._normalize_text(self._extract_first([
-            r"(?:firma\s*adı|firma\s*adi|satıcı|satici)[:\s]*([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.)?)",
-            r"(?:^|\n)([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.|MAĞ\.|PAZ\.))",
-        ], ham_metin))
-        
-        # Satıcı Adres
-        data['satici_adres'] = self._normalize_text(self._extract_first([
-            r"(?:adres)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü0-9\s,\.\-/]+(?:MAH\.|CAD\.|SOK\.|NO:|K:)\s*[A-ZÇĞİÖŞÜa-zçğıöşü0-9\s,\.\-/]+)",
-        ], ham_metin))
-        
-        # Satıcı Telefon - +90 212 446 22 88
-        data['satici_telefon'] = self._extract_first([
-            r"(?:telefon|tel)[:\s]*(\+?90?\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})",
-        ], ham_metin)
-        
-        # Satıcı Email - flo@hs02.kep.tr
-        data['satici_email'] = self._extract_first([
-            r"(?:e-?posta|email)[:\s]*([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})",
-        ], ham_metin)
-        
-        # Satıcı Vergi Dairesi - MARMARA KURUMLAR
-        data['satici_vergi_dairesi'] = self._normalize_text(self._extract_first([
-            r"(?:vergi\s*dairesi)[:\s]*([A-ZÇĞİÖŞÜ\s]+)",
-        ], ham_metin))
-        
-        # Satıcı Vergi Numarası - 3960622754 (etiketsiz arama eklendi)
-        data['satici_vergi_numarasi'] = self._extract_first([
-            # 1. Öncelik: Etiketli arama
-            r"(?:vergi\s*numarası|vergi\s*no|vkn)[:\s]*(\d{10,11})",
-            # 2. Öncelik: Etiketsiz, sadece 10 haneli sayı arama (daha az güvenilir)
-            r"\b(\d{10})\b",
-        ], ham_metin)
-        
-        # Satıcı Web Sitesi
-        data['satici_web_sitesi'] = self._extract_first([
-            r"(?:web\s*sitesi|website)[:\s]*(https?://[A-Za-z0-9\-\./]+)",
-        ], ham_metin)
-        
-        # Satıcı Ticaret Sicil No - 823336
-        data['satici_ticaret_sicil'] = self._extract_first([
-            r"(?:ticaret\s*sicil|sicil\s*no)[:\s]*(\d{6,10})",
-        ], ham_metin)
-        
-        # Satıcı Mersis No - 039602394900019
-        data['satici_mersis_no'] = self._extract_first([
-            r"(?:mersis\s*no|mersis)[:\s]*(\d{15})",
-        ], ham_metin)
-        
-        # ==================== ALICI BİLGİLERİ ====================
-        
-        # Alıcı Firma/Kişi Ünvanı - "Hasan Yılmaz Gürsoy"
-        data['alici_firma_unvani'] = self._normalize_text(self._extract_first([
-            r"(?:sayın|alıcı|alici|müşteri|müsteri)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-\.]+)",
-        ], ham_metin))
-        
-        # Alıcı Adres
-        data['alici_adres'] = self._normalize_text(self._extract_first([
-            r"(?:alıcı|alici).*?(?:adres)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü0-9\s,\.\-/]+)",
-        ], ham_metin))
-        
-        # Alıcı Telefon - 905377339964
-        data['alici_telefon'] = self._extract_first([
-            r"(?:alıcı|alici).*?(?:telefon|tel)[:\s]*(\d{11})",
-        ], ham_metin)
-        
-        # Alıcı Email
-        data['alici_email'] = self._extract_first([
-            r"(?:alıcı|alici).*?(?:e-?posta|email)[:\s]*([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,})",
-        ], ham_metin)
-        
-        # Alıcı Vergi Dairesi - "BEYAN EDİLMEDİ"
-        data['alici_vergi_dairesi'] = self._normalize_text(self._extract_first([
-            r"(?:alıcı|alici).*?(?:vergi\s*dairesi)[:\s]*([A-ZÇĞİÖŞÜ\s]+)",
-        ], ham_metin))
-        
-        # Alıcı Vergi Numarası
-        data['alici_vergi_numarasi'] = self._extract_first([
-            r"(?:alıcı|alici).*?(?:vergi\s*numarası|vergi\s*no|vkn)[:\s]*(\d{10,11})",
-        ], ham_metin)
-        
-        # Alıcı TCKN - Geçerlilik kontrolü ile
+        # TCKN: 11 haneli ve algoritma ile doğrulanabilir olduğu için özel olarak aranır.
         olasi_tckn_list = self._extract_all(r"(\d{11})", ham_metin)
-        gecerli_tckn = None
         for olasi_tckn in olasi_tckn_list:
             if self._tckn_dogrula(olasi_tckn):
-                gecerli_tckn = olasi_tckn
-                break # İlk geçerli TCKN'yi bulduğumuzda dur
-        data['alici_tckn'] = gecerli_tckn
-
-        # Alıcı Müşteri No - 0000001011
-        data['alici_musteri_no'] = self._extract_first([
-            r"(?:müşteri\s*no|customer\s*no)[:\s]*(\d{6,15})",
-        ], ham_metin)
+                data['alici_tckn'] = olasi_tckn
+                break # İlk geçerli olanı al
         
-        # ==================== FİNANSAL BİLGİLER ====================
-        
-        # KDV Oranı - %10.00
-        data['kdv_orani'] = self._extract_first([
-            r"(?:kdv\s*oranı)[:\s]*(%?\d{1,2}\.?\d{0,2})%?",
-            r"(?:kdv[^\n]{0,10})(\d{1,2}\s?%)",
-        ], ham_metin)
-        
-        # Finansal tutarlar - normalized
-        tutarlar = {
-            'mal_hizmet_toplam': r"(?:mal\s*hizmet\s*toplam\s*tutar[ıi])[:\s]*([0-9][0-9.,]+)\s*(?:tl|₺|try)?",
-            'toplam_iskonto': r"(?:toplam\s*iskonto)[:\s]*([0-9][0-9.,]+)\s*(?:tl|₺|try)?",
-            'vergi_haric_tutar': r"(?:vergi\s*hari[çc]\s*tutar)[:\s]*([0-9][0-9.,]+)\s*(?:tl|₺|try)?",
-            'hesaplanan_kdv': r"(?:hesaplanan\s*kdv)[:\s]*([0-9][0-9.,]+)\s*(?:tl|₺|try)?",
-            'vergiler_dahil_toplam': r"(?:vergiler\s*dahil\s*toplam)[:\s]*([0-9][0-9.,]+)\s*(?:tl|₺|try)?",
-            'genel_toplam': r"(?:ödenecek\s*tutar)[:\s]*([0-9][0-9.,]+)\s*(?:tl|₺|try)?",
-        }
-        
-        for key, pattern in tutarlar.items():
-            amount = self._extract_first([pattern], ham_metin)
-            data[key] = self._normalize_amount(amount) if amount else None
-        
-        # Genel Toplam için sezgisel kural: Eğer etiketle bulunamadıysa, en büyük tutarı al
+        # Genel Toplam için son çare: Eğer hiçbir şekilde bulunamadıysa, faturadaki en büyük tutarı al.
         if not data.get('genel_toplam'):
-            data['genel_toplam'] = self._normalize_amount(self._en_buyuk_tutari_bul(ham_metin))
+            data['genel_toplam'] = self._en_buyuk_tutari_bul(ham_metin)
+            
+        # 4. ADIM: VERİYİ TEMİZLE VE NORMALIZE ET
         
-        # Para Birimi
-        data['para_birimi'] = self._extract_first([
-            r"\b(TRY|TL|₺|USD|EUR|GBP)\b",
-        ], ham_metin)
-        
-        # ==================== ÖDEME VE TESLİMAT ====================
-        
-        # Ödeme Şekli - "DIGER - DIGER - FLOCUZDAN"
-        data['odeme_sekli'] = self._normalize_text(self._extract_first([
-            r"(?:ödeme\s*şekli|odeme\s*sekli)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-/]+)",
-        ], ham_metin))
-        
-        # Gönderim/İfa Tarihi
-        data['gonderim_tarihi'] = self._normalize_date(self._extract_first([
-            r"(?:gönderim|ifa\s*tarihi)[:\s]*([0-3]?\d[\./\-][0-3]?\d[\./\-](?:\d{2}|\d{4}))",
-        ], ham_metin))
-        
-        # Taşıyıcı Ünvanı - "Aras Kargo A.Ş."
-        data['tasiyici_unvani'] = self._normalize_text(self._extract_first([
-            r"(?:taşıyıcı\s*ünvanı|tasiyici\s*unvani)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-\.]+)",
-        ], ham_metin))
-        
-        # Banka Bilgileri - IBAN'ları yakala
-        iban_patterns = [
-            r"(?:garanti|yapı\s*kredi|ziraat|akbank|halkbank)[:\s]*(TR\d{2}\s*[A-Z]{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*\d{2})",
-            r"(TR9Y\s*TREZ\s*\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*\d{4}\s*\d{2})",
-        ]
-        data['banka_bilgileri'] = self._extract_first(iban_patterns, ham_metin)
+        # Normalizasyon gerektiren alanlar
+        if data.get('fatura_tarihi'):
+            data['fatura_tarihi'] = self._normalize_date(data['fatura_tarihi'])
+        if data.get('son_odeme_tarihi'):
+            data['son_odeme_tarihi'] = self._normalize_date(data['son_odeme_tarihi'])
+            
+        amount_fields = ['mal_hizmet_toplam', 'toplam_iskonto', 'vergi_haric_tutar', 
+                         'hesaplanan_kdv', 'vergiler_dahil_toplam', 'genel_toplam']
+        for field in amount_fields:
+            if data.get(field):
+                data[field] = self._normalize_amount(data[field])
         
         # ==================== ÜRÜN LİSTESİ (KALEMLERİ) ====================
         
