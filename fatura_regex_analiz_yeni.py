@@ -23,7 +23,7 @@ class FaturaRegexAnaliz:
     def __init__(self):
         """Sistem başlatma ve konfigürasyon."""
         
-        # OCR ayarları (iyileştirilmiş)
+        # OCR ayarları (iyileştirilmiş) - En stabil sonuçlar için PSM 6'ya geri dönüldü
         self.ocr_config = f'--oem 3 --psm 6 -l tur+eng'
         self.min_confidence = 30
         
@@ -239,6 +239,55 @@ class FaturaRegexAnaliz:
         cleaned = ' '.join(text.split())
         return cleaned
 
+    def _tckn_dogrula(self, tckn: str) -> bool:
+        """
+        Verilen bir string'in geçerli bir T.C. Kimlik Numarası olup olmadığını kontrol eder.
+        """
+        if not isinstance(tckn, str) or not tckn.isdigit() or len(tckn) != 11:
+            return False
+        
+        if int(tckn[0]) == 0:
+            return False
+
+        h_10 = sum(int(tckn[i]) for i in range(0, 9, 2)) * 7
+        h_10 -= sum(int(tckn[i]) for i in range(1, 8, 2))
+        
+        if h_10 % 10 != int(tckn[9]):
+            return False
+
+        h_11 = sum(int(tckn[i]) for i in range(10))
+        
+        if h_11 % 10 != int(tckn[10]):
+            return False
+            
+        return True
+
+    def _en_buyuk_tutari_bul(self, ham_metin: str) -> Optional[str]:
+        """
+        Metin içindeki tüm parasal değerleri bulur ve en büyüğünü döndürür.
+        """
+        para_deseni = self.regex_desenleri['para']['desen']
+        bulunan_paralar = re.findall(para_deseni, ham_metin)
+        
+        en_buyuk_tutar = 0.0
+        en_buyuk_tutar_str = None
+
+        for para_str in bulunan_paralar:
+            # Para string'ini sayıya çevirmek için temizle (TL, TRY, boşlukları at; virgülü noktaya çevir)
+            temiz_deger = para_str.upper().replace('TL', '').replace('TRY', '').replace('₺', '').strip()
+            temiz_deger = temiz_deger.replace('.', '').replace(',', '.') # 1.234,56 -> 1234.56
+            
+            try:
+                tutar = float(temiz_deger)
+                if tutar > en_buyuk_tutar:
+                    en_buyuk_tutar = tutar
+                    en_buyuk_tutar_str = para_str
+            except ValueError:
+                continue
+        
+        return en_buyuk_tutar_str
+
+
     def yapilandirilmis_veri_cikar(self, ocr_data: Dict, ham_metin: str) -> Dict:
         """
         FLO fatura örneğindeki tüm önemli alanları elde etmeye çalışır.
@@ -248,10 +297,14 @@ class FaturaRegexAnaliz:
         
         # ==================== TEMEL FATURA BİLGİLERİ ====================
         
-        # Fatura Numarası - FEA2023001157280 tarzı alfanumerik
+        # Fatura Numarası - FEA2023001157280, N012024000012739 gibi farklı formatlar için genişletildi
         data['fatura_numarasi'] = self._extract_first([
+            # 1. Öncelik: Etiketli arama (en güvenilir)
             r"(?:fatura\s*no|fatura\s*numarası|invoice\s*no)[:\s]*([A-Z0-9]{8,20})",
-            r"\b([A-Z]{2,4}\d{8,15})\b",  # FEA2023001157280 gibi
+            # 2. Öncelik: Yaygın e-fatura formatları
+            r"\b([A-Z]{2,4}\d{12,15})\b",  # Örn: FEA2023001157280
+            r"\b([A-Z]\d{14,16})\b",         # Örn: N012024000012739
+            # 3. Öncelik: Genel arama (daha az güvenilir, son çare)
             r"(?:fatura)[:\s]*([A-Z0-9\-\./]{8,})",
         ], ham_metin)
         
@@ -273,9 +326,12 @@ class FaturaRegexAnaliz:
             r"(?:tipi)[:\s]*([A-ZÇĞİÖŞÜa-zçğıöşü\s\-/]+)",
         ], ham_metin))
         
-        # ETTN - UUID formatı
+        # ETTN - UUID formatı (etiketsiz arama eklendi)
         data['ettn'] = self._extract_first([
+            # 1. Öncelik: Etiketli arama
             r"(?:ettn|evrensel\s*tekil)[:\s]*([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})",
+            # 2. Öncelik: Etiketsiz, sadece formata göre arama (çok güvenilir bir desen)
+            r"\b([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\b",
         ], ham_metin)
         
         # ==================== SATICI BİLGİLERİ ====================
@@ -306,9 +362,12 @@ class FaturaRegexAnaliz:
             r"(?:vergi\s*dairesi)[:\s]*([A-ZÇĞİÖŞÜ\s]+)",
         ], ham_metin))
         
-        # Satıcı Vergi Numarası - 3960622754
+        # Satıcı Vergi Numarası - 3960622754 (etiketsiz arama eklendi)
         data['satici_vergi_numarasi'] = self._extract_first([
+            # 1. Öncelik: Etiketli arama
             r"(?:vergi\s*numarası|vergi\s*no|vkn)[:\s]*(\d{10,11})",
+            # 2. Öncelik: Etiketsiz, sadece 10 haneli sayı arama (daha az güvenilir)
+            r"\b(\d{10})\b",
         ], ham_metin)
         
         # Satıcı Web Sitesi
@@ -358,11 +417,15 @@ class FaturaRegexAnaliz:
             r"(?:alıcı|alici).*?(?:vergi\s*numarası|vergi\s*no|vkn)[:\s]*(\d{10,11})",
         ], ham_metin)
         
-        # Alıcı TCKN - 11111111111
-        data['alici_tckn'] = self._extract_first([
-            r"(?:tckn|tc\s*kimlik|tc\s*no)[:\s]*(\d{11})",
-        ], ham_metin)
-        
+        # Alıcı TCKN - Geçerlilik kontrolü ile
+        olasi_tckn_list = self._extract_all(r"(\d{11})", ham_metin)
+        gecerli_tckn = None
+        for olasi_tckn in olasi_tckn_list:
+            if self._tckn_dogrula(olasi_tckn):
+                gecerli_tckn = olasi_tckn
+                break # İlk geçerli TCKN'yi bulduğumuzda dur
+        data['alici_tckn'] = gecerli_tckn
+
         # Alıcı Müşteri No - 0000001011
         data['alici_musteri_no'] = self._extract_first([
             r"(?:müşteri\s*no|customer\s*no)[:\s]*(\d{6,15})",
@@ -389,6 +452,10 @@ class FaturaRegexAnaliz:
         for key, pattern in tutarlar.items():
             amount = self._extract_first([pattern], ham_metin)
             data[key] = self._normalize_amount(amount) if amount else None
+        
+        # Genel Toplam için sezgisel kural: Eğer etiketle bulunamadıysa, en büyük tutarı al
+        if not data.get('genel_toplam'):
+            data['genel_toplam'] = self._normalize_amount(self._en_buyuk_tutari_bul(ham_metin))
         
         # Para Birimi
         data['para_birimi'] = self._extract_first([

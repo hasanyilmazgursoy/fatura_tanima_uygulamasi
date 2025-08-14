@@ -109,19 +109,24 @@ def ana_analiz_süreci():
     # Desteklenen resim ve PDF formatları (config'den)
     desteklenen_formatlar = ayarlar['desteklenen_formatlar']
     
-    # İşlenecek faturaları bul (glob ile alt klasörler dahil)
-    print(f"📂 '{fatura_klasoru}' klasöründeki faturalar aranıyor...")
-    islenicek_faturalar = []
-    for format in desteklenen_formatlar:
-        # `**` operatörü, tüm alt dizinlerde aramayı sağlar (recursive=True)
-        desen = os.path.join(fatura_klasoru, '**', f'*{format}')
-        islenicek_faturalar.extend(glob.glob(desen, recursive=True))
+    # --- GEÇİCİ TEST KODU ---
+    # Sadece belirli bir faturayı test etmek için aşağıdaki satırı etkinleştirin.
+    islenicek_faturalar = [os.path.join(fatura_klasoru, 'test', '5c565ea6-b2f6-4e4a-b004-75cface23500.pdf')]
+    # --- GEÇİCİ TEST KODU SONU ---
 
-    if not islenicek_faturalar:
-        print(f"✅ Bilgi: '{fatura_klasoru}' klasöründe işlenecek fatura bulunamadı.")
+    # İşlenecek faturaları bul (glob ile alt klasörler dahil) - GEÇİCİ OLARAK DEVRE DIŞI
+    # print(f"📂 '{fatura_klasoru}' klasöründeki faturalar aranıyor...")
+    # islenicek_faturalar = []
+    # for format in desteklenen_formatlar:
+    #     # `**` operatörü, tüm alt dizinlerde aramayı sağlar (recursive=True)
+    #     desen = os.path.join(fatura_klasoru, '**', f'*{format}')
+    #     islenicek_faturalar.extend(glob.glob(desen, recursive=True))
+
+    if not islenicek_faturalar or not os.path.exists(islenicek_faturalar[0]):
+        print(f"❌ Test edilecek fatura bulunamadı veya yolu yanlış: {islenicek_faturalar}")
         return
 
-    print(f"🎯 Toplam {len(islenicek_faturalar)} adet fatura bulundu. Analiz başlıyor...")
+    print(f"🎯 Sadece 1 adet test faturası analiz edilecek...")
 
     # Tüm sonuçları ve hatalı dosyaları topla
     tum_sonuclar = []
