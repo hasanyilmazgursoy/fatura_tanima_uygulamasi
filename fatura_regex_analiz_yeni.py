@@ -15,6 +15,7 @@ import os
 import json
 from datetime import datetime
 import fitz  # PyMuPDF kütüphanesini ekle
+from scipy.ndimage import interpolation as inter
 
 
 class FaturaRegexAnaliz:
@@ -175,87 +176,132 @@ class FaturaRegexAnaliz:
         matches = re.findall(pattern, text, flags)
         return matches if matches else []
     
-    def _find_value_right_of_keywords(self, ocr_data: Dict, keywords: List[str], value_pattern: str) -> Optional[str]:
-        """Anahtar kelimelerin sağında belirli desenle eşleşen değerleri bul."""
+    def _find_value_right_of_keywords(self, ocr_data: Dict, keywords: List[str], value_pattern: str, y_tolerance: int = 15) -> Optional[str]:
+        """
+        Bir anahtar kelimeyle aynı hizada (satırda), genellikle sağa hizalanmış olan değeri bulur.
+        Ara toplamlar, KDV, banka bilgileri gibi tablo formatındaki veriler için idealdir.
+        """
         if 'text' not in ocr_data:
             return None
-        
+
         n = len(ocr_data['text'])
+        anchor_word_idx = -1
+
+        # 1. Anahtar kelimeyi (referans noktasını) bul
         for i in range(n):
             try:
-                confidence = int(ocr_data['conf'][i])
-                if confidence < self.min_confidence:
-                    continue
+                text = (ocr_data['text'][i] or '').lower().strip('.:')
+                if any(kw.lower() in text for kw in keywords):
+                    anchor_word_idx = i
+                    break
             except (ValueError, IndexError):
                 continue
+        
+        if anchor_word_idx == -1:
+            return None
+        
+        # 2. Referans kelimenin dikey hizasını (Y-koordinatını) al
+        y_keyword = ocr_data['top'][anchor_word_idx]
+
+        # 3. Aynı satırda bulunan ve aranan desene uyan tüm adayları bul
+        line_candidates = []
+        for i in range(anchor_word_idx + 1, n):
+            try:
+                word_text = ocr_data['text'][i] or ''
+                word_y = ocr_data['top'][i]
+
+                # Kelime aynı satırda mı ve desene uyuyor mu?
+                if abs(word_y - y_keyword) < y_tolerance and re.search(value_pattern, word_text, re.IGNORECASE):
+                    line_candidates.append({
+                        'text': word_text,
+                        'left': ocr_data['left'][i]
+                    })
+            except (ValueError, IndexError):
+                continue
+        
+        # 4. Eğer aday bulunduysa, en sağdakini seç
+        if line_candidates:
+            # 'left' değeri en büyük olanı (en sağdakini) bul
+            best_candidate = max(line_candidates, key=lambda c: c['left'])
             
-            text = (ocr_data['text'][i] or '').lower()
-            for keyword in keywords:
-                if keyword.lower() in text:
-                    # Aynı satırda sağda değer ara
-                    y_target = ocr_data['top'][i]
-                    x_keyword_end = ocr_data['left'][i] + ocr_data['width'][i]
-                    
-                    for j in range(i + 1, min(i + 10, n)):
-                        try:
-                            conf = int(ocr_data['conf'][j])
-                            if conf < self.min_confidence:
-                                continue
-                        except (ValueError, IndexError):
-                            continue
-                        
-                        y_candidate = ocr_data['top'][j]
-                        x_candidate = ocr_data['left'][j]
-                        
-                        if abs(y_candidate - y_target) < 20 and x_candidate > x_keyword_end:
-                            candidate_text = ocr_data['text'][j] or ''
-                            if re.search(value_pattern, candidate_text):
-                                return candidate_text
+            # O adayın metnindeki tam eşleşmeyi tekrar RegEx ile çıkar ve döndür
+            match = re.search(value_pattern, best_candidate['text'], re.IGNORECASE)
+            if match:
+                return match.group(1) if match.groups() else match.group(0)
+
         return None
     
-    def _find_multiline_value_below_keyword(self, ocr_data: Dict, keywords: List[str]) -> Optional[str]:
+    def _find_multiline_value_below_keyword(self, ocr_data: Dict, keywords: List[str], stop_keywords: List[str]) -> Optional[str]:
         """
         Bir anahtar kelimenin altındaki birden çok satıra yayılmış metni bulur.
         Adres gibi çok satırlı verileri çıkarmak için idealdir.
+        Arama, bir 'stop_keyword' ile karşılaşınca durur.
         """
         if 'text' not in ocr_data:
             return None
 
         n = len(ocr_data['text'])
+        anchor_word_idx = -1
+
+        # 1. Anahtar kelimeyi (referans noktasını) bul
         for i in range(n):
             try:
-                keyword_conf = int(ocr_data['conf'][i])
-                keyword_text = (ocr_data['text'][i] or '').lower().strip('.:')
-                if keyword_conf < self.min_confidence:
-                    continue
+                text = (ocr_data['text'][i] or '').lower().strip('.:')
+                if any(kw.lower() in text for kw in keywords):
+                    anchor_word_idx = i
+                    break
             except (ValueError, IndexError):
                 continue
+        
+        if anchor_word_idx == -1:
+            return None
 
-            if any(keyword.lower() in keyword_text for keyword in keywords):
-                # Anahtar kelimeyi bulduk. Şimdi altındaki alanı tarayalım.
-                x_keyword = ocr_data['left'][i]
-                y_keyword_bottom = ocr_data['top'][i] + ocr_data['height'][i]
-                
-                # Altındaki metinleri topla
-                address_parts = []
-                for j in range(i + 1, n):
-                    try:
-                        x_word = ocr_data['left'][j]
-                        y_word = ocr_data['top'][j]
-                        word_text = ocr_data['text'][j] or ''
-                        
-                        # Kelime, anahtar kelimenin altındaki bir bölgede mi?
-                        # Dikeyde 100 piksel aşağı, yatayda ise -50/+300 piksel aralığını tarayalım.
-                        if (y_keyword_bottom < y_word < y_keyword_bottom + 100) and \
-                           (x_keyword - 50 < x_word < x_keyword + 300):
-                            address_parts.append(word_text)
-                    except (ValueError, IndexError):
-                        continue
-                
-                if address_parts:
-                    return ' '.join(address_parts)
-        return None
+        # 2. Referans noktasının koordinatlarını al
+        anchor = {
+            'x': ocr_data['left'][anchor_word_idx],
+            'y_bottom': ocr_data['top'][anchor_word_idx] + ocr_data['height'][anchor_word_idx],
+            'h': ocr_data['height'][anchor_word_idx]
+        }
 
+        # 3. Referans noktasının altındaki kelimeleri topla
+        candidate_words = []
+        for i in range(anchor_word_idx + 1, n):
+            try:
+                word_y = ocr_data['top'][i]
+                # Sadece anahtar kelimenin altındaki belirli bir dikey aralıktaki kelimelere bak
+                if anchor['y_bottom'] - (anchor['h'] * 0.5) < word_y < anchor['y_bottom'] + (anchor['h'] * 7):
+                    candidate_words.append({
+                        'text': ocr_data['text'][i],
+                        'top': ocr_data['top'][i],
+                        'left': ocr_data['left'][i]
+                    })
+            except (ValueError, IndexError):
+                continue
+        
+        if not candidate_words:
+            return None
+
+        # 4. Kelimeleri satırlara grupla ve birleştir
+        # Satırları dikey konumlarına göre sırala
+        candidate_words.sort(key=lambda w: (w['top'], w['left']))
+        
+        full_text_parts = []
+        last_top = -1
+        
+        for word in candidate_words:
+            # Durdurma anahtar kelimesi bulunduysa adresi kes
+            if any(stop_kw.lower() in (word['text'] or '').lower() for stop_kw in stop_keywords):
+                break
+            
+            # Yeni bir satıra geçip geçmediğini kontrol et (küçük bir toleransla)
+            if last_top != -1 and word['top'] > last_top + (anchor['h'] * 0.5):
+                full_text_parts.append('\n') # Satır sonu ekle (isteğe bağlı)
+
+            full_text_parts.append(word['text'])
+            last_top = word['top']
+
+        return ' '.join(full_text_parts).replace('\n ', '\n').strip() if full_text_parts else None
+    
     def _normalize_amount(self, amount: str) -> str:
         """Tutar değerini normalize et."""
         if not amount:
@@ -349,7 +395,9 @@ class FaturaRegexAnaliz:
         # Tanimlamalar: `anahtar`: ( (koordinat_anahtar_kelimeleri, değer_regex), [yedek_regex_desenleri] )
         extraction_map = {
             'fatura_numarasi': (
-                (['fatura no', 'faturano', 'fatura numarası', 'invoice no'], r'(?!irsaliye)([A-Z0-9]{8,20})'),
+                # Koordinat arama desenini daha esnek hale getiriyoruz.
+                (['fatura no', 'faturano', 'fatura numarası', 'invoice no'], r'([A-Z0-9\-\/.]{6,20})'), 
+                # Yedek desenler, spesifik formatlar için kalabilir.
                 [r"\b(?!irsaliye)([A-Z]{2,4}\d{12,15})\b", r"\b(?!irsaliye)([A-Z]\d{14,16})\b"]
             ),
             'fatura_tarihi': (
@@ -407,14 +455,16 @@ class FaturaRegexAnaliz:
             ),
         }
 
-        # Önce adresleri özel fonksiyonla arayalım
-        data['satici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['satıcı', 'satici', 'firma adres'])
-        data['alici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['alıcı', 'alici', 'müşteri adres', 'sayın'])
+        # Adresleri ve diğer çok satırlı alanları özel fonksiyonla ara
+        stop_keywords = ['vergi dairesi', 'v.d.', 'vergi no', 'vkn', 'telefon', 'tel', 'email', 'e-posta', 'web']
+        data['satici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['adres'], stop_keywords)
+        # Alıcı adresi için hem "adres" hem de "sayın" gibi anahtar kelimeler referans olabilir
+        data['alici_adres'] = self._find_multiline_value_below_keyword(ocr_data, ['alıcı', 'alici', 'sayın'], stop_keywords)
 
 
         for field, (coord_rule, fallback_patterns) in extraction_map.items():
             # Eğer veri zaten bulunduysa (örn: adres), tekrar arama
-            if data.get(field):
+            if data.get(field) is not None:
                 continue
 
             keywords, value_pattern = coord_rule
@@ -654,17 +704,17 @@ class FaturaRegexAnaliz:
     def resmi_on_isle(self, img: np.ndarray, gurultu_azaltma: bool = True) -> np.ndarray:
         """
         OCR için resmi ön işlemden geçirir.
-        
-        Args:
-            img (np.ndarray): İşlenecek resim (BGR formatında)
-            gurultu_azaltma (bool): Gürültü azaltma işlemi yapılsın mı?
-            
-        Returns:
-            np.ndarray: İşlenmiş resim (gri tonlamada)
+        Adım 1: Eğiklik Düzeltme (Deskewing)
+        Adım 2: CLAHE ile kontrast iyileştirme
+        Adım 3: Gürültü Azaltma ve İkilileştirme
         """
-        print("🔧 Resim ön işleme başlatılıyor...")
+        print("🔧 Gelişmiş resim ön işleme başlatılıyor...")
         
         try:
+            # Adım 1: Eğiklik Düzeltme
+            img = self._duzeltme(img)
+            print("   ✅ Eğiklik düzeltildi (Deskewing)")
+
             # Küçük resimleri büyüt (OCR kalitesi için)
             height, width = img.shape[:2]
             if width < 1000 or height < 1000:
@@ -674,29 +724,31 @@ class FaturaRegexAnaliz:
                 img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
                 print(f"   ✅ Resim ölçeklendirildi: {new_width}x{new_height}")
             
-            # 1. BGR'den gri tonlamaya çevir
+            # Adım 2: Gri tonlama ve CLAHE
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             print("   ✅ Gri tonlamaya çevrildi")
+
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+            enhanced_gray = clahe.apply(gray)
+            print("   ✅ CLAHE ile kontrast iyileştirildi")
             
             if gurultu_azaltma:
-                # 2. Gaussian blur ile gürültü azaltma
-                blur = cv2.GaussianBlur(gray, (5, 5), 0)
+                # Adım 3: Gürültü Azaltma ve İkilileştirme
+                blur = cv2.GaussianBlur(enhanced_gray, (5, 5), 0)
                 print("   ✅ Gaussian blur uygulandı")
                 
-                # 3. Adaptif eşikleme ile siyah-beyaz yapma
                 thresh = cv2.adaptiveThreshold(
                     blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                     cv2.THRESH_BINARY, 11, 2
                 )
                 print("   ✅ Adaptif eşikleme uygulandı")
                 
-                # 4. Median blur ile ekstra parazit azaltma
                 clean = cv2.medianBlur(thresh, 3)
                 print("   ✅ Median blur uygulandı")
                 
                 return clean
             else:
-                return gray
+                return enhanced_gray
                 
         except Exception as e:
             print(f"❌ Resim ön işleme hatası: {e}")

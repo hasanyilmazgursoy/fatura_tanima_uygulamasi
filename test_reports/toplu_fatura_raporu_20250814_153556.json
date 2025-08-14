@@ -1,0 +1,2469 @@
+[
+    {
+        "dosya": "fatura\\2.png",
+        "analiz_zamani": "2025-08-14 15:35:04",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 296,
+            "gecerli_kelime": 221,
+            "ham_metin_uzunlugu": 1489
+        },
+        "regex": {
+            "tarih": [
+                "08-07-2023",
+                "07-07-2023",
+                "07.07.2023"
+            ],
+            "para": [
+                "49,80 TL",
+                "17,93 TL",
+                "99,59 TL",
+                "99,59",
+                "0,00 TL",
+                "117,52",
+                "117,52 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [
+                "0101684434"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [
+                "ahirticaret@gmail.com",
+                "pf+9aawxqy4@trendyolmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "93bd8c64-998c-4e70-a166-6b7cba727257"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "ahirticaret@gmail.com",
+            "ettn": "93bd8c64-998c-4e70-a166-6b7cba727257",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "HAK2023000017462",
+            "fatura_tarihi": "08-07-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "0101684434",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "99,59",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['49,80', '17,93', '99,59', '99,59', '0,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\3.png",
+        "analiz_zamani": "2025-08-14 15:35:05",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 343,
+            "gecerli_kelime": 227,
+            "ham_metin_uzunlugu": 1543
+        },
+        "regex": {
+            "tarih": [
+                "04-03-2024"
+            ],
+            "para": [
+                "266,58TL",
+                "0,00TL",
+                "53,32TL",
+                "319,90TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "eface23500"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "47050556620"
+            ],
+            "telefon": [
+                "03124257062"
+            ],
+            "email": [
+                "ayhanlarkozmetik@hotmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "120449"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "ayhanlarkozmetik@hotmail.com",
+            "ettn": "5c565ca6-b2f6-4c4a-b004-75cface23500",
+            "para_birimi": null,
+            "satici_adres": "menem enn nee vene menemen. esses ee vc e fn \n | TARİH \n------",
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "04-03-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "con ea odak kozmetik paz. tic pet. e paz.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "6340051850",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "266,58TL",
+            "alici_tckn": "47050556620",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['266,58', '0,00', '53,32', '319,90', '319,90']"
+        }
+    },
+    {
+        "dosya": "fatura\\4.png",
+        "analiz_zamani": "2025-08-14 15:35:07",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 375,
+            "gecerli_kelime": 273,
+            "ham_metin_uzunlugu": 1818
+        },
+        "regex": {
+            "tarih": [
+                "03-07-2025"
+            ],
+            "para": [
+                "2.374,17 TL",
+                "0,00 TL",
+                "474,83 TL",
+                "2.849,00TL",
+                "2.849,00 TL"
+            ],
+            "iban": [
+                "TR13 0006 4000 0011 0571 3558 68"
+            ],
+            "fatura_no": [],
+            "vergi_no": [
+                "4781115841"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [
+                "info@intros.com.tr",
+                "pf+-xbrwrpoz@trendyolmall.com"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "047811158410000"
+            ],
+            "ticaret_sicil": [
+                "407888"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "info@intros.com.tr",
+            "ettn": null,
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "03-07-2025",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arsiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "4781115841",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "047811158410000",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "2.374,17",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['374,17', '0,00', '374,17', '20.00', '474,83']"
+        }
+    },
+    {
+        "dosya": "fatura\\5.png",
+        "analiz_zamani": "2025-08-14 15:35:07",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 175,
+            "gecerli_kelime": 125,
+            "ham_metin_uzunlugu": 936
+        },
+        "regex": {
+            "tarih": [],
+            "para": [],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [
+                "2111121118"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "05303984548"
+            ],
+            "email": [
+                "eticaret@cmkbilisim.com"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "b54d13ec-a17d-4373-9332-24c800eafd94"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "208644"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "eticaret@cmkbilisim.com",
+            "ettn": "b54d13ec-a17d-4373-9332-24c800eafd94",
+            "para_birimi": null,
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "İARS202300010278",
+            "fatura_tarihi": null,
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arsiv",
+            "satici_firma_unvani": "mam Cmk İnternet Pazarlama Bilişim San. Tic. A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "2111121118",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": null,
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": null
+        }
+    },
+    {
+        "dosya": "fatura\\6.png",
+        "analiz_zamani": "2025-08-14 15:35:08",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 178,
+            "gecerli_kelime": 20,
+            "ham_metin_uzunlugu": 111
+        },
+        "regex": {
+            "tarih": [],
+            "para": [],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [],
+            "tc_no": [],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": null,
+            "para_birimi": null,
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": null,
+            "son_odeme_tarihi": null,
+            "fatura_tipi": null,
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": null,
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": null,
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": null
+        }
+    },
+    {
+        "dosya": "fatura\\7.png",
+        "analiz_zamani": "2025-08-14 15:35:10",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 327,
+            "gecerli_kelime": 104,
+            "ham_metin_uzunlugu": 613
+        },
+        "regex": {
+            "tarih": [],
+            "para": [],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [],
+            "tc_no": [],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": null,
+            "para_birimi": null,
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": null,
+            "son_odeme_tarihi": null,
+            "fatura_tipi": null,
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": null,
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": null,
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['2374.17']"
+        }
+    },
+    {
+        "dosya": "fatura\\2022305234296_194_08_07_2024_06_14_37_120.pdf",
+        "analiz_zamani": "2025-08-14 15:35:11",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 319,
+            "gecerli_kelime": 260,
+            "ham_metin_uzunlugu": 1908
+        },
+        "regex": {
+            "tarih": [
+                "28-12-2022"
+            ],
+            "para": [
+                "199,00 TRY",
+                "0,00 TRY",
+                "18,00",
+                "30,36 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "ET52022000008073"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "EARSIV",
+                "e-Arsiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": null,
+            "para_birimi": "TRY",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "ET52022000008073",
+            "fatura_tarihi": "28-12-2022",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "EARSIV",
+            "satici_firma_unvani": "İÇ VE A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": null,
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": "Gürcan",
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "199,00",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['199,00', '0,00', '18,00', '30,36', '199,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\3599492397.pdf",
+        "analiz_zamani": "2025-08-14 15:35:12",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 365,
+            "gecerli_kelime": 308,
+            "ham_metin_uzunlugu": 2130
+        },
+        "regex": {
+            "tarih": [
+                "19.08.2023",
+                "20.08.2023"
+            ],
+            "para": [
+                "187,85",
+                "187,85 TL",
+                "33,33 TL",
+                "154,52 TL",
+                "154,52",
+                "30,90 TL",
+                "185,42 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "",
+                "7165566679"
+            ],
+            "vergi_no": [
+                "2650701090"
+            ],
+            "tc_no": [],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "e-arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "436165"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": null,
+            "para_birimi": "TL",
+            "satici_adres": "BattalgaziZafer Mahallesi Sadr Sokak Gürsoy Aslanbey mahhalesi halep caddesi azam \n2  Dursunlar Sitesi A blokBina No 13 kat 3 daire 10 durmaz apartmani 152 kat 4 zil ömerg no no \n ZAFER BATTALGAZI M BATTALGAZI Malatya ürsoy ASLANBEY BATTALGAZI BATTALGAZI \n 905377339964 Malatya",
+            "alici_adres": null,
+            "fatura_numarasi": "DM02023008727548",
+            "fatura_tarihi": "19.08.2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "7165566679",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": "33,33",
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "187,85",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['19.08', '20.08', '20.08', '187,85', '187,85']"
+        }
+    },
+    {
+        "dosya": "fatura\\5b41a434-d40d-4ee1-9054-9d9fe8095c58.pdf",
+        "analiz_zamani": "2025-08-14 15:35:15",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 360,
+            "gecerli_kelime": 201,
+            "ham_metin_uzunlugu": 1202
+        },
+        "regex": {
+            "tarih": [
+                "17.09.2023"
+            ],
+            "para": [
+                "900,00",
+                "0,00 TL",
+                "20,00",
+                "149,70 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "64474380938",
+                "56191253114"
+            ],
+            "telefon": [],
+            "email": [
+                "hacisekeroglu01@gmail.com"
+            ],
+            "fatura_tipi": [],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "hacisekeroglu01@gmail.com",
+            "ettn": "779d9791-4597-4f67-9d6e-cdd69ec3c9ef",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "GIB2023000000169",
+            "fatura_tarihi": "17.09.2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": null,
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "5369510726",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "900,00",
+            "alici_tckn": "64474380938",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['17.09', '748.50', '900,00', '0,00', '20,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\5c565ea6-b2f6-4e4a-b004-75cface23500.pdf",
+        "analiz_zamani": "2025-08-14 15:35:17",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 350,
+            "gecerli_kelime": 232,
+            "ham_metin_uzunlugu": 1566
+        },
+        "regex": {
+            "tarih": [
+                "04-03-2024"
+            ],
+            "para": [
+                "266,58TL",
+                "0,00TL",
+                "53,32TL",
+                "319,90TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "",
+                "5c565ea6"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "47050556620"
+            ],
+            "telefon": [
+                "03124257062"
+            ],
+            "email": [
+                "ayhanlarkozmetik@hotmail.com",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "063400518500001"
+            ],
+            "ticaret_sicil": [
+                "120449"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "ayhanlarkozmetik@hotmail.com",
+            "ettn": "5c565ea6-b2f6-4e4a-b004-75cface23500",
+            "para_birimi": null,
+            "satici_adres": "nn e nee nn —- e ------ ------ ------ ------ ne -----  TARİH | ------",
+            "alici_adres": null,
+            "fatura_numarasi": "İN012024000012739",
+            "fatura_tarihi": "04-03-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "odak kozmetik paz.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "5399240676",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "063400518500001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "53,32TL",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "266,58TL",
+            "alici_tckn": "47050556620",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['266,58', '266,58', '0,00', '53,32', '319,90']"
+        }
+    },
+    {
+        "dosya": "fatura\\62753525855359.Pdf",
+        "analiz_zamani": "2025-08-14 15:35:18",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 294,
+            "gecerli_kelime": 224,
+            "ham_metin_uzunlugu": 1380
+        },
+        "regex": {
+            "tarih": [
+                "01.06.2025"
+            ],
+            "para": [
+                "1.513,55TL",
+                "0,00",
+                "10,00",
+                "51,35",
+                "513,55",
+                "0,00TL",
+                "1.513,55 TL",
+                "151,35TL",
+                "1.664,90TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [
+                "1791321567"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "49050137667"
+            ],
+            "email": [
+                "iletisim@bofigo.com",
+                "4570665920_5350211484@hepsifatura.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "608b81dd-6264-4d37-a1ca-8d44ab1f0a79"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "iletisim@bofigo.com",
+            "ettn": "608b81dd-6264-4d37-a1ca-8d44ab1f0a79",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "BEG2025000173284",
+            "fatura_tarihi": "01.06.2025",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "BOFİGO GRUP SAN. VE e TİC. A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "1791321567",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "151,35TL",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "1.513,55TL",
+            "kalemler": null,
+            "miktar_ornekleri": "['0']",
+            "birim_fiyat_ornekleri": "['151.35', '01.06', '513,55', '0,00', '10,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\62953502114844.Pdf",
+        "analiz_zamani": "2025-08-14 15:35:20",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 310,
+            "gecerli_kelime": 229,
+            "ham_metin_uzunlugu": 1363
+        },
+        "regex": {
+            "tarih": [
+                "01.06.2025"
+            ],
+            "para": [
+                "1.513,55TL",
+                "10,00",
+                "51,35",
+                "513,55",
+                "0,00TL",
+                "1.513,55 TL",
+                "151,35TL",
+                "1.664,90TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "BFG2025000158735"
+            ],
+            "vergi_no": [
+                "1791321567"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "49050137667"
+            ],
+            "email": [
+                "iletisim@bofigo.com"
+            ],
+            "fatura_tipi": [],
+            "kdv_orani": [],
+            "ettn": [
+                "9eada1c3-33de-4b85-9271-93f73d51a317"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "iletisim@bofigo.com",
+            "ettn": "9eada1c3-33de-4b85-9271-93f73d51a317",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "BFG2025000158735",
+            "fatura_tarihi": "01.06.2025",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": null,
+            "satici_firma_unvani": "BOFİGO GRUP SAN. VE page TIC. A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "1791321567",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "151,35TL",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "1.513,55TL",
+            "kalemler": null,
+            "miktar_ornekleri": "['0']",
+            "birim_fiyat_ornekleri": "['01.06', '513,55', '10,00', '51,35', '513,55']"
+        }
+    },
+    {
+        "dosya": "fatura\\7RM2023000000819.pdf",
+        "analiz_zamani": "2025-08-14 15:35:21",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 218,
+            "gecerli_kelime": 161,
+            "ham_metin_uzunlugu": 946
+        },
+        "regex": {
+            "tarih": [
+                "31/01/2023"
+            ],
+            "para": [
+                "69,00",
+                "0,00",
+                "2,56",
+                "34,50"
+            ],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [
+                "8150037902"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "316680"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": "8C8B1517-F56F-4D10-891E-B8052B5D891B",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "31/01/2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "TAB GIDA SANAYİ VE TİCARET A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "8150037902",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "2,56",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "2,56",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['69,00', '0,00', '0,00', '0,00', '0,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\80626179.pdf",
+        "analiz_zamani": "2025-08-14 15:35:23",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 409,
+            "gecerli_kelime": 328,
+            "ham_metin_uzunlugu": 2151
+        },
+        "regex": {
+            "tarih": [
+                "30.09.2022",
+                "01/09/2022",
+                "30/09/2022",
+                "17.10.2022",
+                "31.10.2022",
+                "15.11.2022",
+                "07.09-30",
+                "01.09-07",
+                "07.09.2023",
+                "30.01.2021"
+            ],
+            "para": [
+                "129,28 TL",
+                "224,00",
+                "136,00",
+                "103,06",
+                "18,55",
+                "0,00",
+                "40,83",
+                "31,04",
+                "26,23",
+                "19,99"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "MIN2022010883559",
+                "77960509"
+            ],
+            "vergi_no": [],
+            "tc_no": [],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": null,
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "MIN2022010883559",
+            "fatura_tarihi": "30.09.2022",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "0017453583",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": "Taahhüt",
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": "18,55",
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "103,06",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "103,06",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['30.09', '17.10', '17.10', '129,28', '31.10']"
+        }
+    },
+    {
+        "dosya": "fatura\\81981701.pdf",
+        "analiz_zamani": "2025-08-14 15:35:25",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 354,
+            "gecerli_kelime": 278,
+            "ham_metin_uzunlugu": 1836
+        },
+        "regex": {
+            "tarih": [
+                "31.10.2022",
+                "01/10/2022",
+                "31/10/2022",
+                "15.11.2022",
+                "15.12.2022",
+                "07.09.2023",
+                "30.01.2021"
+            ],
+            "para": [
+                "280,00",
+                "170,00",
+                "85,94",
+                "15,47",
+                "0,00",
+                "85,90",
+                "110,00",
+                "8,59",
+                "24,06",
+                "24,06 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "MIN2022012670790"
+            ],
+            "vergi_no": [],
+            "tc_no": [],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "e-Arsiv",
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": null,
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "MIN2022012670790",
+            "fatura_tarihi": "31.10.2022",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arsiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "0017453583",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": "Hizmetleri",
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": "15,47",
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "85,94",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "85,94",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['31.10', '15.11', '15.11', '15.12', '280,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\A302023001485400.pdf",
+        "analiz_zamani": "2025-08-14 15:35:26",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 249,
+            "gecerli_kelime": 172,
+            "ham_metin_uzunlugu": 1251
+        },
+        "regex": {
+            "tarih": [
+                "17.04.2023",
+                "18.04.2023"
+            ],
+            "para": [],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [
+                "9480423762",
+                "6080712084"
+            ],
+            "tc_no": [],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "661036"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": null,
+            "ettn": "5D5337B3-19D5-1EDD-B7CA-1CE168725B20",
+            "para_birimi": "TL",
+            "satici_adres": "Ödeme Tarihi :17.04.2023 \n  Ünvan YURTİÇİ Kargo :MNG KARGO VE YURTDIŞI \n  Kargo",
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "17.04.2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "Yeni Mağazacılık A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "6080712084",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": "Kodu",
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": null,
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['17.04', '18.04']"
+        }
+    },
+    {
+        "dosya": "fatura\\c84976bc-b3ff-4d85-b7e8-b36ac571e770.pdf",
+        "analiz_zamani": "2025-08-14 15:35:28",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 435,
+            "gecerli_kelime": 338,
+            "ham_metin_uzunlugu": 2458
+        },
+        "regex": {
+            "tarih": [
+                "30.08.2023"
+            ],
+            "para": [
+                "318,75TL",
+                "0,00",
+                "0,00TL",
+                "620,00",
+                "106,25TL",
+                "637,50TL",
+                "531,25TL",
+                "907,00"
+            ],
+            "iban": [
+                "TR28 0006 4000 0011 1700 5574 30"
+            ],
+            "fatura_no": [],
+            "vergi_no": [
+                "2710802150"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "08508408400"
+            ],
+            "email": [
+                "info@daynesaglik.com",
+                "pf+mozoz350@trendyolmail.co"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv",
+                "E-arşiv",
+                "e-Arşiv",
+                "earsiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "027108021500001"
+            ],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "info@daynesaglik.com",
+            "ettn": null,
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "30.08.2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arsiv",
+            "satici_firma_unvani": "Dayne Sağlık Ürünleri Ltd.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "2710802150",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "027108021500001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "637,50TL",
+            "kalemler": null,
+            "miktar_ornekleri": "['2']",
+            "birim_fiyat_ornekleri": "['318,75', '0,00', '0,00', '620,00', '106,25']"
+        }
+    },
+    {
+        "dosya": "fatura\\EArchive.pdf",
+        "analiz_zamani": "2025-08-14 15:35:29",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 373,
+            "gecerli_kelime": 265,
+            "ham_metin_uzunlugu": 1650
+        },
+        "regex": {
+            "tarih": [
+                "28-08-2023",
+                "28.08.2023"
+            ],
+            "para": [
+                "90,83 TL",
+                "90,83",
+                "20,00",
+                "18,17",
+                "109,00 TL"
+            ],
+            "iban": [
+                "TR56 0006 2000 3430 0006 2952 38"
+            ],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [
+                "2921197346"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "02165147171"
+            ],
+            "email": [
+                "info@derminix.com.tr",
+                "pf+j54xrejn@trendyolmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "48B717A4-331A-4A5A-B755-332C7F9FE675"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "info@derminix.com.tr",
+            "ettn": "48B717A4-331A-4A5A-B755-332C7F9FE675",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "DRX2023000001147",
+            "fatura_tarihi": "28-08-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "2921197346",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "18,17",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "90,83",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['28.08', '90,83', '90,83', '20,00', '18,17']"
+        }
+    },
+    {
+        "dosya": "fatura\\earchive_invoiceHNP2024000000388.pdf..pdf",
+        "analiz_zamani": "2025-08-14 15:35:31",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 328,
+            "gecerli_kelime": 230,
+            "ham_metin_uzunlugu": 1519
+        },
+        "regex": {
+            "tarih": [
+                "03-12-2024"
+            ],
+            "para": [
+                "960,00",
+                "0,00 TL",
+                "9620,00",
+                "39,00 TL",
+                "195,00 TL",
+                "234,00 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "36445648460",
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [
+                "hanporium@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-ARŞIV",
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "1234b363-c237-4351-912e-2c3778cf9102"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "7461208598"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "hanporium@gmail.com",
+            "ettn": "1234b363-c237-4351-912e-2c3778cf9102",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": "HNP2024000000388",
+            "fatura_tarihi": "03-12-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-ARŞIV",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "7461208598",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": "39,00",
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "195,00",
+            "alici_tckn": "36445648460",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['960,00', '0,00', '9620,00', '39,00', '195,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\fae4674b-468b-4b88-a26c-6a9aa8812c17.pdf",
+        "analiz_zamani": "2025-08-14 15:35:32",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 311,
+            "gecerli_kelime": 256,
+            "ham_metin_uzunlugu": 1867
+        },
+        "regex": {
+            "tarih": [
+                "24.04.2023",
+                "23.04.2023"
+            ],
+            "para": [
+                "16,94",
+                "3,05",
+                "113,87",
+                "9,12",
+                "195,61",
+                "0,00",
+                "64,80",
+                "5,19",
+                "14,31",
+                "212,97"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "TYS2023010677054",
+                ""
+            ],
+            "vergi_no": [
+                "3130557669",
+                "8590921777"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "49055265079"
+            ],
+            "email": [
+                "cagaptayO9@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "fae4674b-468b-4b88-a26c-6a9aa8812c17"
+            ],
+            "mersis_no": [
+                "031305576690001"
+            ],
+            "ticaret_sicil": [
+                "711896"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "cagaptayO9@gmail.com",
+            "ettn": "fae4674b-468b-4b88-a26c-6a9aa8812c17",
+            "para_birimi": "TRY",
+            "satici_adres": "TY 07000 Gazipaşa/  pasa/ Antalya S2023010677054 y \nfae4674b-468b-4b88-a26c-6a9aa8812c17 ETTN:",
+            "alici_adres": null,
+            "fatura_numarasi": "TYS2023010677054",
+            "fatura_tarihi": "24.04.2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3130557669",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "031305576690001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "195,61",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['24.04', '24.04', '24.04', '23.04', '16,94']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderbabaPdf.pdf",
+        "analiz_zamani": "2025-08-14 15:35:35",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 483,
+            "gecerli_kelime": 381,
+            "ham_metin_uzunlugu": 2646
+        },
+        "regex": {
+            "tarih": [
+                "21-10-2024",
+                "21.10.2024"
+            ],
+            "para": [
+                "909,08 TRY",
+                "436,05 TRY",
+                "512,67 TRY",
+                "010,00",
+                "51,27 TRY",
+                "654,54 TRY",
+                "313,95 TRY",
+                "369,13 TRY",
+                "36,91 TRY",
+                "969,98 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905526507994"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "cagaptayO9@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": null,
+            "para_birimi": "TRY",
+            "satici_adres": "*Urün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \nil  *Sadece www.flo.com.tr'den almış olduğunuz ürünleri mağazalarından değiştirebilir iade edebilirsiniz.Ürün bedeli iadesi online birimi satın satış veya \n gerçekleştirilmektedir.İade tarafından değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2024003714883",
+            "fatura_tarihi": "21-10-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "969,98",
+            "kalemler": null,
+            "miktar_ornekleri": "['1', '1']",
+            "birim_fiyat_ornekleri": "['909,08', '436,05', '512,67', '010,00', '51,27']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (1).pdf",
+        "analiz_zamani": "2025-08-14 15:35:37",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 459,
+            "gecerli_kelime": 364,
+            "ham_metin_uzunlugu": 2551
+        },
+        "regex": {
+            "tarih": [
+                "27-12-2023",
+                "27.12.2023"
+            ],
+            "para": [
+                "636,35 TRY",
+                "79,55 TRY",
+                "564,04",
+                "10,00",
+                "56,40 TRY",
+                "620,44 TRY",
+                "564,04 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2023005705750",
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "349c324c-6ca6-446c-b191-2329cbdaaf82"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": "349c324c-6ca6-446c-b191-2329cbdaaf82",
+            "para_birimi": "TRY",
+            "satici_adres": "*Urün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \nil  *Almis olduğunuz ürünleri mağazalarından değiştirebilir iade edebilirsiniz. Ürün bedeli iadesi online birimi tarafından gerçekleştirilmektedir. satış veya \n İade değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2023005705750",
+            "fatura_tarihi": "27-12-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "620,44",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['636,35', '79,55', '564,04', '10,00', '56,40']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (2).pdf",
+        "analiz_zamani": "2025-08-14 15:35:39",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 463,
+            "gecerli_kelime": 367,
+            "ham_metin_uzunlugu": 2674
+        },
+        "regex": {
+            "tarih": [
+                "06-06-2024",
+                "06.06.2024"
+            ],
+            "para": [
+                "436,35 TRY",
+                "72,00 TRY",
+                "370,90 TRY",
+                "610,00",
+                "37,09 TRY",
+                "41,66TRY",
+                "20,00",
+                "8,33 TRY",
+                "457,98 TRY",
+                "412,56 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2024002264941"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905399240676"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": null,
+            "para_birimi": "TRY",
+            "satici_adres": "*Ürün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \n edebilirsiniz.Ürün *Sadece www.flo.com.tr'den almış olduğunuz ürünleri mağazalarından değiştirebilir iade bedeli iadesi online birimi satın satış veya \n tarafından gerçekleştirilmektedir.lade değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2024002264941",
+            "fatura_tarihi": "06-06-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "457,98",
+            "kalemler": null,
+            "miktar_ornekleri": "['1', '1']",
+            "birim_fiyat_ornekleri": "['436,35', '72,00', '370,90', '610,00', '37,09']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (3).pdf",
+        "analiz_zamani": "2025-08-14 15:35:41",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 505,
+            "gecerli_kelime": 404,
+            "ham_metin_uzunlugu": 2837
+        },
+        "regex": {
+            "tarih": [
+                "18-10-2024",
+                "18.10.2024"
+            ],
+            "para": [
+                "1.045,45 TRY",
+                "248,65 TRY",
+                "819,40 TRY",
+                "010,00",
+                "81,94 TRY",
+                "636,35TRY",
+                "151,35 TRY",
+                "498,76 TRY",
+                "10,00",
+                "49,88 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2024003694999"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "09547582-2d9b-4c23-b8e3-75386e7c77fd"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": "09547582-2d9b-4c23-b8e3-75386e7c77fd",
+            "para_birimi": "TRY",
+            "satici_adres": "*Urün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \nil  *Sadece www.flo.com.tr'den almış olduğunuz ürünleri mağazalarından değiştirebilir iade edebilirsiniz.Ürün bedeli iadesi online birimi satın satış veya \n gerçekleştirilmektedir.İade tarafından değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2024003694999",
+            "fatura_tarihi": "18-10-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "1.499,97",
+            "kalemler": null,
+            "miktar_ornekleri": "['1', '1', '1']",
+            "birim_fiyat_ornekleri": "['045,45', '248,65', '819,40', '010,00', '81,94']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (4).pdf",
+        "analiz_zamani": "2025-08-14 15:35:43",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 489,
+            "gecerli_kelime": 394,
+            "ham_metin_uzunlugu": 2727
+        },
+        "regex": {
+            "tarih": [
+                "24-04-2025",
+                "24.04.2025"
+            ],
+            "para": [
+                "1.181,81 TRY",
+                "226,09 TRY",
+                "976,27 TRY",
+                "010,00",
+                "97,63 TRY",
+                "909,08 TRY",
+                "173,91TRY",
+                "750,98 TRY",
+                "75,10 TRY",
+                "1.899,98 TRY"
+            ],
+            "iban": [
+                "TR62 0006 7010 0000 0067 9295 37"
+            ],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "a5a720a6-cc42-4362-a675-d067b4f41180"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": "a5a720a6-cc42-4362-a675-d067b4f41180",
+            "para_birimi": "TRY",
+            "satici_adres": "*Ürün değişimi ulaştığı iadesi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ve veya ve \n şekilde, promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. varsa ve \n edebilirsiniz.Ürün olduğunuz mağazalarından değiştirebilir *Sadece www.flo.com.tr'den almış ürünleri iade bedeli iadesi online satın veya \n gerçekleştirilmektedir.İade değişim birimi tarafından işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden satış ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2025001157280",
+            "fatura_tarihi": "24-04-2025",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "1.899,98",
+            "kalemler": "[{'urun_adi': 'ASSN. SANTA Siyah Erkek Sneaker Çift 1.181,81 226,09 976,27'}, {'urun_adi': '101570341001 Salvano BURGOS Beyaz Erkek Sneaker 1Cift 909,08'}, {'urun_adi': 'Salvano BURGOS Beyaz Erkek Sneaker 1Cift 909,08 173,91TRY 750,98 “010,00 75,10'}]",
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['181,81', '226,09', '976,27', '010,00', '97,63']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (5).pdf",
+        "analiz_zamani": "2025-08-14 15:35:45",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 473,
+            "gecerli_kelime": 389,
+            "ham_metin_uzunlugu": 2762
+        },
+        "regex": {
+            "tarih": [
+                "30-04-2025",
+                "30.04.2025"
+            ],
+            "para": [
+                "2.090,90 TRY",
+                "1.150,00 TRY",
+                "1.045,45 TRY",
+                "10,00",
+                "104,54 TRY",
+                "1.149,99 TRY",
+                "104,55 TRY",
+                "2.299,99 TRY",
+                "209,09 TRY"
+            ],
+            "iban": [
+                "TR62 0006 7010 0000 0067 9295 37"
+            ],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "8303805c-97d9-442b-8862-7b18f795d9ba"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": "8303805c-97d9-442b-8862-7b18f795d9ba",
+            "para_birimi": "TRY",
+            "satici_adres": "*Ürün değişimi ulaştığı iadesi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ve veya ve \n şekilde, promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. varsa ve \n edebilirsiniz.Ürün olduğunuz mağazalarından değiştirebilir *Sadece www.flo.com.tr'den almış ürünleri iade bedeli iadesi online satın veya \n gerçekleştirilmektedir.İade değişim birimi tarafından işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden satış ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2025001232610",
+            "fatura_tarihi": "30-04-2025",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "2.299,99",
+            "kalemler": "[{'urun_adi': '101988847001 Reebok HAMPSTED Beyaz Erkek Sneaker Çift 2.090,90 1.150,00 1.045,45'}, {'urun_adi': '101988848001 Reebok HAMPSTED Siyah Erkek Sneaker Çift 2.090,90 1.149,99 1.045,45'}]",
+            "miktar_ornekleri": "['1', '1']",
+            "birim_fiyat_ornekleri": "['090,90', '150,00', '045,45', '10,00', '104,54']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (6).pdf",
+        "analiz_zamani": "2025-08-14 15:35:47",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 467,
+            "gecerli_kelime": 372,
+            "ham_metin_uzunlugu": 2625
+        },
+        "regex": {
+            "tarih": [
+                "19-11-2023",
+                "19.11.2023"
+            ],
+            "para": [
+                "499,99 TRY",
+                "137,50 TRY",
+                "374,99 TRY",
+                "010,00",
+                "37,50 TRY",
+                "412,49 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2023004790826",
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": null,
+            "para_birimi": "TRY",
+            "satici_adres": "*Urün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \nil  *Almis olduğunuz ürünleri mağazalarından değiştirebilir iade edebilirsiniz. Ürün bedeli iadesi online birimi tarafından gerçekleştirilmektedir. satış veya \n İade değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2023004790826",
+            "fatura_tarihi": "19-11-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "412,49",
+            "kalemler": null,
+            "miktar_ornekleri": "['1']",
+            "birim_fiyat_ornekleri": "['499,99', '137,50', '374,99', '010,00', '37,50']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (7).pdf",
+        "analiz_zamani": "2025-08-14 15:35:49",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 490,
+            "gecerli_kelime": 387,
+            "ham_metin_uzunlugu": 2734
+        },
+        "regex": {
+            "tarih": [
+                "12-12-2023",
+                "12.12.2023"
+            ],
+            "para": [
+                "481,81 TRY",
+                "100,00 TRY",
+                "390,90 TRY",
+                "010,00",
+                "39,09 TRY",
+                "33,33TRY",
+                "20,00",
+                "6,66 TRY",
+                "469,98 TRY",
+                "424,23 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2023005392315",
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905399240676"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "e063d67a-5ae9-4579-89e0-3694165f89ca"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": "e063d67a-5ae9-4579-89e0-3694165f89ca",
+            "para_birimi": "TRY",
+            "satici_adres": "*Ürün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \n Ürün *Almış olduğunuz ürünleri mağazalarından değiştirebilir iade edebilirsiniz. bedeli iadesi online birimi tarafından gerçekleştirilmektedir. satış veya \n lade değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2023005392315",
+            "fatura_tarihi": "12-12-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arsiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "469,98",
+            "kalemler": null,
+            "miktar_ornekleri": "['1', '1']",
+            "birim_fiyat_ornekleri": "['481,81', '100,00', '390,90', '010,00', '39,09']"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf.pdf",
+        "analiz_zamani": "2025-08-14 15:35:51",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 475,
+            "gecerli_kelime": 381,
+            "ham_metin_uzunlugu": 2636
+        },
+        "regex": {
+            "tarih": [
+                "28-12-2023",
+                "28.12.2023"
+            ],
+            "para": [
+                "81,81 TRY",
+                "10,22 TRY",
+                "72,52TRY",
+                "010,00",
+                "7,25 TRY",
+                "10,23 TRY",
+                "159,53 TRY",
+                "20,45 TRY",
+                "145,03 TRY",
+                "14,50 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2023005719719"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "dcee131c-e9ec-4d85-82ae-e143d155d1f9"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "genelmuhasebe@flo.com.tr",
+            "ettn": "dcee131c-e9ec-4d85-82ae-e143d155d1f9",
+            "para_birimi": "TRY",
+            "satici_adres": "*Ürün iadesi değişimi için kesinlikle ürünün faturası irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması size ulaştığı şekilde, ve veya ve varsa \n promosyonları tüm aksesuarları ile teslim edilmesi gerekmektedir. ve \n Ürün *Almış olduğunuz ürünleri mağazalarından değiştirebilir iade edebilirsiniz. bedeli iadesi online birimi tarafından gerçekleştirilmektedir. satış veya \n lade değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. ve",
+            "alici_adres": null,
+            "fatura_numarasi": "FEA2023005719719",
+            "fatura_tarihi": "28-12-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3880239429",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "038802394290001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "159,53",
+            "kalemler": null,
+            "miktar_ornekleri": "['1', '1']",
+            "birim_fiyat_ornekleri": "['81,81', '10,22', '72,52', '010,00', '7,25']"
+        }
+    },
+    {
+        "dosya": "fatura\\prod_2023-09_2bda4b0f-bc47-4208-9c28-4cf54110eb73.pdf",
+        "analiz_zamani": "2025-08-14 15:35:52",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 370,
+            "gecerli_kelime": 275,
+            "ham_metin_uzunlugu": 1826
+        },
+        "regex": {
+            "tarih": [
+                "27-08-2023"
+            ],
+            "para": [
+                "114,18",
+                "570,92",
+                "20,00",
+                "685,10 TL"
+            ],
+            "iban": [
+                "TR50 0006 2000 4130 0006 2954 81",
+                "TR61 0006 4000 0011 1660 2210 35",
+                "TR32 0011 1000 0000 0050 1633 85",
+                "TR74 0004 6002 3588 8000 1017 12"
+            ],
+            "fatura_no": [],
+            "vergi_no": [
+                "3250362543"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "02164496778"
+            ],
+            "email": [
+                "muhasebe@egeteknoloji.com"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv",
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "BC2CE324-649F-4072-99E1-884A14535E83"
+            ],
+            "mersis_no": [
+                "032503625430001"
+            ],
+            "ticaret_sicil": [
+                "491452"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "muhasebe@egeteknoloji.com",
+            "ettn": "BC2CE324-649F-4072-99E1-884A14535E83",
+            "para_birimi": "TL",
+            "satici_adres": null,
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "27-08-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arsiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "3250362543",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": "032503625430001",
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "570,92",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['114,18', '570,92', '570,92', '20,00', '114,18']"
+        }
+    },
+    {
+        "dosya": "fatura\\prod_2023-10_370159_fd89b6e5-883e-4daf-a31c-236db74a4ffe.pdf",
+        "analiz_zamani": "2025-08-14 15:35:54",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 374,
+            "gecerli_kelime": 259,
+            "ham_metin_uzunlugu": 1697
+        },
+        "regex": {
+            "tarih": [
+                "03-10-2023",
+                "17-09-2023"
+            ],
+            "para": [
+                "212,54 TL",
+                "020,00",
+                "31,61 TL",
+                "189,64 TL",
+                "31,87 TL",
+                "191,21 TL",
+                "646,22 TL",
+                "328,85 TL",
+                "317,37 TL",
+                "63,48 TL"
+            ],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [],
+            "tc_no": [
+                "50878791296",
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [
+                "canasilioglu@gmail.com",
+                "pf+5rqx9nlj@trendyolmail.com"
+            ],
+            "fatura_tipi": [
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "B546CF1A-3F4D-4B31-A519-C091E220F7E4"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "0920431683"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "canasilioglu@gmail.com",
+            "ettn": "B546CF1A-3F4D-4B31-A519-C091E220F7E4",
+            "para_birimi": "TL",
+            "satici_adres": "İmzası: \n İade Edilen Malın:",
+            "alici_adres": null,
+            "fatura_numarasi": null,
+            "fatura_tarihi": "03-10-2023",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "E-Arşiv",
+            "satici_firma_unvani": null,
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "0920431683",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": null,
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "646,22",
+            "alici_tckn": "50878791296",
+            "kalemler": null,
+            "miktar_ornekleri": "['2']",
+            "birim_fiyat_ornekleri": "['212,54', '020,00', '31,61', '189,64', '020,00']"
+        }
+    },
+    {
+        "dosya": "fatura\\prod_2024-09_0263d6d4-f2c0-4616-8641-ed0005bb7293.pdf",
+        "analiz_zamani": "2025-08-14 15:35:56",
+        "ocr_istatistikleri": {
+            "toplam_kelime": 369,
+            "gecerli_kelime": 284,
+            "ham_metin_uzunlugu": 1985
+        },
+        "regex": {
+            "tarih": [
+                "16-09-2024",
+                "14-09-2024",
+                "03.04.009"
+            ],
+            "para": [
+                "420,00",
+                "83,33TL",
+                "416,68TL",
+                "416,67TL",
+                "500,00TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "WEB2024000567670"
+            ],
+            "vergi_no": [
+                "7330418107"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "02165044170"
+            ],
+            "email": [
+                "noreply@procsin.com",
+                "pf+kalnm4ro@trendyolmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "BE30BCB5-A335-4053-8075-B1ED010F46C8"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": []
+        },
+        "structured": {
+            "satici_email": "noreply@procsin.com",
+            "ettn": "BE30BCB5-A335-4053-8075-B1ED010F46C8",
+            "para_birimi": null,
+            "satici_adres": "- \n E-Arşiv izini kapsamında elektronik ortamda iletilmiştir.Bu internet üzerinden gerçekleşmiştir. satış",
+            "alici_adres": "Delivery; Başharık Mah Başharık mah. sok. Güçlü Battalgazi Malatya * Gonca Kat:3 No:4 MALATYA/BATTALGAZI apt. \n Yalnız Lira * Beşyüz \n Ref. * Fatura Numarası :1-R-7-5664278 \n Mağaza Adı :E-Ticaret Mağaza * \n Ödeme :TY(Trendyol Temlik Hesabı) * 500TL",
+            "fatura_numarasi": "WEB2024000567670",
+            "fatura_tarihi": "16-09-2024",
+            "son_odeme_tarihi": null,
+            "fatura_tipi": "e-Arşiv",
+            "satici_firma_unvani": "Tutarı",
+            "satici_vergi_dairesi": null,
+            "satici_vergi_numarasi": "7330418107",
+            "satici_ticaret_sicil": null,
+            "satici_mersis_no": null,
+            "alici_firma_unvani": "Malatya",
+            "alici_vergi_dairesi": null,
+            "mal_hizmet_toplam": null,
+            "toplam_iskonto": null,
+            "vergi_haric_tutar": null,
+            "hesaplanan_kdv": null,
+            "vergiler_dahil_toplam": null,
+            "genel_toplam": "416,68TL",
+            "kalemler": null,
+            "miktar_ornekleri": null,
+            "birim_fiyat_ornekleri": "['03.04', '420,00', '83,33', '416,68', '416,67']"
+        }
+    }
+]
