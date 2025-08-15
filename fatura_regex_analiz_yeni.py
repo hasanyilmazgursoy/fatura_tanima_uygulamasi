@@ -1040,6 +1040,14 @@ class FaturaRegexAnaliz:
         # 2. Resmi ön işlemden geçir
         processed_img = self.resmi_on_isle(img)
         
+        # --- HATA AYIKLAMA KODU ---
+        # Ön işlemden geçmiş resmi diske kaydederek Tesseract'ın ne gördüğünü analiz edelim.
+        debug_dosya_adi = f"debug_processed_{os.path.basename(dosya_yolu)}"
+        debug_dosya_yolu = os.path.join("test_reports", debug_dosya_adi)
+        cv2.imwrite(debug_dosya_yolu, processed_img)
+        print(f"🐛 Hata ayıklama resmi kaydedildi: {debug_dosya_yolu}")
+        # --- HATA AYIKLAMA KODU SONU ---
+        
         # 3. OCR ile metni çıkar
         ocr_data, avg_confidence = self.metni_cikar(processed_img)
         
@@ -1074,7 +1082,8 @@ class FaturaRegexAnaliz:
                 "ortalama_guven_skoru": f"{avg_confidence:.2f}%",
                 "toplam_kelime": len(ocr_data['text']),
                 "gecerli_kelime": len(valid_texts),
-                "ham_metin_uzunlugu": len(ham_metin)
+                "ham_metin_uzunlugu": len(ham_metin),
+                "ham_metin": ham_metin
             },
             "regex": regex_sonuclari,
             "structured": structured_data

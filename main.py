@@ -240,12 +240,11 @@ def ana_analiz_süreci():
     # Desteklenen resim ve PDF formatları (config'den)
     desteklenen_formatlar = ayarlar['desteklenen_formatlar']
     
-    # --- GEÇİCİ TEST KODU (DEVRE DIŞI BIRAKILDI) ---
-    # Sadece belirli bir faturayı test etmek için aşağıdaki satırı etkinleştirin.
-    # islenicek_faturalar = [os.path.join(fatura_klasoru, 'test', '5c565ea6-b2f6-4e4a-b004-75cface23500.pdf')]
-    # --- GEÇİCİ TEST KODU SONU ---
+    # --- TEK DOSYA TEST MODU DEVRE DIŞI BIRAKILDI ---
+    # islenicek_faturalar = [os.path.join(fatura_klasoru, '3.png')]
+    # --- TEK DOSYA TEST MODU SONU ---
 
-    # İşlenecek faturaları bul (glob ile alt klasörler dahil) - (AKTİF EDİLDİ)
+    # İşlenecek faturaları bul (glob ile alt klasörler dahil) - (YENİDEN AKTİF EDİLDİ)
     print(f"📂 '{fatura_klasoru}' klasöründeki tüm faturalar aranıyor...")
     islenicek_faturalar = []
     for format in desteklenen_formatlar:
@@ -266,7 +265,7 @@ def ana_analiz_süreci():
         try:
             print(f"\n{'─'*20} Analiz ediliyor: {os.path.basename(dosya_yolu)} {'─'*20}")
             
-            # Gorsellestirmeyi kapatarak analiz et
+            # Görselleştirmeyi KAPATARAK toplu analiz yap
             sonuclar = analiz_sistemi.fatura_analiz_et(dosya_yolu, gorsellestir=False)
             
             # Sonuçları ekle ve kritik alanları kontrol et
@@ -286,7 +285,7 @@ def ana_analiz_süreci():
                         log_f.write(f"Eksik Kritik Alanlar: {', '.join(eksik_alanlar)}\n")
                         # OCR'dan çıkan ham metni de log'a ekleyelim
                         ham_metin = sonuclar.get('ocr_istatistikleri', {}).get('ham_metin', 'METIN_CIKARILAMADI')
-                        log_f.write(f"Ham Metin: {ham_metin[:500]}...\n\n") # Metnin bir kısmını al
+                        log_f.write(f"Ham Metin: {ham_metin}\n\n") # Metnin bir kısmını al
             else:
                 hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilemedi. Hata: {sonuclar['hata']}"
                 print(f"⚠️  Uyarı: {hata_mesaji}")
