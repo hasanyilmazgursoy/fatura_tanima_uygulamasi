@@ -687,68 +687,76 @@ class FaturaRegexAnaliz:
         """
         data: Dict[str, Any] = {}
 
-        # Yardımcı Fonksiyon: Belirli etiketlere dayalı desenleri arar.
-        def find_labeled_value(patterns: List[str], text: str) -> Optional[str]:
+        # Hızlı test modunda OCR verisi olmayabilir, bu durumu kontrol et
+        is_fast_test = not any(ocr_data.values())
+
+        # Adım 1: Faturayı mantıksal bloklara ayır
+        satici_blok_text, alici_blok_text, toplamlar_blok_text = "", "", ""
+        if not is_fast_test:
+            blocks = self._bloklara_ayir(ocr_data)
+            for block in blocks:
+                label = self._blogu_tanimla(block['text'])
+                if label == 'satici' and not satici_blok_text:
+                    satici_blok_text = block['text']
+                elif label == 'alici' and not alici_blok_text:
+                    alici_blok_text = block['text']
+                elif label == 'toplamlar' and not toplamlar_blok_text:
+                    toplamlar_blok_text = block['text']
+
+        # Aranacak metin kaynaklarını belirle (önce blok, yoksa tüm metin)
+        satici_kaynak = satici_blok_text or ham_metin
+        alici_kaynak = alici_blok_text or ham_metin
+        toplamlar_kaynak = toplamlar_blok_text or ham_metin
+
+        # Yardımcı Fonksiyon: Daha esnek ve bağlamsal arama
+        def find_value(text_source: str, patterns: List[str]) -> Optional[str]:
             for pattern in patterns:
-                # re.DOTALL, desenlerin satır atlamasına izin verir (adresler için önemli)
-                match = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
+                match = re.search(pattern, text_source, re.IGNORECASE | re.DOTALL)
                 if match:
-                    # Eşleşen gruplar içinde boş olmayan ilkini döndür
                     for group in match.groups():
                         if group and group.strip():
-                            return ' '.join(group.strip().split()) # Fazla boşlukları temizle
+                            return ' '.join(group.strip().split())
             return None
 
-        # --- Alan Çıkarma Mantığı ---
         para_desen = self.regex_desenleri['para']['desen']
 
-        # 📌 SATICI BİLGİLERİ
-        data['satici_firma_unvani'] = find_labeled_value([r'([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.|PAZARLAMA|MAĞAZACILIK|TİCARET))'], ham_metin)
-        data['satici_vergi_dairesi'] = find_labeled_value([r'(?:Vergi Dairesi)[\s:]+([A-Z\s]+?)(?:\s+Vergi No|\s+VKN|\n)'], ham_metin)
-        data['satici_vergi_numarasi'] = find_labeled_value([r'(?:Vergi No|VKN)[\s:]+(\d{10,11})'], ham_metin)
-        data['satici_telefon'] = find_labeled_value([r'(?:Tel|Telefon)[\s:]+([\d\s\+\(\)]+?)(?:\s+Fax|\s+Faks|\n|E-Posta)'], ham_metin)
-        data['satici_email'] = find_labeled_value([r'(?:E-Posta)[\s:]+([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'], ham_metin)
-        data['satici_mersis_no'] = find_labeled_value([r'(?:Mersis No)[\s:]+(\d{16})'], ham_metin)
-        data['satici_ticaret_sicil'] = find_labeled_value([r'(?:Ticaret Sicil No)[\s:]+(\d+)'], ham_metin)
-        data['satici_adres'] = find_labeled_value([r'([A-Z\s]+MAH\.[\s\S]+?)(?:Tel:|Telefon:|E-Posta|Vergi Dairesi)'], ham_metin)
+        # Adım 2: Etiket odaklı veri çıkarma
+        # 📌 SATICI
+        data['satici_firma_unvani'] = find_value(satici_kaynak, [r'([A-ZÇĞİÖŞÜ][A-ZÇĞİÖŞÜa-zçğıöşü\s&\-\.]+(?:A\.Ş\.|LTD\.|TİCARET|PAZARLAMA))'])
+        data['satici_vergi_dairesi'] = find_value(satici_kaynak, [r'Vergi\s*Dairesi[\s:]+([A-Z\s]+)'])
+        data['satici_vergi_numarasi'] = find_value(satici_kaynak, [r'Vergi\s*No[su]?[\s:]+(\d{10,11})', r'VKN[\s:]+(\d{10,11})'])
+        data['satici_telefon'] = find_value(satici_kaynak, [r'Tel[\s:.]*([\d\s\+\(\)]+)'])
+        data['satici_email'] = find_value(satici_kaynak, [r'E-?Posta[\s:]+([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'])
+        data['satici_mersis_no'] = find_value(satici_kaynak, [r'Mersis\s*No[\s:]+(\d{16})'])
+        data['satici_ticaret_sicil'] = find_value(satici_kaynak, [r'Ticaret\s*Sicil\s*No[\s:]+(\d+)'])
+        
+        # 📌 ALICI
+        data['alici_firma_unvani'] = find_value(alici_kaynak, [r'(?:Sayın|ALICI)[\s:]+([A-ZÇĞİÖŞÜ\s\.]{4,})'])
+        data['alici_tckn'] = find_value(alici_kaynak, [r'TCKN[\s:]+(\d{11})'])
 
-
-        # 📌 ALICI BİLGİLERİ
-        data['alici_firma_unvani'] = find_labeled_value([r'(?:Sayın|ALICI)[\s:]+([A-ZÇĞİÖŞÜ\s]+?)(?:\s+Adres|\n|\s+Tel|\s+TCKN)'], ham_metin)
-        data['alici_tckn'] = find_labeled_value([r'(?:TCKN|T\.C\.)[\s:]+(\d{11})'], ham_metin)
-        data['alici_adres'] = find_labeled_value([r'(?:Sayın|ALICI)[\s\S]+?([A-Z\s]+MAH\.[\s\S]+?)(?:E-Posta|Tel:|TCKN|\n\n)'], ham_metin)
-
-        # 📌 FATURA BİLGİLERİ
-        data['fatura_numarasi'] = find_labeled_value([r'(?:Fatura No)[\s:]+([A-Z0-9]+)'], ham_metin)
-        data['fatura_tarihi'] = find_labeled_value([r'(?:Fatura Tarihi)[\s:]+(\d{2}[./-]\d{2}[./-]\d{4})'], ham_metin)
-        data['ettn'] = find_labeled_value([r'(?:ETTN)[\s:]+([a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12})'], ham_metin)
-        data['fatura_tipi'] = find_labeled_value([r'(?:Fatura Tipi)[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)'], ham_metin)
+        # 📌 FATURA
+        data['fatura_numarasi'] = find_value(ham_metin, [r'Fatura\s*No[\s:]+([A-Z0-9/-]+)'])
+        data['fatura_tarihi'] = find_value(ham_metin, [r'Fatura\s*Tarihi[\s:]+(\d{2}[./-]\d{2}[./-]\d{4})'])
+        data['ettn'] = find_value(ham_metin, [r'ETTN[\s:]+([a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12})'])
+        data['fatura_tipi'] = find_value(ham_metin, [r'Fatura\s*Tipi[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)'])
 
         # 📌 TOPLAMLAR
-        data['genel_toplam'] = find_labeled_value([r'(?:Ödenecek Tutar|Vergiler Dahil Toplam Tutar)[\s:]+(' + para_desen + ')'], ham_metin)
-        data['hesaplanan_kdv'] = find_labeled_value([r'(?:Hesaplanan KDV|Toplam KDV)[\s:]+(' + para_desen + ')'], ham_metin)
-        data['vergi_haric_tutar'] = find_labeled_value([r'(?:Vergi Hariç Tutar|Ara Toplam)[\s:]+(' + para_desen + ')'], ham_metin)
-        data['toplam_iskonto'] = find_labeled_value([r'(?:Toplam İskonto|İndirim|Iskonto)[\s:]+(' + para_desen + ')'], ham_metin)
-        data['mal_hizmet_toplam'] = find_labeled_value([r'(?:Mal Hizmet Toplam Tutarı)[\s:]+(' + para_desen + ')'], ham_metin)
-
-        # 📌 BANKA BİLGİLERİ
-        data['banka_bilgileri'] = find_labeled_value([r'(TR\d{2}[\s\d]{22,})'], ham_metin)
-
-        # --- Yedek Stratejiler (Yukarıdakiler bulamazsa) ---
+        data['genel_toplam'] = find_value(toplamlar_kaynak, [r'(?:Ödenecek\s*Tutar|Vergiler\s*Dahil\s*Toplam\s*Tutar)[\s:]+(' + para_desen + ')'])
+        data['hesaplanan_kdv'] = find_value(toplamlar_kaynak, [r'Hesaplanan\s*KDV[\s:]+(' + para_desen + ')'])
+        data['toplam_iskonto'] = find_value(toplamlar_kaynak, [r'Toplam\s*[İI]skonto[\s:]+(' + para_desen + ')'])
+        data['mal_hizmet_toplam'] = find_value(toplamlar_kaynak, [r'Mal\s*Hizmet\s*Toplam\s*Tutar[ı]?[\s:]+(' + para_desen + ')'])
+        
+        # Adım 3: Yedek Stratejiler
         if not data.get('fatura_numarasi'):
             data['fatura_numarasi'] = self._extract_first([r'\b([A-Z]{3}\d{13})\b', r'\b([A-Z]{2,4}\d{12,15})\b'], ham_metin)
-        if not data.get('fatura_tarihi'):
-            data['fatura_tarihi'] = self._extract_first([r'\b(\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4})\b'], ham_metin)
         if not data.get('genel_toplam'):
             data['genel_toplam'] = self._en_buyuk_tutari_bul(ham_metin)
         if not data.get('alici_tckn'):
-            olasi_tckn_list = re.findall(r"(\d{11})", ham_metin)
+            olasi_tckn_list = re.findall(r"(\d{11})", alici_kaynak)
             for olasi_tckn in olasi_tckn_list:
-                if self._tckn_dogrula(olasi_tckn):
-                    data['alici_tckn'] = olasi_tckn
-                    break
+                if self._tckn_dogrula(olasi_tckn): data['alici_tckn'] = olasi_tckn; break
         
-        # --- Kalemler ve Normalizasyon ---
+        # Adım 4: Kalemler ve Normalizasyon
         data['kalemler'] = self._urun_kalemlerini_cikar(ocr_data, ham_metin)
         
         # Boş değerleri temizle
@@ -809,7 +817,11 @@ class FaturaRegexAnaliz:
                 benzersiz_eslemeler = list(dict.fromkeys(temizlenmis_eslemeler))[:10]
                 sonuclar[kategori] = benzersiz_eslemeler
                 
-                print(f"      ✅ {len(benzersiz_eslemeler)} adet {kategori} bulundu")
+                # --- YENİ: Bulunan değeri de yazdır ---
+                if benzersiz_eslemeler: # Sadece bir şey bulunduysa değerleri yazdır
+                    print(f"      ✅ {len(benzersiz_eslemeler)} adet {kategori} bulundu: {benzersiz_eslemeler}")
+                else:
+                    print(f"      ❌ {kategori} bulunamadı")
                 
             except Exception as e:
                 print(f"      ❌ {kategori} için regex hatası: {e}")
