@@ -480,6 +480,8 @@ class FaturaRegexAnaliz:
             'aciklama': ['açıklama', 'ürün', 'hizmet', 'description', 'cinsi', 'ürün adı'],
             'miktar': ['miktar', 'mik', 'adet', 'qty', 'quantity'],
             'birim_fiyat': ['birim', 'fiyat', 'fiyatı', 'unit price'],
+            'kdv_orani': ['kdv %', 'kdv', 'vat'],
+            'iskonto': ['isk', 'indirim', 'discount'],
             'tutar': ['tutar', 'toplam', 'amount', 'total', 'net tutar']
         }
         
@@ -555,10 +557,14 @@ class FaturaRegexAnaliz:
         # 3. Adım: Çıkarılan kalemleri temizle ve normalize et
         temizlenmis_kalemler = []
         for kalem in kalemler:
+            # Gelen verinin bir sözlük olduğundan emin ol
+            if not isinstance(kalem, dict):
+                continue # Eğer sözlük değilse bu kalemi atla
+
             temiz_kalem = {}
             for anahtar, deger in kalem.items():
                 # Sayısal alanları temizle (tutar, birim_fiyat, miktar)
-                if anahtar in ['tutar', 'birim_fiyat', 'miktar']:
+                if anahtar in ['tutar', 'birim_fiyat', 'miktar', 'iskonto', 'kdv_orani', 'kdv_tutari']:
                     # Parasal değeri bulmaya çalış
                     para_eslesmesi = re.search(self.regex_desenleri['para']['desen'], deger)
                     if para_eslesmesi:
@@ -576,6 +582,16 @@ class FaturaRegexAnaliz:
             
             # Eğer temizlik sonrası hala anlamlı veri varsa listeye ekle
             if temiz_kalem.get('aciklama') and (temiz_kalem.get('tutar') or temiz_kalem.get('birim_fiyat')):
+                # KDV Tutarını hesaplamayı dene (eğer eksikse)
+                if not temiz_kalem.get('kdv_tutari') and temiz_kalem.get('tutar') and temiz_kalem.get('kdv_orani'):
+                    try:
+                        tutar_val = float(temiz_kalem['tutar'].replace(',', '.'))
+                        oran_val = float(temiz_kalem['kdv_orani'].replace('%', ''))
+                        kdv_tutari_val = tutar_val * (oran_val / 100)
+                        temiz_kalem['kdv_tutari'] = f"{kdv_tutari_val:.2f}".replace('.', ',')
+                    except (ValueError, TypeError):
+                        pass # Hesaplama hatası olursa görmezden gel
+
                 temizlenmis_kalemler.append(temiz_kalem)
 
         return temizlenmis_kalemler
@@ -738,7 +754,12 @@ class FaturaRegexAnaliz:
 
         # Yeni Adım: Ürün kalemlerini çıkar (Sadece OCR verisi varsa)
         if not is_fast_test:
-            data['kalemler'] = self._urun_kalemlerini_cikar(ocr_data, ham_metin)
+            kalem_sonuclari = self._urun_kalemlerini_cikar(ocr_data, ham_metin)
+            # Sonucun bir liste olduğundan emin ol
+            if isinstance(kalem_sonuclari, list):
+                data['kalemler'] = kalem_sonuclari
+            else:
+                data['kalemler'] = []
         else:
             data['kalemler'] = [] # Hızlı testte bu analiz yapılamaz
 
@@ -759,6 +780,11 @@ class FaturaRegexAnaliz:
         # Boş değerleri temizle
         cleaned_data = {}
         for key, value in data.items():
+            # 'kalemler' anahtarını bu genel string çevriminden muaf tut
+            if key == 'kalemler':
+                cleaned_data[key] = value
+                continue
+
             if value and str(value).strip():
                 cleaned_data[key] = str(value).strip()
             else:

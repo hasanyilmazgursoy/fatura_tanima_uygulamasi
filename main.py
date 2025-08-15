@@ -5,6 +5,7 @@ import logging
 import glob
 from datetime import datetime
 from fatura_regex_analiz_yeni import FaturaRegexAnaliz
+from typing import Dict
 
 def log_ayarlarini_yap(rapor_klasoru: str):
     """
@@ -82,6 +83,68 @@ def sonuclari_csv_kaydet(rapor_klasoru: str, tum_sonuclar: list):
     except Exception as e:
         print(f"❌ CSV dosyası yazılırken bir hata oluştu: {e}")
         logging.error(f"CSV dosyası yazılırken bir hata oluştu: {e}")
+
+
+def sonuclari_turkce_formatla(analiz_sonucu: Dict) -> Dict:
+    """
+    Analiz motorundan gelen teknik sonuçları, son kullanıcı için
+    okunaklı Türkçe alan adlarına dönüştürür.
+    """
+    alan_eslestirme_map = {
+        # Teknik Alan Adı: Okunaklı Türkçe Alan Adı
+        "satici_firma_unvani": "Satıcı Firma",
+        "satici_adres": "Satıcı Adres",
+        "satici_telefon": "Satıcı Telefon",
+        "satici_email": "Satıcı E-Posta",
+        "satici_vergi_dairesi": "Satıcı Vergi Dairesi",
+        "satici_vergi_numarasi": "Satıcı Vergi No",
+        "satici_mersis_no": "Satıcı Mersis No",
+        "satici_ticaret_sicil": "Ticaret Sicil No",
+        "alici_firma_unvani": "Alıcı Firma/Ad Soyad",
+        "alici_adres": "Alıcı Adres",
+        "alici_email": "Alıcı E-Posta",
+        "alici_telefon": "Alıcı Telefon",
+        "alici_tckn": "Alıcı TCKN",
+        "fatura_numarasi": "Fatura No",
+        "fatura_tarihi": "Fatura Tarihi",
+        "son_odeme_tarihi": "Son Ödeme Tarihi",
+        "ettn": "ETTN",
+        "para_birimi": "Para Birimi",
+        "toplam_iskonto": "Toplam İskonto",
+        "vergi_haric_tutar": "Vergi Hariç Tutar",
+        "hesaplanan_kdv": "Hesaplanan KDV",
+        "genel_toplam": "Genel Toplam / Ödenecek Tutar",
+    }
+    
+    kalem_eslestirme_map = {
+        "aciklama": "Açıklama",
+        "miktar": "Miktar",
+        "birim_fiyat": "Birim Fiyat",
+        "iskonto": "İskonto",
+        "tutar": "Mal/Hizmet Tutarı",
+        "kdv_orani": "KDV Oranı",
+        "kdv_tutari": "KDV Tutarı"
+    }
+
+    formatlanmis_sonuc = {}
+    structured_data = analiz_sonucu.get("structured", {})
+
+    for teknik_ad, turkce_ad in alan_eslestirme_map.items():
+        if structured_data.get(teknik_ad):
+            formatlanmis_sonuc[turkce_ad] = structured_data[teknik_ad]
+
+    # Kalemleri formatla
+    if structured_data.get("kalemler"):
+        formatlanmis_sonuc["Kalemler"] = []
+        for kalem in structured_data["kalemler"]:
+            formatli_kalem = {}
+            for tek_ad, tur_ad in kalem_eslestirme_map.items():
+                if kalem.get(tek_ad):
+                    formatli_kalem[tur_ad] = kalem[tek_ad]
+            if formatli_kalem:
+                formatlanmis_sonuc["Kalemler"].append(formatli_kalem)
+
+    return formatlanmis_sonuc
 
 
 def ocr_metnini_disa_aktar(analiz_sistemi: FaturaRegexAnaliz, dosya_yolu: str, rapor_klasoru: str):
@@ -257,7 +320,14 @@ def ana_analiz_süreci():
             print(f"❌ Hatalı veya işlenemeyen fatura sayısı: {hatali_sayisi}")
             print(f"📄 Detaylar için 'analiz_hatalari.log' dosyasına bakın.")
         
-        print(f"📄 Detaylı JSON rapor dosyası oluşturuldu: {rapor_dosyasi}")
+        # JSON raporunu yeni formatla kaydet
+        formatli_json_raporu = [sonuclari_turkce_formatla(sonuc) for sonuc in tum_sonuclar]
+        rapor_dosyasi_formatli = os.path.join(rapor_klasoru, f"toplu_fatura_raporu_formatli_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+        with open(rapor_dosyasi_formatli, 'w', encoding='utf-8') as f:
+            json.dump(formatli_json_raporu, f, ensure_ascii=False, indent=4)
+
+        print(f"📄 Detaylı (orijinal) JSON rapor dosyası oluşturuldu: {rapor_dosyasi}")
+        print(f"📄 Formaplanmış Türkçe JSON rapor dosyası oluşturuldu: {rapor_dosyasi_formatli}")
         print("="*50)
 
 if __name__ == "__main__":
