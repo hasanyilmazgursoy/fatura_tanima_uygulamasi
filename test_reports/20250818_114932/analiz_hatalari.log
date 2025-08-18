@@ -1,0 +1,81 @@
+2025-08-18 11:49:47,041 - ERROR - 2022305234296_194_08_07_2024_06_14_37_120.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:50:18,182 - ERROR - 5b41a434-d40d-4ee1-9054-9d9fe8095c58.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:50:36,242 - ERROR - 5c565ea6-b2f6-4e4a-b004-75cface23500.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:50:49,088 - ERROR - 62753525855359.Pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:51:05,473 - ERROR - A302023001485400.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:51:23,687 - ERROR - c84976bc-b3ff-4d85-b7e8-b36ac571e770.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:51:41,552 - ERROR - EArchive.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:51:59,726 - ERROR - earchive_invoiceHNP2024000000388.pdf..pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+2025-08-18 11:52:19,085 - ERROR - fae4674b-468b-4b88-a26c-6a9aa8812c17.pdf analiz edilirken beklenmedik bir hata oluştu: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'
+Traceback (most recent call last):
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\main.py", line 281, in ana_analiz_süreci
+    analiz_sistemi.sonuclari_yazdir(sonuclar)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\hasan\OneDrive\Desktop\fatura_tanima_uygulamasi\fatura_regex_analiz_yeni.py", line 1538, in sonuclari_yazdir
+    for alan in self.onemli_alanlar:
+                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'FaturaRegexAnaliz' object has no attribute 'onemli_alanlar'

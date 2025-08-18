@@ -61,7 +61,22 @@ Aşağıdaki komutu terminalde çalıştırarak tüm analiz sürecini başlatın
 python main.py
 ```
 
-Program, `fatura` klasöründeki tüm dosyaları tarayacak, analiz edecek ve sonuçları `test_reports` klasörüne `toplu_fatura_raporu_....json` ve `toplu_fatura_raporu_....csv` olarak kaydedecektir. Oluşan hatalar ise aynı klasördeki `analiz_hatalari.log` dosyasına yazılacaktır.
+Program, `fatura` klasöründeki tüm dosyaları tarar ve her çalıştırmada zaman damgalı bir koşu klasörü oluşturur:
+
+```
+test_reports/
+  └── YYYYMMDD_HHMMSS/
+      ├── toplu_fatura_raporu_*.json
+      ├── toplu_fatura_raporu_*.csv
+      ├── toplu_fatura_raporu_formatli_*.json
+      ├── akilli_analiz_raporu_*.json
+      ├── akilli_analiz_ozet_*.html     # Alan bazlı başarı ve öneriler
+      ├── golden_evaluation.json/csv    # Golden set karşılaştırma (varsa)
+      ├── analiz_hatalari.log
+      └── debug_processed_*.png
+```
+
+Not: Windows’ta konsol kodlaması hatası görürseniz `python -X utf8 main.py` komutunu kullanın.
 
 ## 📂 Proje Yapısı
 
@@ -69,12 +84,22 @@ Program, `fatura` klasöründeki tüm dosyaları tarayacak, analiz edecek ve son
 .
 ├── fatura/                  # Analiz edilecek faturaların bulunduğu klasör
 │   └── test/                # Alt klasörler de taranır
-├── test_reports/            # Analiz sonrası raporların kaydedildiği klasör
-│   ├── analiz_hatalari.log
-│   ├── toplu_fatura_raporu_....csv
-│   └── toplu_fatura_raporu_....json
+├── test_reports/            # Her koşu için zaman damgalı alt klasörler
+│   └── YYYYMMDD_HHMMSS/
+│       ├── toplu_fatura_raporu_*.json/csv
+│       ├── toplu_fatura_raporu_formatli_*.json
+│       ├── akilli_analiz_raporu_*.json
+│       ├── akilli_analiz_ozet_*.html
+│       ├── golden_evaluation.json/csv
+│       └── debug_processed_*.png
 ├── config.json              # Uygulama ayarları
-├── fatura_regex_analiz_yeni.py  # Ana OCR ve Regex analiz mantığı
+├── fatura_regex_analiz_yeni.py  # OCR + Regex + profil kuralları + OCR fallback
+├── profiles/                    # Satıcı/profil bazlı küçük kural eklentileri
+│   ├── profile_base.py
+│   ├── profile_a101.py
+│   ├── profile_flo.py
+│   └── profile_trendyol.py
+├── golden/golden.json           # Golden set (beklenen alanlar) - opsiyonel
 ├── main.py                  # Projenin ana giriş noktası
 └── README.md                # Bu dosya
 ```

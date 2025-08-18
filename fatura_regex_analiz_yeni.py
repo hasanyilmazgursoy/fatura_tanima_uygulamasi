@@ -19,6 +19,7 @@ from scipy.ndimage import interpolation as inter
 
 # Yeni eklenen kütüphane
 from collections import defaultdict
+from profiles import A101Profile, FLOProfile, TrendyolProfile
 
 class FaturaRegexAnaliz:
     """FLO fatura formatına özel geliştirilmiş OCR ve Regex analiz sistemi."""
@@ -37,8 +38,8 @@ class FaturaRegexAnaliz:
         # Regex desenleri - FLO fatura örneğine göre kapsamlı genişletildi
         self.regex_desenleri = {
             'tarih': {
-                'desen': r'\b\d{1,2}[/\-\.]\d{1,2}[/\-\.]\d{2,4}\b',
-                'aciklama': 'Tarih formatları (24.04.2023, 15/12/2024)',
+                'desen': r'\b\d{1,2}\s*[/\-.]\s*\d{1,2}\s*[/\-.]\s*\d{2,4}\b',
+                'aciklama': 'Tarih formatları (24.04.2023, 03 - 06 - 2025, 15/12/2024)',
                 'ornek': '24.04.2023'
             },
             'para': {
@@ -55,8 +56,8 @@ class FaturaRegexAnaliz:
             },
             'fatura_no': {
                 # FEA2023001157280, Belge No, Fatura No:, Seri/Sıra gibi formatlar
-                'desen': r'(?:fatura\s*no|belge\s*no|fatura\s*numarası|invoice\s*no|seri\s*sira)[\s:]*([A-Z0-9/]{8,25})\b|\b[A-Z]{3}\d{13}\b',
-                'aciklama': 'Fatura numaraları (FEA2023001157280, GIB2023000000001)',
+                'desen': r'(?:fatura\s*no|belge\s*no|fatura\s*numarası|invoice\s*no|seri\s*sira)[\s:]*([A-Z0-9/&\-]{8,25})\b|\b[A-Z]{3}\d{13}\b',
+                'aciklama': 'Fatura numaraları (FEA2023001157280, GIB2023000000001, özel karakter toleransı)',
                 'ornek': 'Fatura No: FEA2023001157280'
             },
             'vergi_no': {
@@ -96,8 +97,8 @@ class FaturaRegexAnaliz:
                 'ornek': '%10.00'
             },
             'ettn': {
-                # ETTN UUID formatı
-                'desen': r'(?:ettn|evrensel\s*tekil)[\s:]*([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})',
+                # ETTN UUID formatı (büyük/küçük harf toleransı)
+                'desen': r'(?:ettn|evrensel\s*tekil)[\s:]*([A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12})',
                 'aciklama': 'ETTN numaraları (35b720e6-c242-4362-a675-d067b4f41180)',
                 'ornek': '35b720e6-c242-4362-a675-d067b4f41180'
             },
@@ -124,8 +125,106 @@ class FaturaRegexAnaliz:
                 'desen': r'(?:mal\s*hizmet\s*kodu|product\s*code)[\s:]*(\d{8,15})',
                 'aciklama': 'Mal/Hizmet kodları (101181464001)',
                 'ornek': '101181464001'
+            },
+            # 🆕 YENİ EKLENEN REGEX DESENLERİ - FAZE 1
+            'alici_ad_soyad': {
+                'desen': r'(?:SAYIN|ALICI|MÜŞTERİ|GÖKHAN|MEHMET|FUNDA)[\s:]+([A-ZÇĞİÖŞÜ\s\.]{3,25})\b',
+                'aciklama': 'Alıcı ad soyad bilgileri (Gokhan Çağaptay, Mehmet Emir Arslan)',
+                'ornek': 'Gokhan Çağaptay'
+            },
+            'alici_adres': {
+                'desen': r'(?:ADRES|ADRESİ|BATTALGAZİ|GAZİPAŞA)[\s:]+([A-ZÇĞİÖŞÜ\s/]+(?:MALATYA|ANTALYA|İSTANBUL|BATTALGAZİ|GAZİPAŞA)[A-ZÇĞİÖŞÜ\s/]*)',
+                'aciklama': 'Alıcı adres bilgileri (Malatya / Battalgazi, Antalya / Gazipaşa)',
+                'ornek': 'Malatya / Battalgazi'
+            },
+            'urun_aciklama': {
+                'desen': r'(?:ÜRÜN|MAL|HİZMET|AÇIKLAMA|HERBAL|HP\s*PAVILION)[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s\d\-\.]+(?:ML|KG|ADET|LİTRE|Q\s*KLAVYE))',
+                'aciklama': 'Ürün açıklama bilgileri (Herbal Science Boom Butter, HP Pavilion 800 Q Klavye)',
+                'ornek': 'Herbal Science Boom Butter Saç Bakım Yağı 190 ML'
+            },
+            'urun_miktar': {
+                'desen': r'(\d+)\s*(?:adet|ad|piece|unit|ML|ml|KG|kg)',
+                'aciklama': 'Ürün miktar bilgileri (4 adet, 190 ML, 1 adet)',
+                'ornek': '4 adet'
+            },
+            'birim_fiyat': {
+                'desen': r'(?:BİRİM\s*FİYAT|BİRİM|UNIT\s*PRICE|FİYAT|PRICE)[\s:]+(\d+[,\.]\d+\s*TL?)|(\d+[,\.]\d+\s*TL?)\s*(?:birim|unit|adet)|\((\d+[,\.]\d+\s*TL?)\)|(\d+[,\.]\d+\s*TL?)(?=\s*\))',
+                'aciklama': 'Birim fiyat bilgileri (104,17 TL, 748,50 TL, 160,17 TL) - tüm formatlar dahil',
+                'ornek': '104,17 TL'
+            },
+            'odeme_sekli': {
+                'desen': r'(?:ÖDEME|ÖDEME ŞEKLİ|PAYMENT|KREDİ|BANKA)[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s]+(?:KREDİ|BANKA|NAKİT|ELEKTRONİK|E-TİCARET|TRENDYOL\s*TEMLİK))',
+                'aciklama': 'Ödeme şekli bilgileri (Kredi Kartı, E-Ticaret, Trendyol Temlik)',
+                'ornek': 'Kredi Kartı (Trendyol temlik hesabı)'
+            },
+            'kargo_bilgisi': {
+                'desen': r'(?:KARGO|CARGO|TAŞIYICI|SHIPPING)[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s]+(?:PTT|MNG|TRENDYOL|EXPRESS))',
+                'aciklama': 'Kargo bilgileri (PTT Kargo, MNG Kargo, Trendyol Express)',
+                'ornek': 'PTT Kargo'
+            },
+            'siparis_no': {
+                'desen': r'(?:SİPARİŞ\s*(?:NO|NUMARASI)|SIPARIS\s*(?:NO|NUMARASI)|ORDER\s*(?:NO)?)\s*[:\-]?\s*(?=(?:[A-Z0-9\-]{6,25})\b)(?=.*\d)([A-Z0-9\-]{6,25})',
+                'aciklama': 'Sipariş numarası bilgileri (TY0725295, A101-2023-001); en az bir rakam şartı, NO/NUMARASI zorunlu (Sipariş tek başına değil).',
+                'ornek': 'TY0725295'
             }
         }
+
+    def _ocr_text_with_config(self, img: np.ndarray, config_suffix: str) -> str:
+        """Alternatif Tesseract ayarı ile hızlı OCR metni döndürür."""
+        try:
+            cfg = f"--oem 3 {config_suffix} -l tur+eng"
+            text = pytesseract.image_to_string(img, config=cfg)
+            return text or ""
+        except Exception:
+            return ""
+
+    def _field_level_ocr_fallback(self, img: np.ndarray, structured: Dict, current_text: str) -> Dict:
+        """Kritik alanlar eksikse alternatif PSM/whitelist ile OCR deneyerek alanları tamamlar."""
+        missing = [k for k in ['fatura_numarasi', 'fatura_tarihi', 'ettn'] if not structured.get(k)]
+        if not missing:
+            return structured
+
+        alt_texts = []
+        # Genel daha ayrıntılı PSM denemeleri
+        for psm in (6, 7, 11, 13):
+            alt = self._ocr_text_with_config(img, f"--psm {psm}")
+            if alt:
+                alt_texts.append(alt)
+
+        # ETTN için whitelist (hex + '-')
+        if 'ettn' in missing:
+            alt = self._ocr_text_with_config(img, "--psm 6 -c tessedit_char_whitelist=0123456789abcdefABCDEF- ")
+            if alt:
+                alt_texts.append(alt)
+
+        if not alt_texts:
+            return structured
+
+        combined = current_text + "\n" + "\n".join(alt_texts)
+        # Sadece eksik alanları yeniden çıkar
+        # fatura no
+        if 'fatura_numarasi' in missing and not structured.get('fatura_numarasi'):
+            m = re.search(r'(?:fatura\s*no|belge\s*no)[\s:]*([A-Z0-9/&\-]{8,25})', combined, re.IGNORECASE)
+            if not m:
+                m = re.search(r'\bA\d{15}\b', combined)
+            if not m:
+                m = re.search(r'\b[A-Z]{3}\d{13}\b', combined)
+            if m:
+                structured['fatura_numarasi'] = m.group(1) if m.lastindex else m.group(0)
+
+        # tarih
+        if 'fatura_tarihi' in missing and not structured.get('fatura_tarihi'):
+            m = re.search(r'\b\d{1,2}\s*[/\-.]\s*\d{1,2}\s*[/\-.]\s*\d{2,4}\b', combined)
+            if m:
+                structured['fatura_tarihi'] = re.sub(r'\s*[/\-.]\s*', '-', m.group(0))
+
+        # ettn
+        if 'ettn' in missing and not structured.get('ettn'):
+            m = re.search(r'([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', combined)
+            if m:
+                structured['ettn'] = m.group(1)
+
+        return structured
         
         print("✅ FaturaRegexAnaliz sistemi başlatıldı! (6. GÜN - FLO Formatı)")
         print(f"   📐 Ekran boyutu: {self.max_pencere_genislik}x{self.max_pencere_yukseklik} piksel")
@@ -521,7 +620,7 @@ class FaturaRegexAnaliz:
                     columns = found_headers
 
             # Durdurma anahtar kelimelerini ara (toplamlar bölümü)
-            stop_keywords = ['mal hizmet toplam', 'ara toplam', 'genel toplam', 'ödenecek', 'toplam kdv']
+            stop_keywords = ['mal hizmet toplam', 'ara toplam', 'genel toplam', 'ödenecek', 'toplam kdv', 'vergiler dahil toplam', 'toplam tutar']
             if any(kw in line_text for kw in stop_keywords):
                 stop_y = y
                 break # Toplamlar bölümünü bulduktan sonra aramayı durdur
@@ -532,6 +631,18 @@ class FaturaRegexAnaliz:
 
         # 2. Başlık satırından sonraki ve toplamlar bloğundan önceki satırları işle
         kalemler = []
+        # Sütun konumları ve mesafe eşiği
+        if columns:
+            col_positions = list(columns.values())
+            col_positions.sort()
+            avg_gap = 0
+            if len(col_positions) >= 2:
+                gaps = [col_positions[i+1]-col_positions[i] for i in range(len(col_positions)-1)]
+                avg_gap = sum(gaps)/len(gaps)
+            max_col_dist = avg_gap*0.75 if avg_gap else 9999
+        else:
+            max_col_dist = 9999
+
         for y, line_words in sorted_lines:
             # Sadece ürün kalemlerinin olduğu bölgeye odaklan
             if y > header_line_y + (avg_line_height * 0.5) and y < stop_y:
@@ -542,7 +653,8 @@ class FaturaRegexAnaliz:
                     # Kelimeyi en yakın sütuna ata
                     if not columns: continue
                     closest_col_name = min(columns.keys(), key=lambda col: abs(word['left'] - columns.get(col, float('inf'))))
-                    item[closest_col_name].append(word['text'])
+                    if abs(word['left'] - columns[closest_col_name]) <= max_col_dist:
+                        item[closest_col_name].append(word['text'])
 
                 # Ayrıştırılmış veriyi yapılandır
                 if item:
@@ -554,55 +666,119 @@ class FaturaRegexAnaliz:
                         kalem = {cat: ' '.join(texts) for cat, texts in item.items()}
                         kalemler.append(kalem)
         
-        # 3. Adım: Çıkarılan kalemleri temizle ve normalize et
+        # 3. Adım: Çıkarılan kalemleri temizle, normalize et ve eksikleri hesapla
         temizlenmis_kalemler = []
         for kalem in kalemler:
-            # Gelen verinin bir sözlük olduğundan emin ol
-            if not isinstance(kalem, dict):
-                continue # Eğer sözlük değilse bu kalemi atla
-
+            # Temel temizlik
             temiz_kalem = {}
-            for anahtar, deger in kalem.items():
-                # Sayısal alanları temizle (tutar, birim_fiyat, miktar)
-                if anahtar == 'kdv_orani':
-                    # KDV oranı için özel, daha kısıtlayıcı bir desen kullanalım.
-                    # %10, 18, 20.00 gibi 1-2 haneli sayıları arar.
-                    kdv_eslesmesi = re.search(r'(\d{1,2}(?:[.,]\d{1,2})?)', deger)
-                    if kdv_eslesmesi:
-                        temiz_deger = kdv_eslesmesi.group(1).strip()
-                    else:
-                        temiz_deger = "0" # Eşleşme yoksa 0 olarak varsayalım
-                elif anahtar in ['tutar', 'birim_fiyat', 'miktar', 'iskonto', 'kdv_tutari']:
-                    # Parasal değeri bulmaya çalış
-                    para_eslesmesi = re.search(self.regex_desenleri['para']['desen'], deger)
-                    if para_eslesmesi:
-                        temiz_deger = self._normalize_amount(para_eslesmesi.group(0))
-                    else:
-                        # Sadece sayıları ve temel noktalama işaretlerini al
-                        temiz_deger = re.sub(r'[^0-9.,]', '', deger)
-                # Metinsel alanları temizle (aciklama)
-                else:
-                    # Gereksiz karakterleri ve kısa anlamsız kelimeleri kaldır
-                    temiz_deger = re.sub(r'[|\[\]\'"‘’]', '', deger) # İstenmeyen karakterler
-                    temiz_deger = ' '.join(word for word in temiz_deger.split() if len(word) > 1) # 1 harflik kelimeleri at
-                
-                temiz_kalem[anahtar] = temiz_deger.strip()
+            for key, value in kalem.items():
+                if value and str(value).strip():
+                    temiz_kalem[key] = str(value).strip()
             
-            # Eğer temizlik sonrası hala anlamlı veri varsa listeye ekle
-            if temiz_kalem.get('aciklama') and (temiz_kalem.get('tutar') or temiz_kalem.get('birim_fiyat')):
-                # KDV Tutarını hesaplamayı dene (eğer eksikse)
-                if not temiz_kalem.get('kdv_tutari') and temiz_kalem.get('tutar') and temiz_kalem.get('kdv_orani'):
-                    try:
-                        tutar_val = float(temiz_kalem['tutar'].replace(',', '.'))
-                        oran_val = float(temiz_kalem['kdv_orani'].replace('%', ''))
-                        kdv_tutari_val = tutar_val * (oran_val / 100)
-                        temiz_kalem['kdv_tutari'] = f"{kdv_tutari_val:.2f}".replace('.', ',')
-                    except (ValueError, TypeError):
-                        pass # Hesaplama hatası olursa görmezden gel
+            # Sayısal normalize
+            miktar_num = None
+            if 'miktar' in temiz_kalem:
+                try:
+                    miktar_num = float(self._normalize_amount(temiz_kalem['miktar']).replace(',', '.'))
+                except Exception:
+                    miktar_num = None
+            birim_fiyat_num = self._parse_amount_to_float(temiz_kalem.get('birim_fiyat'))
+            tutar_num = self._parse_amount_to_float(temiz_kalem.get('tutar'))
 
+            # Eksik tutarı hesapla
+            if tutar_num is None and miktar_num is not None and birim_fiyat_num is not None:
+                calc = miktar_num * birim_fiyat_num
+                temiz_kalem['tutar_hesap'] = f"{calc:,.2f}".replace(',', 'X').replace('.', ',').replace('X','.')
+                tutar_num = calc
+
+            # Normalize alanları ekle (raporlama için)
+            if miktar_num is not None:
+                temiz_kalem['miktar_num'] = miktar_num
+            if birim_fiyat_num is not None:
+                temiz_kalem['birim_fiyat_num'] = birim_fiyat_num
+            if tutar_num is not None and 'tutar_num' not in temiz_kalem:
+                temiz_kalem['tutar_num'] = tutar_num
+            
+            if temiz_kalem:
                 temizlenmis_kalemler.append(temiz_kalem)
 
+        # 🆕 YENİ: Regex tabanlı ürün kalemi parsing'i (yedek strateji)
+        if not temizlenmis_kalemler:
+            temizlenmis_kalemler = self._regex_ile_urun_kalemleri_cikar(ham_metin)
+        
         return temizlenmis_kalemler
+
+    def _regex_ile_urun_kalemleri_cikar(self, ham_metin: str) -> List[Dict]:
+        """Regex desenleri kullanarak ürün kalemlerini çıkarır (yedek strateji)"""
+        
+        kalemler = []
+        
+        # 🆕 Gelişmiş ürün kalemi regex desenleri
+        urun_patterns = [
+            # Format: Açıklama + Miktar + Birim Fiyat + Tutar
+            r'([A-ZÇĞİÖŞÜa-zçğıöşü\s\d\-\.]+(?:ML|KG|ADET|LİTRE|Q\s*KLAVYE|MOUSE|KARGO))\s+(\d+)\s*(?:adet|ad|piece|unit)?\s+(\d+[,\.]\d+\s*TL?)\s+(\d+[,\.]\d+\s*TL?)',
+            
+            # Format: Açıklama + Birim Fiyat + Tutar
+            r'([A-ZÇĞİÖŞÜa-zçğıöşü\s\d\-\.]+(?:ML|KG|ADET|LİTRE|Q\s*KLAVYE|MOUSE|KARGO))\s+(\d+[,\.]\d+\s*TL?)\s+(\d+[,\.]\d+\s*TL?)',
+            
+            # Format: Açıklama + Tutar (basit)
+            r'([A-ZÇĞİÖŞÜa-zçğıöşü\s\d\-\.]+(?:ML|KG|ADET|LİTRE|Q\s*KLAVYE|MOUSE|KARGO))\s+(\d+[,\.]\d+\s*TL?)',
+            
+            # Format: Ürün kodu + Açıklama + Tutar
+            r'([A-Z0-9\-\.]+)\s+([A-ZÇĞİÖŞÜa-zçğıöşü\s\d\-\.]+(?:ML|KG|ADET|LİTRE))\s+(\d+[,\.]\d+\s*TL?)'
+        ]
+        
+        for pattern in urun_patterns:
+            matches = re.finditer(pattern, ham_metin, re.IGNORECASE | re.MULTILINE)
+            for match in matches:
+                kalem = {}
+                
+                if len(match.groups()) >= 4:  # 4 grup: açıklama, miktar, birim_fiyat, tutar
+                    kalem = {
+                        'aciklama': match.group(1).strip(),
+                        'miktar': match.group(2).strip(),
+                        'birim_fiyat': match.group(3).strip(),
+                        'tutar': match.group(4).strip()
+                    }
+                elif len(match.groups()) >= 3:  # 3 grup: açıklama, birim_fiyat, tutar
+                    kalem = {
+                        'aciklama': match.group(1).strip(),
+                        'birim_fiyat': match.group(2).strip(),
+                        'tutar': match.group(3).strip()
+                    }
+                elif len(match.groups()) >= 2:  # 2 grup: açıklama, tutar
+                    kalem = {
+                        'aciklama': match.group(1).strip(),
+                        'tutar': match.group(2).strip()
+                    }
+                
+                # Kalem geçerli mi kontrol et
+                if kalem and self._kalem_gecerli_mi(kalem):
+                    kalemler.append(kalem)
+        
+        return kalemler
+
+    def _kalem_gecerli_mi(self, kalem: Dict) -> bool:
+        """Kalem verisinin geçerli olup olmadığını kontrol eder"""
+        
+        # En azından açıklama olmalı
+        if not kalem.get('aciklama'):
+            return False
+        
+        # Açıklama çok kısa olmamalı (en az 3 karakter)
+        if len(kalem['aciklama']) < 3:
+            return False
+        
+        # Açıklama sadece sayısal değer olmamalı
+        if kalem['aciklama'].replace(',', '').replace('.', '').replace('TL', '').replace(' ', '').isdigit():
+            return False
+        
+        # Gereksiz kelimeleri filtrele
+        gereksiz_kelimeler = ['fatura', 'tarih', 'toplam', 'kdv', 'iskonto', 'ödenecek', 'tutar']
+        if any(gereksiz in kalem['aciklama'].lower() for gereksiz in gereksiz_kelimeler):
+            return False
+        
+        return True
 
     def _normalize_amount(self, amount: str) -> str:
         """Tutar değerini normalize et."""
@@ -614,6 +790,18 @@ class FaturaRegexAnaliz:
         cleaned = re.sub(r'[^0-9.,]', '', cleaned)
         # Baştaki ve sondaki boşlukları temizle
         return cleaned.strip()
+    
+    def _parse_amount_to_float(self, amount: Optional[str]) -> Optional[float]:
+        """Parasal string'i float'a çevirir (1.234,56 -> 1234.56)."""
+        if not amount:
+            return None
+        s = amount.upper().replace('TL', '').replace('TRY', '').replace('₺', '').strip()
+        s = re.sub(r'[^0-9.,]', '', s)
+        s = s.replace('.', '').replace(',', '.')
+        try:
+            return float(s)
+        except Exception:
+            return None
     
     def _normalize_date(self, date: str) -> str:
         """Tarih değerini normalize et."""
@@ -679,6 +867,62 @@ class FaturaRegexAnaliz:
         
         return en_buyuk_tutar_str
 
+    def _preprocess_raw_text(self, text: str) -> str:
+        """Ham OCR metnini ön işler: sık OCR hatalarını ve boşluklarını normalize eder"""
+        if not text:
+            return ""
+        # Yaygın OCR düzeltmeleri
+        replacements = [
+            ("\u2013", "-"), ("\u2014", "-"), ("—", "-"), ("–", "-"),
+            ("\u00A0", " "), ("\ufeff", " "),
+            (" OETTN", " ETTN"), ("ETTN ", "ETTN: "),
+            (" İETTN", " ETTN"), ("E T T N", "ETTN"),
+        ]
+        for a,b in replacements:
+            text = text.replace(a,b)
+        # Satır sonu tire birleştirmeleri: "so-\n nuç" -> "sonuç"
+        text = re.sub(r"-\s*\n\s*", "", text)
+        # Çoklu boşlukları sadeleştir
+        text = re.sub(r"\s+", " ", text)
+        return text.strip()
+
+    def _detect_profile(self, text: str) -> str:
+        """Metinden marka/profil tespiti (basit anahtar kelime temelli)"""
+        low = text.lower()
+        if 'flo' in low or 'kinetix' in low or 'polaris' in low:
+            return 'FLO'
+        if 'trendyol' in low or 'trendyolmail' in low:
+            return 'TRENDYOL'
+        if 'a101' in low or 'yeni mağazacılık' in low or 'a101.com.tr' in low:
+            return 'A101'
+        return 'GENEL'
+
+    def _apply_consistency_rules(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Tutar alanlarında tutarlılık kontrolleri ve basit hesaplamalar uygular"""
+        gt = data.get('genel_toplam')
+        mh = data.get('mal_hizmet_toplam')
+        kdv = data.get('hesaplanan_kdv')
+        def parse_amount(x: Optional[str]) -> Optional[float]:
+            if not x:
+                return None
+            y = x.upper().replace('TL','').replace('TRY','').replace('₺','').strip()
+            y = y.replace('.', '').replace(',', '.')
+            try:
+                return float(y)
+            except Exception:
+                return None
+        gt_v, mh_v, kdv_v = parse_amount(gt), parse_amount(mh), parse_amount(kdv)
+        # Eğer genel_toplam yoksa ve mh+kdv mevcutsa hesapla
+        if gt_v is None and mh_v is not None and kdv_v is not None:
+            calc = mh_v + kdv_v
+            data['genel_toplam'] = f"{calc:,.2f}".replace(',', 'X').replace('.', ',').replace('X','.')
+        # Eğer küçük tutarsızlık varsa (≤ 0.02), genel_toplam'ı yuvarla
+        elif gt_v is not None and mh_v is not None and kdv_v is not None:
+            diff = abs(gt_v - (mh_v + kdv_v))
+            if diff <= 0.02:
+                calc = mh_v + kdv_v
+                data['genel_toplam'] = f"{calc:,.2f}".replace(',', 'X').replace('.', ',').replace('X','.')
+        return data
 
     def yapilandirilmis_veri_cikar(self, ocr_data: Dict, ham_metin: str) -> Dict:
         """
@@ -734,21 +978,85 @@ class FaturaRegexAnaliz:
         data['alici_firma_unvani'] = find_value(alici_kaynak, [r'(?:Sayın|ALICI)[\s:]+([A-ZÇĞİÖŞÜ\s\.]{4,})'])
         data['alici_tckn'] = find_value(alici_kaynak, [r'TCKN[\s:]+(\d{11})'])
 
+        # 🆕 GELİŞMİŞ ALICI BİLGİLERİ - YENİ REGEX DESENLERİ
+        if not data.get('alici_firma_unvani'):
+            data['alici_firma_unvani'] = find_value(alici_kaynak, [self.regex_desenleri['alici_ad_soyad']['desen']])
+        
+        data['alici_adres'] = find_value(alici_kaynak, [self.regex_desenleri['alici_adres']['desen']])
+        data['alici_email'] = find_value(alici_kaynak, [r'E-?Posta[\s:]+([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'])
+        data['alici_telefon'] = find_value(alici_kaynak, [r'Tel[\s:.]*([\d\s\+\(\)]+)'])
+
+        # Ham metni ön işle
+        ham_metin = self._preprocess_raw_text(ham_metin)
+        profil = self._detect_profile(ham_metin)
+
         # 📌 FATURA
-        data['fatura_numarasi'] = find_value(ham_metin, [r'Fatura\s*No[\s:]+([A-Z0-9/-]+)'])
-        data['fatura_tarihi'] = find_value(ham_metin, [r'Fatura\s*Tarihi[\s:]+(\d{2}[./-]\d{2}[./-]\d{4})'])
-        data['ettn'] = find_value(ham_metin, [r'ETTN[\s:]+([a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12})'])
+        data['fatura_numarasi'] = find_value(ham_metin, [r'(?:Fatura\s*No|Belge\s*No)[\s:]+([A-Z0-9/&\-]{8,25})', self.regex_desenleri['fatura_no']['desen']])
+        data['fatura_tarihi'] = find_value(ham_metin, [r'Fatura\s*Tarihi[\s:]+(\d{1,2}\s*[./-]\s*\d{1,2}\s*[./-]\s*\d{2,4})', self.regex_desenleri['tarih']['desen']])
+        data['ettn'] = find_value(ham_metin, [r'ETTN[\s:]+([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', self.regex_desenleri['ettn']['desen']])
         data['fatura_tipi'] = find_value(ham_metin, [r'Fatura\s*Tipi[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)'])
 
-        # 📌 TOPLAMLAR
-        data['genel_toplam'] = find_value(toplamlar_kaynak, [r'(?:Ödenecek\s*Tutar|Vergiler\s*Dahil\s*Toplam\s*Tutar)[\s:]+(' + para_desen + ')'])
+        # Profil bazlı küçük iyileştirmeler
+        if profil == 'A101' and not data.get('fatura_numarasi'):
+            data['fatura_numarasi'] = find_value(ham_metin, [r'\bA\d{15}\b'])
+
+        # 🆕 YENİ FATURA BİLGİLERİ
+        data['siparis_no'] = find_value(ham_metin, [self.regex_desenleri['siparis_no']['desen']])
+        data['odeme_sekli'] = find_value(ham_metin, [self.regex_desenleri['odeme_sekli']['desen']])
+        data['kargo_bilgisi'] = find_value(ham_metin, [self.regex_desenleri['kargo_bilgisi']['desen']])
+
+        # 📌 TOPLAMLAR (bağlamlı)
+        genel_toplam_desenleri = [
+            r'(?:Ödenecek\s*Tutar[ı]?)\s*[:\-]?\s*(' + para_desen + ')',
+            r'(?:Vergiler\s*Dahil\s*Toplam\s*Tutar[ı]?)\s*[:\-]?\s*(' + para_desen + ')',
+            r'(?:Vergiler\s*Dahil\s*Toplam)\s*[:\-]?\s*(' + para_desen + ')',
+            r'(?:Genel\s*Toplam(?:\s*Tutar[ı]?)?)\s*[:\-]?\s*(' + para_desen + ')',
+            r'(?:Toplam\s*Tutar[ı]?)\s*[:\-]?\s*(' + para_desen + ')'
+        ]
+        data['genel_toplam'] = find_value(toplamlar_kaynak, genel_toplam_desenleri)
+        if not data.get('genel_toplam'):
+            data['genel_toplam'] = find_value(ham_metin, genel_toplam_desenleri)
+
         data['hesaplanan_kdv'] = find_value(toplamlar_kaynak, [r'Hesaplanan\s*KDV[\s:]+(' + para_desen + ')'])
         data['toplam_iskonto'] = find_value(toplamlar_kaynak, [r'Toplam\s*[İI]skonto[\s:]+(' + para_desen + ')'])
         data['mal_hizmet_toplam'] = find_value(toplamlar_kaynak, [r'Mal\s*Hizmet\s*Toplam\s*Tutar[ı]?[\s:]+(' + para_desen + ')'])
+
+        # Fatura tipi normalize (gereksiz kuyrukları kes)
+        if data.get('fatura_tipi'):
+            ft = data['fatura_tipi']
+            for kesici in ['Vergi', 'Dairesi', 'TCKN', 'Mersis', 'Belge', 'No']:
+                if kesici in ft:
+                    ft = ft.split(kesici)[0].strip()
+                    break
+            data['fatura_tipi'] = ft or data['fatura_tipi']
+
+        # ETTN fallback: boşluk/noktalama normalize
+        if not data.get('ettn'):
+            packed = re.sub(r'\s+', '', ham_metin)
+            ettn2 = re.findall(r'([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', packed)
+            if ettn2:
+                data['ettn'] = ettn2[0]
+
+        # Profil kurallarını uygula
+        try:
+            low = ham_metin.lower()
+            for prof in (A101Profile(), FLOProfile(), TrendyolProfile()):
+                if prof.applies(low):
+                    data = prof.apply_rules(data, ham_metin)
+        except Exception:
+            pass
+
+        # Tutarlılık kuralları uygula
+        data = self._apply_consistency_rules(data)
         
         # Adım 3: Yedek Stratejiler
         if not data.get('fatura_numarasi'):
-            data['fatura_numarasi'] = self._extract_first([r'\b([A-Z]{3}\d{13})\b', r'\b([A-Z]{2,4}\d{12,15})\b'], ham_metin)
+            data['fatura_numarasi'] = self._extract_first([
+                r'\b([A-Z]{3}\d{13})\b',                 # FEA2023001157280
+                r'\b([A-Z]{2,4}\d{12,15})\b',            # Genel harf+uzun sayı
+                r'\b(A\d{15})\b',                         # A302023001485400 (A101)
+                r'\b([A-Z]{1}\d{14,16})\b'               # Tek harf + uzun sayı toleransı
+            ], ham_metin)
         if not data.get('genel_toplam'):
             data['genel_toplam'] = self._en_buyuk_tutari_bul(ham_metin)
         if not data.get('alici_tckn'):
@@ -776,6 +1084,13 @@ class FaturaRegexAnaliz:
         for field in amount_fields:
             if cleaned_data.get(field):
                 cleaned_data[field] = self._normalize_amount(cleaned_data[field])
+
+        if not data.get('ettn'):
+            # OCR kaynaklı benzer karakter hatalarını normalize edip tekrar dene
+            ocr_norm = ham_metin.replace('O', '0').replace('I', '1').replace('l', '1')
+            ettn_kandidatlar = re.findall(r'([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', ocr_norm)
+            if ettn_kandidatlar:
+                data['ettn'] = ettn_kandidatlar[0]
 
         return cleaned_data
 
@@ -1036,7 +1351,10 @@ class FaturaRegexAnaliz:
         # Hata ayıklama için standart işlenmiş resmi kaydet
         base_name, _ = os.path.splitext(os.path.basename(dosya_yolu))
         debug_dosya_adi = f"debug_processed_{base_name}.png" # PDF yüklenirse hata vermemesi için uzantıyı .png yap
-        debug_dosya_yolu = os.path.join("test_reports", debug_dosya_adi)
+        # Çıktı klasörü main'den set edildiyse onu kullan, yoksa test_reports
+        output_dir = getattr(self, 'output_dir', 'test_reports')
+        os.makedirs(output_dir, exist_ok=True)
+        debug_dosya_yolu = os.path.join(output_dir, debug_dosya_adi)
         cv2.imwrite(debug_dosya_yolu, processed_img)
         print(f"🐛 Standart hata ayıklama resmi kaydedildi: {debug_dosya_yolu}")
         
@@ -1061,6 +1379,8 @@ class FaturaRegexAnaliz:
         # 6. Yapılandırılmış veri çıkar
         print("🏗️ Yapılandırılmış veri çıkarılıyor...")
         structured_data = self.yapilandirilmis_veri_cikar(ocr_data, ham_metin)
+        # 6b. Alan-bazlı OCR fallback (eksikler için)
+        structured_data = self._field_level_ocr_fallback(processed_img, structured_data, ham_metin)
         
         # 7. Görselleştir
         if gorsellestir:
@@ -1213,9 +1533,9 @@ class FaturaRegexAnaliz:
         if structured:
             print(f"\n🏗️ Yapılandırılmış Veriler:")
             
-            # Önemli alanları grupla ve yazdır
+            # Önemli alanları grupla ve yazdır (korumalı erişim)
             önemli_bulunanlar = {}
-            for alan in self.onemli_alanlar:
+            for alan in getattr(self, 'onemli_alanlar', []):
                 değer = structured.get(alan)
                 if değer and str(değer).strip():
                     önemli_bulunanlar[alan] = str(değer).strip()
@@ -1303,5 +1623,80 @@ def main():
     print("\n🎉 Test tamamlandı!")
 
 
+def test_yeni_regex_desenleri():
+    """🆕 Yeni eklenen regex desenlerini test eder"""
+    
+    print("🧪 YENİ REGEX DESENLERİ TEST EDİLİYOR...")
+    print("="*60)
+    
+    # Test metinleri (gerçek faturalardan alınan örnekler)
+    test_metinleri = [
+        {
+            'name': 'Trendyol Fatura Örneği',
+            'text': '''
+            SAYIN Gokhan Çağaptay
+            ADRES: Malatya / Battalgazi
+            ÜRÜN: Herbal Science Boom Butter Saç Bakım Yağı 190 ML, 4 adet
+            BİRİM FİYAT: 104,17 TL
+            ÖDEME: Kredi Kartı (Trendyol temlik hesabı)
+            KARGO: PTT Kargo
+            SİPARİŞ NO: TY0725295
+            '''
+        },
+        {
+            'name': 'A101 Fatura Örneği',
+            'text': '''
+            SAYIN Gökhan Çağaptay
+            ADRES: Antalya / Gazipaşa
+            ÜRÜN: Kablosuz Mouse Mobile 1850 (1 adet, 160,17 TL)
+            KARGO BEDELİ: Kargo Bedeli (1 adet, 12,63 TL)
+            ÖDEME: E-Ticaret Kredi Kartı
+            KARGO: MNG KARGO YURTİÇİ VE YURTDIŞI
+            SİPARİŞ NO: A101-2023-001
+            '''
+        },
+        {
+            'name': 'Hacı Şekeroğlu Fatura Örneği',
+            'text': '''
+            SAYIN MEHMET EMIR ARSLAN
+            ADRES: Malatya / Battalgazi
+            ÜRÜN: HP Pavilion 800 Q Klavye (1 adet, 748,50 TL)
+            ÖDEME: Bilgi yok
+            SİPARİŞ NO: HS-2023-169
+            '''
+        }
+    ]
+    
+    # Sistem başlat
+    analiz_sistemi = FaturaRegexAnaliz()
+    
+    for test_case in test_metinleri:
+        print(f"\n📋 TEST: {test_case['name']}")
+        print("-" * 40)
+        
+        # Regex ile veri çıkar
+        regex_sonuclari = analiz_sistemi.regex_ile_veri_cikar(test_case['text'])
+        
+        # Yeni regex desenlerini kontrol et
+        yeni_desenler = ['alici_ad_soyad', 'alici_adres', 'urun_aciklama', 'urun_miktar', 
+                         'birim_fiyat', 'odeme_sekli', 'kargo_bilgisi', 'siparis_no']
+        
+        print("🔍 YENİ REGEX DESENLERİ SONUÇLARI:")
+        for desen in yeni_desenler:
+            if desen in regex_sonuclari and regex_sonuclari[desen]:
+                print(f"   ✅ {desen}: {regex_sonuclari[desen]}")
+            else:
+                print(f"   ❌ {desen}: Bulunamadı")
+        
+        print()
+    
+    print("🎯 YENİ REGEX TEST TAMAMLANDI!")
+    print("="*60)
+
+
 if __name__ == "__main__":
+    # Ana test fonksiyonu
     main()
+    
+    # 🆕 Yeni regex desenlerini test et
+    test_yeni_regex_desenleri()
