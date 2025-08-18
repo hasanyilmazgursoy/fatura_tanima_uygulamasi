@@ -2,6 +2,7 @@ import streamlit as st
 import os
 from fatura_regex_analiz_yeni import FaturaRegexAnaliz
 from PIL import Image
+from datetime import datetime
 
 # --- Sayfa Konfigürasyonu ---
 st.set_page_config(layout="wide")
@@ -17,6 +18,31 @@ def motoru_yukle():
     return FaturaRegexAnaliz()
 
 analiz_sistemi = motoru_yukle()
+
+# --- Çıktı klasörü (her oturum için zaman damgalı) ---
+if 'output_dir' not in st.session_state:
+    base_dir = 'test_reports'
+    os.makedirs(base_dir, exist_ok=True)
+    run_dir = os.path.join(base_dir, datetime.now().strftime('%Y%m%d_%H%M%S_streamlit'))
+    os.makedirs(run_dir, exist_ok=True)
+    st.session_state['output_dir'] = run_dir
+
+try:
+    analiz_sistemi.output_dir = st.session_state['output_dir']
+except Exception:
+    pass
+
+st.sidebar.markdown(f"Çıktı klasörü: `{st.session_state['output_dir']}`")
+
+# --- Performans Seçenekleri ---
+fast_mode = st.sidebar.checkbox("Hızlı mod (ön işleme ve ek OCR denemeleri azalt)", value=True)
+pdf_dpi = st.sidebar.slider("PDF DPI (kalite hızı etkiler)", min_value=150, max_value=300, value=220, step=10)
+save_debug = st.sidebar.checkbox("Debug görsel kaydet", value=not fast_mode)
+
+# Analiz motoru ayarları
+setattr(analiz_sistemi, 'fast_mode', fast_mode)
+setattr(analiz_sistemi, 'pdf_dpi', pdf_dpi)
+setattr(analiz_sistemi, 'save_debug', save_debug)
 
 # --- YENİ: Detaylı Sonuç Gösterme Fonksiyonu ---
 def goster_detayli_sonuclar(data):
@@ -140,6 +166,12 @@ with col2:
 
                             st.subheader("⚙️ Ham JSON Çıktısı")
                             st.json(structured_data)
+
+                        # Debug işlenmiş görseli göster (varsa)
+                        debug_name = f"debug_processed_{os.path.splitext(os.path.basename(dosya_yolu))[0]}.png"
+                        debug_path = os.path.join(st.session_state['output_dir'], debug_name)
+                        if os.path.exists(debug_path):
+                            st.image(debug_path, caption="İşlenmiş Görsel (Debug)", use_column_width=True)
 
                 except Exception as e:
                     st.error(f"Analiz sırasında beklenmedik bir hata oluştu: {e}")

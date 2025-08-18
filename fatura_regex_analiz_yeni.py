@@ -169,6 +169,22 @@ class FaturaRegexAnaliz:
             }
         }
 
+        # Harici desen konfigürasyonu (opsiyonel) ile birleştir
+        try:
+            external_path = os.path.join('config', 'patterns.json')
+            if os.path.exists(external_path):
+                with open(external_path, 'r', encoding='utf-8') as f:
+                    external = json.load(f)
+                for key, val in external.items():
+                    if key in self.regex_desenleri and isinstance(val, dict):
+                        # Sadece verilen alanları güncelle
+                        self.regex_desenleri[key].update({k: v for k, v in val.items() if k in ['desen','aciklama','ornek']})
+                    else:
+                        self.regex_desenleri[key] = val
+                print(f"🔧 Harici regex desenleri yüklendi: {external_path}")
+        except Exception as e:
+            print(f"⚠️ Harici desenler yüklenemedi: {e}")
+
     def _ocr_text_with_config(self, img: np.ndarray, config_suffix: str) -> str:
         """Alternatif Tesseract ayarı ile hızlı OCR metni döndürür."""
         try:
@@ -201,10 +217,10 @@ class FaturaRegexAnaliz:
             return structured
 
         combined = current_text + "\n" + "\n".join(alt_texts)
-        # Sadece eksik alanları yeniden çıkar
-        # fatura no
+        # Sadece eksik alanları yeniden çıkar (etiket öncelikli)
+        # fatura no (etiketli + gürültü toleranslı)
         if 'fatura_numarasi' in missing and not structured.get('fatura_numarasi'):
-            m = re.search(r'(?:fatura\s*no|belge\s*no)[\s:]*([A-Z0-9/&\-]{8,25})', combined, re.IGNORECASE)
+            m = re.search(r'(?:f\s*a\s*t\s*u\s*r\s*a\s*\s*no|belge\s*no)[\s:\-|]+([A-Za-z0-9/&\-]{6,25})', combined, re.IGNORECASE)
             if not m:
                 m = re.search(r'\bA\d{15}\b', combined)
             if not m:
@@ -214,13 +230,15 @@ class FaturaRegexAnaliz:
 
         # tarih
         if 'fatura_tarihi' in missing and not structured.get('fatura_tarihi'):
-            m = re.search(r'\b\d{1,2}\s*[/\-.]\s*\d{1,2}\s*[/\-.]\s*\d{2,4}\b', combined)
+            m = re.search(r'Fatura\s*Tarihi[\s:\(\[]+(\d{1,2}\s*[./-]\s*\d{1,2}\s*[./-]\s*\d{2,4})', combined, re.IGNORECASE)
+            if not m:
+                m = re.search(r'\b\d{1,2}\s*[/\-.]\s*\d{1,2}\s*[/\-.]\s*\d{2,4}\b', combined)
             if m:
                 structured['fatura_tarihi'] = re.sub(r'\s*[/\-.]\s*', '-', m.group(0))
 
         # ettn
         if 'ettn' in missing and not structured.get('ettn'):
-            m = re.search(r'([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', combined)
+            m = re.search(r'ETTN\s*[:\-]?\s*([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', combined)
             if m:
                 structured['ettn'] = m.group(1)
 
@@ -992,7 +1010,13 @@ class FaturaRegexAnaliz:
 
         # 📌 FATURA
         data['fatura_numarasi'] = find_value(ham_metin, [r'(?:Fatura\s*No|Belge\s*No)[\s:]+([A-Z0-9/&\-]{8,25})', self.regex_desenleri['fatura_no']['desen']])
-        data['fatura_tarihi'] = find_value(ham_metin, [r'Fatura\s*Tarihi[\s:]+(\d{1,2}\s*[./-]\s*\d{1,2}\s*[./-]\s*\d{2,4})', self.regex_desenleri['tarih']['desen']])
+        data['fatura_tarihi'] = find_value(
+            ham_metin,
+            [
+                r'Fatura\s*Tarihi[\s:\(\[]+(\d{1,2}\s*[./-]\s*\d{1,2}\s*[./-]\s*\d{2,4})',
+                self.regex_desenleri['tarih']['desen']
+            ]
+        )
         data['ettn'] = find_value(ham_metin, [r'ETTN[\s:]+([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', self.regex_desenleri['ettn']['desen']])
         data['fatura_tipi'] = find_value(ham_metin, [r'Fatura\s*Tipi[\s:]+([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)'])
 
@@ -1030,12 +1054,11 @@ class FaturaRegexAnaliz:
                     break
             data['fatura_tipi'] = ft or data['fatura_tipi']
 
-        # ETTN fallback: boşluk/noktalama normalize
+        # ETTN fallback: SADECE etiket yakınında yakala (yanlış pozitifleri azalt)
         if not data.get('ettn'):
-            packed = re.sub(r'\s+', '', ham_metin)
-            ettn2 = re.findall(r'([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', packed)
-            if ettn2:
-                data['ettn'] = ettn2[0]
+            m = re.search(r'ETTN\s*[:\-]?\s*([A-Fa-f0-9]{8}-(?:[A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12})', ham_metin)
+            if m:
+                data['ettn'] = m.group(1)
 
         # Profil kurallarını uygula
         try:
@@ -1172,9 +1195,10 @@ class FaturaRegexAnaliz:
                     return None
                 
                 page = pdf_doc.load_page(0)
-                
+
                 # Yüksek çözünürlüklü resim oluştur (DPI ayarı)
-                pix = page.get_pixmap(dpi=300)
+                dpi = getattr(self, 'pdf_dpi', 300)
+                pix = page.get_pixmap(dpi=int(dpi))
                 
                 # Pixmap'i Numpy array'e çevir (Daha güvenilir yöntem)
                 # pix.samples bir byte dizisidir. Bunu (height, width, 3) şeklinde bir numpy array'e dönüştürürüz.
@@ -1223,9 +1247,10 @@ class FaturaRegexAnaliz:
         print("🔧 Gelişmiş resim ön işleme başlatılıyor...")
         
         try:
-            # Adım 1: Eğiklik Düzeltme
-            img = self._duzeltme(img)
-            print("   ✅ Eğiklik düzeltildi (Deskewing)")
+            # Hızlı modda ağır deskew adımını atla
+            if not getattr(self, 'fast_mode', False):
+                img = self._duzeltme(img)
+                print("   ✅ Eğiklik düzeltildi (Deskewing)")
 
             # Küçük resimleri büyüt (OCR kalitesi için)
             height, width = img.shape[:2]
@@ -1291,7 +1316,8 @@ class FaturaRegexAnaliz:
             print(f"   📊 Ortalama güven skoru: {avg_confidence:.1f}%")
             
             # Düşük güven skorunda alternatif PSM dene
-            if avg_confidence < 50:
+            # Hızlı modda ekstra PSM denemelerini atla
+            if avg_confidence < 50 and not getattr(self, 'fast_mode', False):
                 print("   🔄 Düşük güven skoru, PSM 4 deneniyor...")
                 alternative_config = f'--oem 3 --psm 4 -l tur+eng'
                 ocr_data_alt = pytesseract.image_to_data(img, config=alternative_config, output_type=pytesseract.Output.DICT)
@@ -1348,15 +1374,16 @@ class FaturaRegexAnaliz:
         # Şimdi bunu da düzelterek sorunu tamamen çözüyoruz.
         processed_img = self.resmi_on_isle(img)
         
-        # Hata ayıklama için standart işlenmiş resmi kaydet
+        # Hata ayıklama için standart işlenmiş resmi kaydet (isteğe bağlı)
         base_name, _ = os.path.splitext(os.path.basename(dosya_yolu))
         debug_dosya_adi = f"debug_processed_{base_name}.png" # PDF yüklenirse hata vermemesi için uzantıyı .png yap
-        # Çıktı klasörü main'den set edildiyse onu kullan, yoksa test_reports
+        # Çıktı klasörü main/streamlit'ten set edildiyse onu kullan, yoksa test_reports
         output_dir = getattr(self, 'output_dir', 'test_reports')
-        os.makedirs(output_dir, exist_ok=True)
-        debug_dosya_yolu = os.path.join(output_dir, debug_dosya_adi)
-        cv2.imwrite(debug_dosya_yolu, processed_img)
-        print(f"🐛 Standart hata ayıklama resmi kaydedildi: {debug_dosya_yolu}")
+        if getattr(self, 'save_debug', False):
+            os.makedirs(output_dir, exist_ok=True)
+            debug_dosya_yolu = os.path.join(output_dir, debug_dosya_adi)
+            cv2.imwrite(debug_dosya_yolu, processed_img)
+            print(f"🐛 Standart hata ayıklama resmi kaydedildi: {debug_dosya_yolu}")
         
         # 3. OCR ile metni çıkar (İlk Deneme)
         ocr_data, avg_confidence = self.metni_cikar(processed_img)
@@ -1379,8 +1406,9 @@ class FaturaRegexAnaliz:
         # 6. Yapılandırılmış veri çıkar
         print("🏗️ Yapılandırılmış veri çıkarılıyor...")
         structured_data = self.yapilandirilmis_veri_cikar(ocr_data, ham_metin)
-        # 6b. Alan-bazlı OCR fallback (eksikler için)
-        structured_data = self._field_level_ocr_fallback(processed_img, structured_data, ham_metin)
+        # 6b. Alan-bazlı OCR fallback (eksikler için) - hızlı modda atlanabilir
+        if not getattr(self, 'fast_mode', False):
+            structured_data = self._field_level_ocr_fallback(processed_img, structured_data, ham_metin)
         
         # 7. Görselleştir
         if gorsellestir:

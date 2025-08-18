@@ -23,6 +23,18 @@ def log_ayarlarini_yap(rapor_klasoru: str):
     )
     print(f"📝 Hata kayıtları (log) şu dosyaya yazılacak: {log_dosyasi}")
 
+def analyze_file_for_pool(path: str, output_dir: str) -> Dict:
+    """ProcessPoolExecutor ile kullanılabilir, üst seviye fonksiyon."""
+    try:
+        local = FaturaRegexAnaliz()
+        try:
+            local.output_dir = output_dir
+        except Exception:
+            pass
+        return local.fatura_analiz_et(path, gorsellestir=False)
+    except Exception as e:
+        return {"hata": str(e), "dosya": path}
+
 def ayarları_yukle() -> dict:
     """
     config.json dosyasından ayarları yükler.
@@ -270,24 +282,11 @@ def ana_analiz_süreci():
     tum_sonuclar = []
     hatali_dosyalar = []
 
-    def _analyze_wrapper(path: str) -> Dict:
-        # Her süreç kendi analiz nesnesini kullanır
-        local = FaturaRegexAnaliz()
-        try:
-            local.output_dir = run_klasoru
-        except Exception:
-            pass
-        try:
-            print(f"\n{'─'*20} Analiz ediliyor: {os.path.basename(path)} {'─'*20}")
-            return local.fatura_analiz_et(path, gorsellestir=False)
-        except Exception as e:
-            return {"hata": str(e), "dosya": path}
-
     worker_count = parallel_workers if parallel_workers and parallel_workers > 0 else max(1, (os.cpu_count() or 2) - 1)
     if worker_count > 1:
         print(f"⚙️ Paralel analiz: {worker_count} işçi")
         with ProcessPoolExecutor(max_workers=worker_count) as ex:
-            future_map = {ex.submit(_analyze_wrapper, p): p for p in islenicek_faturalar}
+            future_map = {ex.submit(analyze_file_for_pool, p, run_klasoru): p for p in islenicek_faturalar}
             for fut in as_completed(future_map):
                 dosya_yolu = future_map[fut]
                 try:

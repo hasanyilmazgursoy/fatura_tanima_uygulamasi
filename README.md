@@ -108,7 +108,7 @@ Not: Windows’ta konsol kodlaması hatası görürseniz `python -X utf8 main.py
 
 Bu projenin mevcut durumu sağlam bir temel oluşturmaktadır. Gelecekte yapılabilecek potansiyel iyileştirmeler şunlardır:
 
-- **Regex Desenlerini Genişletme:** Daha fazla fatura formatını tanımak için `fatura_regex_analiz_yeni.py` dosyasındaki desenleri zenginleştirmek.
+- **Regex Desenlerini Genişletme:** Daha fazla fatura formatını tanımak için `config/patterns.json` dosyasına desen ekleyerek sistemi kod değişmeden zenginleştirmek.
 - **Konumsal Analiz:** Sadece metne değil, metnin faturadaki konumuna göre daha akıllı veri çıkarma (örneğin, "en alttaki en büyük tutar genel toplamdır" gibi).
 - **Web Arayüzü:** Flask veya Django kullanarak kullanıcıların faturaları tarayıcı üzerinden yükleyebileceği bir arayüz oluşturmak.
 - **Makine Öğrenmesi Modelleri:** Veri çıkarma doğruluğunu en üst seviyeye taşımak için Named Entity Recognition (NER) veya Layout-Aware (örn: LayoutLM) modelleri eğitmek.

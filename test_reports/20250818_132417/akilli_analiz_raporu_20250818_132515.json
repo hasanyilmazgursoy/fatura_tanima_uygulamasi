@@ -1,0 +1,637 @@
+{
+    "toplam_fatura": 21,
+    "basarili_alanlar": {
+        "fatura_numarasi": 20,
+        "fatura_tarihi": 21,
+        "genel_toplam": 20,
+        "satici_firma_unvani": 16,
+        "alici_tckn": 19,
+        "ettn": 20
+    },
+    "basarisiz_alanlar": {
+        "fatura_numarasi": 1,
+        "fatura_tarihi": 0,
+        "genel_toplam": 1,
+        "satici_firma_unvani": 5,
+        "alici_tckn": 2,
+        "ettn": 1
+    },
+    "ocr_kalite_analizi": {
+        "Orta": 18,
+        "Yüksek": 2,
+        "Düşük": 1
+    },
+    "regex_basari_oranlari": {
+        "tarih": {
+            "bulundu": 21,
+            "bulunamadi": 0
+        },
+        "para": {
+            "bulundu": 20,
+            "bulunamadi": 1
+        },
+        "iban": {
+            "bulundu": 4,
+            "bulunamadi": 17
+        },
+        "fatura_no": {
+            "bulundu": 17,
+            "bulunamadi": 4
+        },
+        "vergi_no": {
+            "bulundu": 6,
+            "bulunamadi": 15
+        },
+        "tc_no": {
+            "bulundu": 19,
+            "bulunamadi": 2
+        },
+        "telefon": {
+            "bulundu": 16,
+            "bulunamadi": 5
+        },
+        "email": {
+            "bulundu": 18,
+            "bulunamadi": 3
+        },
+        "fatura_tipi": {
+            "bulundu": 19,
+            "bulunamadi": 2
+        },
+        "kdv_orani": {
+            "bulundu": 0,
+            "bulunamadi": 21
+        },
+        "ettn": {
+            "bulundu": 10,
+            "bulunamadi": 11
+        },
+        "mersis_no": {
+            "bulundu": 12,
+            "bulunamadi": 9
+        },
+        "ticaret_sicil": {
+            "bulundu": 14,
+            "bulunamadi": 7
+        },
+        "musteri_no": {
+            "bulundu": 8,
+            "bulunamadi": 13
+        },
+        "mal_hizmet_kodu": {
+            "bulundu": 0,
+            "bulunamadi": 21
+        },
+        "alici_ad_soyad": {
+            "bulundu": 16,
+            "bulunamadi": 5
+        },
+        "alici_adres": {
+            "bulundu": 7,
+            "bulunamadi": 14
+        },
+        "urun_aciklama": {
+            "bulundu": 14,
+            "bulunamadi": 7
+        },
+        "urun_miktar": {
+            "bulundu": 11,
+            "bulunamadi": 10
+        },
+        "birim_fiyat": {
+            "bulundu": 1,
+            "bulunamadi": 20
+        },
+        "odeme_sekli": {
+            "bulundu": 3,
+            "bulunamadi": 18
+        },
+        "kargo_bilgisi": {
+            "bulundu": 0,
+            "bulunamadi": 21
+        },
+        "siparis_no": {
+            "bulundu": 6,
+            "bulunamadi": 15
+        }
+    },
+    "hata_turleri": {
+        "ocr_kalitesi_dusuk": 1,
+        "regex_pattern_uyumsuz": 0,
+        "format_farkliligi": 21,
+        "karakter_tanima_hatasi": 7,
+        "yapisal_bozulma": 0
+    },
+    "iyilestirme_onerileri": [
+        "⚠️ Satici Firma Unvani: %76.2 başarı - İyileştirme önerilir",
+        "🔧 OCR Kalitesi: 1 fatura düşük kalite - PSM ayarları optimize edilmeli",
+        "🔧 Format Desteği: 21 fatura farklı format - Format parser geliştirilmeli",
+        "✅ Sistem genel olarak iyi çalışıyor, küçük iyileştirmeler yeterli"
+    ],
+    "pattern_matching_basari": [
+        {
+            "dosya": "fatura\\62753525855359.Pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (5).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (4).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (7).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (1).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (6).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (2).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\2022305234296_194_08_07_2024_06_14_37_120.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\A302023001485400.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 2,
+            "basarisiz_alan": 1,
+            "basari_orani": 66.66666666666666,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": false,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARISIZ"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\fae4674b-468b-4b88-a26c-6a9aa8812c17.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\prod_2023-09_2bda4b0f-bc47-4208-9c28-4cf54110eb73.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\EArchive.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\c84976bc-b3ff-4d85-b7e8-b36ac571e770.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\earchive_invoiceHNP2024000000388.pdf..pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\5c565ea6-b2f6-4e4a-b004-75cface23500.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderbabaPdf.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf (3).pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\orderPdf.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\5b41a434-d40d-4ee1-9054-9d9fe8095c58.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 2,
+            "basarisiz_alan": 1,
+            "basari_orani": 66.66666666666666,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": false,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARISIZ"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\prod_2024-09_0263d6d4-f2c0-4616-8641-ed0005bb7293.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        },
+        {
+            "dosya": "fatura\\prod_2023-10_370159_fd89b6e5-883e-4daf-a31c-236db74a4ffe.pdf",
+            "toplam_alan": 3,
+            "basarili_alan": 3,
+            "basarisiz_alan": 0,
+            "basari_orani": 100.0,
+            "detayli_analiz": {
+                "fatura_numarasi": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                },
+                "fatura_tarihi": {
+                    "structured_var": true,
+                    "regex_bulundu": false,
+                    "durum": "BAŞARILI"
+                },
+                "genel_toplam": {
+                    "structured_var": true,
+                    "regex_bulundu": true,
+                    "durum": "BAŞARILI"
+                }
+            }
+        }
+    ]
+}
