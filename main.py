@@ -6,6 +6,8 @@ import glob
 from datetime import datetime
 from fatura_regex_analiz_yeni import FaturaRegexAnaliz
 from typing import Dict
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import multiprocessing
 
 def log_ayarlarini_yap(rapor_klasoru: str):
     """
@@ -227,13 +229,12 @@ def ana_analiz_süreci():
     os.makedirs(run_klasoru, exist_ok=True)
     log_ayarlarini_yap(run_klasoru)
 
-    # Sistem başlat
-    analiz_sistemi = FaturaRegexAnaliz()
-    # Bu koşu için çıktı klasörünü analiz motoruna bildir
+    # Paralel iş parçası sayısı (0 veya yoksa otomatik)
+    parallel_workers = 0
     try:
-        analiz_sistemi.output_dir = run_klasoru
+        parallel_workers = int(ayarlar.get('parallel_workers', 0))
     except Exception:
-        pass
+        parallel_workers = 0
 
     # Fatura ve rapor klasör yolları (config'den)
     fatura_klasoru = ayarlar['klasor_yollari']['fatura_klasoru']
@@ -265,75 +266,62 @@ def ana_analiz_süreci():
 
     print(f"🎯 Toplam {len(islenicek_faturalar)} adet fatura analiz edilecek...")
 
-    # Tüm sonuçları ve hatalı dosyaları topla
+    # Tüm sonuçları ve hatalı dosyaları topla (paralel/seri)
     tum_sonuclar = []
     hatali_dosyalar = []
-    for dosya_yolu in islenicek_faturalar:
-        try:
-            print(f"\n{'─'*20} Analiz ediliyor: {os.path.basename(dosya_yolu)} {'─'*20}")
-            
-            # Görselleştirmeyi KAPATARAK toplu analiz yap
-            sonuclar = analiz_sistemi.fatura_analiz_et(dosya_yolu, gorsellestir=False)
-            
-            # Sonuçları ekle ve kritik alanları kontrol et
-            if "hata" not in sonuclar:
-                tum_sonuclar.append(sonuclar)
-                analiz_sistemi.sonuclari_yazdir(sonuclar)
-                
-                # Başarısızlık analizi için loglama
-                structured_data = sonuclar.get('structured', {})
-                kritik_alanlar = ['fatura_numarasi', 'fatura_tarihi', 'genel_toplam']
-                eksik_alanlar = [alan for alan in kritik_alanlar if not structured_data.get(alan)]
-                
-                if eksik_alanlar:
-                    basarisizlik_log_yolu = os.path.join(run_klasoru, "basarisiz_faturalar.log")
-                    with open(basarisizlik_log_yolu, 'a', encoding='utf-8') as log_f:
-                        log_f.write(f"--- BASARISIZ VAKA: {os.path.basename(dosya_yolu)} ---\n")
-                        log_f.write(f"Eksik Kritik Alanlar: {', '.join(eksik_alanlar)}\n")
-                        
-                        # OCR istatistikleri
-                        ocr_stats = sonuclar.get('ocr_istatistikleri', {})
-                        guven_skoru = ocr_stats.get('ortalama_guven_skoru', '0%')
-                        toplam_kelime = ocr_stats.get('toplam_kelime', 0)
-                        gecerli_kelime = ocr_stats.get('gecerli_kelime', 0)
-                        
-                        log_f.write(f"OCR Güven Skoru: {guven_skoru}\n")
-                        log_f.write(f"Toplam Kelime: {toplam_kelime}, Geçerli Kelime: {gecerli_kelime}\n")
-                        
-                        # Regex sonuçları analizi
-                        regex_sonuclari = sonuclar.get('regex', {})
-                        log_f.write("Regex Analizi:\n")
-                        for alan, sonuclar_list in regex_sonuclari.items():
-                            if alan in eksik_alanlar or alan in ['fatura_no', 'tarih', 'para']:
-                                if sonuclar_list and len(sonuclar_list) > 0:
-                                    log_f.write(f"  {alan}: BULUNDU - {sonuclar_list[:3]}\n")
-                                else:
-                                    log_f.write(f"  {alan}: BULUNAMADI\n")
-                        
-                        # Ham metin analizi
-                        ham_metin = ocr_stats.get('ham_metin', 'METIN_CIKARILAMADI')
-                        log_f.write(f"Ham Metin (İlk 500 karakter): {ham_metin[:500]}...\n")
-                        
-                        # Hata türü tespiti
-                        hata_turu = hata_turu_tespit_et(eksik_alanlar, ocr_stats, regex_sonuclari)
-                        log_f.write(f"Hata Türü: {hata_turu}\n")
-                        
-                        # İyileştirme önerisi
-                        oneri = iyilestirme_onerisi_olustur_tek_fatura(eksik_alanlar, hata_turu, guven_skoru)
-                        log_f.write(f"Öneri: {oneri}\n")
-                        
-                        log_f.write("\n")
-            else:
-                hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilemedi. Hata: {sonuclar['hata']}"
-                print(f"⚠️  Uyarı: {hata_mesaji}")
-                logging.error(hata_mesaji)
-                hatali_dosyalar.append(dosya_yolu)
 
+    def _analyze_wrapper(path: str) -> Dict:
+        # Her süreç kendi analiz nesnesini kullanır
+        local = FaturaRegexAnaliz()
+        try:
+            local.output_dir = run_klasoru
+        except Exception:
+            pass
+        try:
+            print(f"\n{'─'*20} Analiz ediliyor: {os.path.basename(path)} {'─'*20}")
+            return local.fatura_analiz_et(path, gorsellestir=False)
         except Exception as e:
-            hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilirken beklenmedik bir hata oluştu: {e}"
-            print(f"❌ Beklenmedik Hata: {hata_mesaji}")
-            logging.exception(hata_mesaji) # `exception` metodu, traceback'i de loglar
-            hatali_dosyalar.append(dosya_yolu)
+            return {"hata": str(e), "dosya": path}
+
+    worker_count = parallel_workers if parallel_workers and parallel_workers > 0 else max(1, (os.cpu_count() or 2) - 1)
+    if worker_count > 1:
+        print(f"⚙️ Paralel analiz: {worker_count} işçi")
+        with ProcessPoolExecutor(max_workers=worker_count) as ex:
+            future_map = {ex.submit(_analyze_wrapper, p): p for p in islenicek_faturalar}
+            for fut in as_completed(future_map):
+                dosya_yolu = future_map[fut]
+                try:
+                    sonuclar = fut.result()
+                except Exception as e:
+                    hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilemedi. Hata: {e}"
+                    print(f"⚠️  Uyarı: {hata_mesaji}")
+                    logging.error(hata_mesaji)
+                    hatali_dosyalar.append(dosya_yolu)
+                    continue
+                if "hata" not in sonuclar:
+                    tum_sonuclar.append(sonuclar)
+                else:
+                    hatali_dosyalar.append(dosya_yolu)
+    else:
+        # Seri analiz
+        analiz_sistemi = FaturaRegexAnaliz()
+        try:
+            analiz_sistemi.output_dir = run_klasoru
+        except Exception:
+            pass
+        for dosya_yolu in islenicek_faturalar:
+            try:
+                print(f"\n{'─'*20} Analiz ediliyor: {os.path.basename(dosya_yolu)} {'─'*20}")
+                sonuclar = analiz_sistemi.fatura_analiz_et(dosya_yolu, gorsellestir=False)
+                if "hata" not in sonuclar:
+                    tum_sonuclar.append(sonuclar)
+                else:
+                    hatali_dosyalar.append(dosya_yolu)
+            except Exception as e:
+                hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilirken beklenmedik bir hata oluştu: {e}"
+                print(f"❌ Beklenmedik Hata: {hata_mesaji}")
+                logging.exception(hata_mesaji)
+                hatali_dosyalar.append(dosya_yolu)
 
     # Toplu raporu kaydet
     if tum_sonuclar:
