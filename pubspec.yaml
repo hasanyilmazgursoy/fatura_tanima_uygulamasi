@@ -1,0 +1,50 @@
+name: fatura_yeni
+description: "Akıllı fatura tanıma ve yönetim uygulaması."
+publish_to: 'none' 
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.5.1 
+  
+  # API İstekleri
+  http: ^1.2.1
+  
+  # Vektörel İkonlar
+  flutter_svg: ^2.0.10+1
+  
+  # Özel Fontlar
+  google_fonts: ^6.2.1
+  
+  # iOS Stili İkonlar
+  cupertino_icons: ^1.0.6
+  
+  # Çoklu Dil Desteği (i18n)
+  flutter_localizations:
+    sdk: flutter
+  intl: 0.20.2
+
+  # Özel UI Bileşenleri
+  intl_phone_field: ^3.2.0
+  pinput: ^4.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  
+  flutter_lints: ^3.0.0
+
+# Flutter'a özel yapılandırmalar bu tek bölüm altında toplanmalıdır.
+flutter:
+  uses-material-design: true
+  generate: true # Çoklu dil desteği için kod üretimi
+
+  # Uygulama varlıkları (resim, json vb.)
+  assets:
+    - assets/
