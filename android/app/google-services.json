@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "251889727921",
+    "project_id": "faturatanimauygulamasi",
+    "storage_bucket": "faturatanimauygulamasi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251889727921:android:d1bbbaaf5b28f9fcebe590",
+        "android_client_info": {
+          "package_name": "com.example.fatura_yeni"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251889727921-ge7qe2gl6db7iqbmra61rkbqfqob0kn8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fatura_yeni",
+            "certificate_hash": "0438a8a807e358d997ed41e45435841f08e94afd"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHqOojiqkl9SIAoHE5tN2ld82OCFgoM2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

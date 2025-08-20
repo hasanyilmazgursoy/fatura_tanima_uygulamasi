@@ -1,20 +1,42 @@
 // lib/features/auth/screens/otp_screen.dart
 
 import 'dart:async';
+import 'package:fatura_yeni/core/services/api_service.dart';
+import 'package:fatura_yeni/core/services/firebase_service.dart';
+import 'package:fatura_yeni/core/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:fatura_yeni/features/main/main_screen.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  final String verificationId;
+  final String name;
+  final String email;
+  final String password;
+  final String fullPhoneNumber;
+
+  const OtpScreen({
+    super.key,
+    required this.verificationId,
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.fullPhoneNumber,
+  });
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  final TextEditingController _pinController = TextEditingController();
+  final FirebaseService _firebaseService = FirebaseService();
+  final ApiService _apiService = ApiService();
+  final StorageService _storageService = StorageService();
+  bool _isLoading = false;
+
   late Timer _timer;
-  int _start = 228; // 03:48'e denk gelen saniye
+  int _start = 120; // 2 dakika
 
   @override
   void initState() {
@@ -39,7 +61,61 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   void dispose() {
     _timer.cancel();
+    _pinController.dispose();
     super.dispose();
+  }
+
+  Future<void> _verifyAndRegister() async {
+    if (_pinController.text.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lütfen 6 haneli kodu girin.')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final firebaseIdToken =
+          await _firebaseService.getFirebaseIdTokenWithSmsCode(
+        widget.verificationId,
+        _pinController.text,
+      );
+
+      if (firebaseIdToken == null) {
+        throw Exception("Firebase ID token alınamadı.");
+      }
+
+      final response = await _apiService.register(
+        email: widget.email,
+        password: widget.password,
+        phone: widget.fullPhoneNumber, // 'name' yerine 'phone' gönder
+        firebaseIdToken: firebaseIdToken,
+      );
+
+      await _storageService.saveToken(response['token']);
+
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Kayıt başarısız: ${e.toString()}')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   String get timerString {
@@ -79,14 +155,10 @@ class _OtpScreenState extends State<OtpScreen> {
               _buildResendCode(context),
               const Spacer(flex: 2),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const MainScreen()),
-                    (Route<dynamic> route) =>
-                        false, // Geriye kalan tüm rotaları kaldır
-                  );
-                },
-                child: const Text('Verify and Create Account'),
+                onPressed: _isLoading ? null : _verifyAndRegister,
+                child: _isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text('Verify and Create Account'),
               ),
               const Spacer(flex: 1),
             ],
@@ -110,7 +182,7 @@ class _OtpScreenState extends State<OtpScreen> {
           text: TextSpan(
             style: theme.textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
             children: [
-              const TextSpan(text: "Code was sent to +234 7085 689 ***\n"),
+              TextSpan(text: "Code was sent to ${widget.fullPhoneNumber}\n"),
               const TextSpan(text: "This code will expire in "),
               TextSpan(
                 text: timerString,
@@ -135,7 +207,8 @@ class _OtpScreenState extends State<OtpScreen> {
     );
 
     return Pinput(
-      length: 4,
+      length: 6, // Firebase 6 haneli kod gönderir
+      controller: _pinController,
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: defaultPinTheme.copyWith(
         decoration: defaultPinTheme.decoration!.copyWith(
@@ -143,7 +216,7 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       ),
       onCompleted: (pin) {
-        // TODO: Handle completed PIN
+        _verifyAndRegister();
       },
     );
   }
@@ -159,10 +232,11 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
         TextButton(
           onPressed: _start == 0
-              ? () {
-                  // TODO: Resend OTP logic
+              ? () async {
+                  // Resend OTP logic
+                  await _firebaseService.resendOtp(widget.fullPhoneNumber);
                   setState(() {
-                    _start = 228;
+                    _start = 120;
                   });
                   startTimer();
                 }

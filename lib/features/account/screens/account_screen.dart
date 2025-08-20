@@ -1,10 +1,48 @@
 // lib/features/account/screens/account_screen.dart
-import 'package:fatura_yeni/features/auth/screens/login_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:fatura_yeni/core/services/firebase_service.dart';
+import 'package:fatura_yeni/core/services/storage_service.dart';
 import 'package:fatura_yeni/features/auth/screens/login_register_screen.dart';
+import 'package:flutter/material.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  final _storageService = StorageService();
+  final _firebaseService = FirebaseService();
+  bool _isLoading = false;
+
+  Future<void> _logout() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await _storageService.deleteToken();
+      await _firebaseService.signOut();
+      if (mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const LoginRegisterScreen()),
+          (Route<dynamic> route) => false,
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Logout failed: ${e.toString()}')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,18 +53,19 @@ class AccountScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () {
-            // Kullanıcıyı giriş ekranına yönlendir ve geri dönememesini sağla
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const LoginScreen()),
-              (Route<dynamic> route) => false,
-            );
-          },
+          onPressed: _isLoading ? null : _logout,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.redAccent,
             foregroundColor: Colors.white,
           ),
-          child: const Text('Çıkış Yap'),
+          child: _isLoading
+              ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: Colors.white),
+                )
+              : const Text('Çıkış Yap'),
         ),
       ),
     );
