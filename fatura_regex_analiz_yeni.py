@@ -21,6 +21,30 @@ from scipy.ndimage import interpolation as inter
 from collections import defaultdict
 from profiles import A101Profile, FLOProfile, TrendyolProfile
 
+# --- GÖRÜNTÜ İŞLEME YARDIMCI FONKSİYONLARI ---
+
+def deskew(image, angle):
+    """Verilen açıya göre görüntüyü döndürür."""
+    (h, w) = image.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv2.getRotationMatrix2D(center, angle, 1.0)
+    rotated = cv2.warpAffine(image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+    return rotated
+
+def determine_skew(image_gray):
+    """Görüntünün eğiklik açısını belirler."""
+    try:
+        thresh = cv2.bitwise_not(image_gray)
+        coords = np.column_stack(np.where(thresh > 0))
+        angle = cv2.minAreaRect(coords)[-1]
+        if angle < -45:
+            angle = -(90 + angle)
+        else:
+            angle = -angle
+        return angle
+    except Exception:
+        return None
+
 class FaturaRegexAnaliz:
     """FLO fatura formatına özel geliştirilmiş OCR ve Regex analiz sistemi."""
     
@@ -184,6 +208,117 @@ class FaturaRegexAnaliz:
                 print(f"🔧 Harici regex desenleri yüklendi: {external_path}")
         except Exception as e:
             print(f"⚠️ Harici desenler yüklenemedi: {e}")
+
+        self.config = self._load_config()
+        self.patterns = self._load_patterns()
+        self.png_output_dir = "fatura_png"  # PNG'lerin kaydedileceği klasör
+        os.makedirs(self.png_output_dir, exist_ok=True)
+
+    def _load_config(self) -> Dict:
+        """Yapılandırma dosyasını yükler."""
+        try:
+            config_path = os.path.join('config', 'config.json')
+            if os.path.exists(config_path):
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                return config
+            else:
+                print(f"⚠️ Yapılandırma dosyası bulunamadı: {config_path}")
+                return {}
+        except Exception as e:
+            print(f"❌ Yapılandırma dosyası yüklenemedi: {e}")
+            return {}
+
+    def _get_image_from_path(self, dosya_yolu: str) -> Optional[np.ndarray]:
+        """Verilen yoldan bir görüntü nesnesi döndürür, PDF'leri otomatik olarak PNG'ye çevirir."""
+        try:
+            if dosya_yolu.lower().endswith('.pdf'):
+                # PDF için hedef PNG dosya yolunu oluştur
+                png_filename = os.path.basename(dosya_yolu).lower().replace('.pdf', '.png')
+                png_path = os.path.join(self.png_output_dir, png_filename)
+
+                # Eğer bu PNG daha önce oluşturulmamışsa, oluştur
+                if not os.path.exists(png_path):
+                    print(f"   📄 PDF dosyası algılandı, '{self.png_output_dir}' klasörüne çevriliyor...")
+                    try:
+                        doc = fitz.open(dosya_yolu)
+                        page = doc.load_page(0)
+                        pix = page.get_pixmap(dpi=300)
+                        pix.save(png_path)
+                        doc.close()
+                        print(f"   ✅ PDF başarıyla resme çevrildi: {png_path}")
+                    except Exception as e:
+                        print(f"   ❌ PDF -> PNG çevirme hatası: {e}")
+                        return None
+                else:
+                    print(f"   ✅ Önceden çevrilmiş PNG bulundu: {png_path}")
+
+                # Oluşturulan veya mevcut PNG'yi yükle
+                image = cv2.imread(png_path)
+                if image is None:
+                    print(f"   ❌ Çevrilen PNG dosyası okunamadı: {png_path}")
+                    return None
+                return image
+
+            else: # Eğer dosya zaten bir resimse
+                image = cv2.imread(dosya_yolu)
+                if image is None:
+                    print(f"   ❌ Resim dosyası okunamadı: {dosya_yolu}")
+                    return None
+                return image
+
+        except Exception as e:
+            print(f"❌ Dosya yükleme hatası: {e}")
+            return None
+
+    def _gelismis_on_isleme(self, image: np.ndarray, psm_mode: int = 3) -> Tuple[np.ndarray, str, float]:
+        """Görüntüyü OCR için hazırlar ve en iyi metni döndürür."""
+        print(f"🔧 Gelişmiş resim ön işleme başlatılıyor... (PSM {psm_mode})")
+        
+        try:
+            # Hızlı modda ağır deskew adımını atla
+            if not getattr(self, 'fast_mode', False):
+                image = self._duzeltme(image)
+                print("   ✅ Eğiklik düzeltildi (Deskewing)")
+
+            # Küçük resimleri büyüt (OCR kalitesi için)
+            height, width = image.shape[:2]
+            if width < 1000 or height < 1000:
+                scale_factor = 1.5
+                new_width = int(width * scale_factor)
+                new_height = int(height * scale_factor)
+                image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+                print(f"   ✅ Resim ölçeklendirildi: {new_width}x{new_height}")
+            
+            # Adım 2: Gri tonlama ve CLAHE
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            print("   ✅ Gri tonlamaya çevrildi")
+
+            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+            enhanced_gray = clahe.apply(gray)
+            print("   ✅ CLAHE ile kontrast iyileştirildi")
+            
+            if getattr(self, 'gurultu_azaltma', True):
+                # Adım 3: Gürültü Azaltma ve İkilileştirme
+                blur = cv2.GaussianBlur(enhanced_gray, (5, 5), 0)
+                print("   ✅ Gaussian blur uygulandı")
+                
+                thresh = cv2.adaptiveThreshold(
+                    blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                    cv2.THRESH_BINARY, 11, 2
+                )
+                print("   ✅ Adaptif eşikleme uygulandı")
+                
+                clean = cv2.medianBlur(thresh, 3)
+                print("   ✅ Median blur uygulandı")
+                
+                return clean, enhanced_gray, 100.0
+            else:
+                return enhanced_gray, enhanced_gray, 100.0
+                
+        except Exception as e:
+            print(f"❌ Resim ön işleme hatası: {e}")
+            return image, "", 0.0
 
     def _ocr_text_with_config(self, img: np.ndarray, config_suffix: str) -> str:
         """Alternatif Tesseract ayarı ile hızlı OCR metni döndürür."""
@@ -1364,29 +1499,32 @@ class FaturaRegexAnaliz:
         print(f"\n🎯 FATURA ANALİZİ BAŞLATIYOR: {os.path.basename(dosya_yolu)}")
         print("=" * 70)
         
-        # 1. Resmi yükle
-        img = self.resmi_yukle(dosya_yolu)
-        if img is None:
-            return {"hata": "Resim yüklenemedi"}
-        
-        # --- ÖNCEKİ HATA AYIKLAMA KODUNU KALDIRIP YENİDEN EKLEYELİM ---
-        # Bu bölüm, önceki adımlardan kalmıştı ve PDF hatasına neden oluyordu.
-        # Şimdi bunu da düzelterek sorunu tamamen çözüyoruz.
-        processed_img = self.resmi_on_isle(img)
+        print(f"📁 Dosya yükleniyor: {dosya_yolu}")
+        image = self._get_image_from_path(dosya_yolu)
+        if image is None:
+            return {"hata": "Dosya yüklenemedi veya desteklenmiyor."}
+            
+        print(f"✅ Dosya başarıyla yüklendi ve hazırlandı: {image.shape[1]}x{image.shape[0]} piksel")
+
+        print("🔧 Gelişmiş resim ön işleme başlatılıyor...")
+        processed_image, ocr_text, confidence, ocr_results_list = self._on_isle_ve_ocr_yap(image)
+        if not ocr_text:
+            return {"hata": "Görüntü işlenemedi veya metin çıkarılamadı."}
         
         # Hata ayıklama için standart işlenmiş resmi kaydet (isteğe bağlı)
         base_name, _ = os.path.splitext(os.path.basename(dosya_yolu))
         debug_dosya_adi = f"debug_processed_{base_name}.png" # PDF yüklenirse hata vermemesi için uzantıyı .png yap
         # Çıktı klasörü main/streamlit'ten set edildiyse onu kullan, yoksa test_reports
         output_dir = getattr(self, 'output_dir', 'test_reports')
+        debug_dosya_yolu = "" # Varsayılan olarak boş yol
         if getattr(self, 'save_debug', False):
             os.makedirs(output_dir, exist_ok=True)
             debug_dosya_yolu = os.path.join(output_dir, debug_dosya_adi)
-            cv2.imwrite(debug_dosya_yolu, processed_img)
+            cv2.imwrite(debug_dosya_yolu, processed_image)
             print(f"🐛 Standart hata ayıklama resmi kaydedildi: {debug_dosya_yolu}")
         
         # 3. OCR ile metni çıkar (İlk Deneme)
-        ocr_data, avg_confidence = self.metni_cikar(processed_img)
+        ocr_data, avg_confidence = self.metni_cikar(processed_image)
         
         # 4. Ham metni oluştur ve kontrol et
         valid_texts = []
@@ -1408,11 +1546,28 @@ class FaturaRegexAnaliz:
         structured_data = self.yapilandirilmis_veri_cikar(ocr_data, ham_metin)
         # 6b. Alan-bazlı OCR fallback (eksikler için) - hızlı modda atlanabilir
         if not getattr(self, 'fast_mode', False):
-            structured_data = self._field_level_ocr_fallback(processed_img, structured_data, ham_metin)
+            structured_data = self._field_level_ocr_fallback(processed_image, structured_data, ham_metin)
         
         # 7. Görselleştir
         if gorsellestir:
-            self.sonuclari_gorselle(img, ocr_data, regex_sonuclari)
+            self.sonuclari_gorselle(image, ocr_data, regex_sonuclari)
+        
+        # OCR verisinden kelime ve kutu listesi oluştur
+        ocr_results_list = []
+        for i, conf in enumerate(ocr_data['conf']):
+            try:
+                if int(conf) >= self.min_confidence:
+                    ocr_results_list.append({
+                        'text': ocr_data['text'][i],
+                        'box': [
+                            ocr_data['left'][i],
+                            ocr_data['top'][i],
+                            ocr_data['left'][i] + ocr_data['width'][i],
+                            ocr_data['top'][i] + ocr_data['height'][i]
+                        ]
+                    })
+            except (ValueError, IndexError):
+                continue
         
         # 8. Sonuçları birleştir
         sonuclar = {
@@ -1426,7 +1581,9 @@ class FaturaRegexAnaliz:
                 "ham_metin": ham_metin
             },
             "regex": regex_sonuclari,
-            "structured": structured_data
+            "structured": structured_data,
+            "ocr_results": ocr_results_list,  # Detaylı OCR sonuçlarını ekle
+            "debug_image_path": debug_dosya_yolu # Kaydedilen PNG'nin yolunu ekle
         }
         
         print("✅ Fatura analizi tamamlandı!")
@@ -1580,6 +1737,34 @@ class FaturaRegexAnaliz:
                 print("   ❌ Önemli alan bulunamadı")
         
         print("\n" + "="*70)
+
+    def _get_debug_image_path(self, original_path: str) -> str:
+        """Orijinal dosya yoluna karşılık gelen PNG dosyasının yolunu döndürür."""
+        if original_path.lower().endswith('.pdf'):
+            png_filename = os.path.basename(original_path).lower().replace('.pdf', '.png')
+            return os.path.join(self.png_output_dir, png_filename)
+        return original_path
+
+    def _get_ocr_results_with_boxes(self, image: np.ndarray) -> List[Dict]:
+        """Tesseract'tan kelime ve sınırlayıcı kutu (bounding box) bilgilerini alır."""
+        try:
+            # Tesseract'tan kelime ve sınırlayıcı kutu (bounding box) bilgilerini al
+            ocr_data = pytesseract.image_to_data(image, config=self.ocr_config, output_type=pytesseract.Output.DICT)
+            results = []
+            for i in range(len(ocr_data['text'])):
+                if ocr_data['text'][i].strip():
+                    results.append({
+                        'text': ocr_data['text'][i],
+                        'left': ocr_data['left'][i],
+                        'top': ocr_data['top'][i],
+                        'width': ocr_data['width'][i],
+                        'height': ocr_data['height'][i],
+                        'confidence': ocr_data['conf'][i]
+                    })
+            return results
+        except Exception as e:
+            print(f"❌ Tesseract'tan kelime ve sınırlayıcı kutu (bounding box) bilgileri alınırken hata oluştu: {e}")
+            return []
 
 
 def main():

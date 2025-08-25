@@ -5,9 +5,25 @@ import logging
 import glob
 from datetime import datetime
 from fatura_regex_analiz_yeni import FaturaRegexAnaliz
-from typing import Dict
+from typing import Dict, List, Any, Optional
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import multiprocessing
+import sys
+import pandas as pd
+import traceback
+
+# --- Global Değişkenler ---
+# Bu değişkenler, her bir alt işlem (worker process) tarafından bir kez başlatılacak.
+# Bu sayede modelin her fatura için tekrar tekrar yüklenmesi engellenir.
+analyzer_instance = None
+ANALYSIS_MODE = "regex"
+
+try:
+    from fatura_hibrit_analiz import HibritFaturaAnalizor
+    IS_HYBRID_AVAILABLE = True
+except ImportError:
+    IS_HYBRID_AVAILABLE = False
+    print("⚠️ Hibrit sistem bulunamadı, sadece regex analizi kullanılacak")
 
 def log_ayarlarini_yap(rapor_klasoru: str):
     """
@@ -23,17 +39,111 @@ def log_ayarlarini_yap(rapor_klasoru: str):
     )
     print(f"📝 Hata kayıtları (log) şu dosyaya yazılacak: {log_dosyasi}")
 
-def analyze_file_for_pool(path: str, output_dir: str) -> Dict:
+def analyze_file_for_pool(path: str, output_dir: str, analiz_tipi: str = "regex") -> Dict:
     """ProcessPoolExecutor ile kullanılabilir, üst seviye fonksiyon."""
     try:
-        local = FaturaRegexAnaliz()
+        if analiz_tipi == "hibrit" and IS_HYBRID_AVAILABLE:
+            # Hibrit analiz (Regex + AI)
+            local = HibritFaturaAnalizor()
+        else:
+            # Sadece regex analizi
+            local = FaturaRegexAnaliz()
+
         try:
             local.output_dir = output_dir
         except Exception:
             pass
-        return local.fatura_analiz_et(path, gorsellestir=False)
+
+        return local.analiz_et(path)
     except Exception as e:
         return {"hata": str(e), "dosya": path}
+
+def hibrit_analiz_süreci(analiz_tipi: str = "hibrit"):
+    """Hibrit veya gelişmiş analiz süreci"""
+    print("🚀 Gelişmiş Fatura Analiz Sistemi")
+    print("=" * 50)
+    print(f"📊 Analiz Tipi: {analiz_tipi}")
+    print(f"🤖 AI Destek: {'✅' if IS_HYBRID_AVAILABLE and analiz_tipi == 'hibrit' else '❌'}")
+    print("=" * 50)
+
+    # Ayarları yükle
+    ayarlar = ayarları_yukle()
+    if not ayarlar:
+        return
+
+    # Klasör oluştur
+    rapor_klasoru = f"test_reports/{datetime.now().strftime('%Y%m%d_%H%M%S')}_hibrit"
+    os.makedirs(rapor_klasoru, exist_ok=True)
+
+    # Log ayarlarını yap
+    log_ayarlarini_yap(rapor_klasoru)
+
+    # Dosyaları tara
+    fatura_klasoru = ayarlar.get("fatura_klasoru", "fatura")
+    desteklenen_uzantilar = ayarlar.get("desteklenen_uzantilar", [".pdf", ".png", ".jpg", ".jpeg"])
+
+    dosya_listesi = []
+    for uzanti in desteklenen_uzantilar:
+        dosya_listesi.extend(glob.glob(os.path.join(fatura_klasoru, f"*{uzanti}")))
+
+    if not dosya_listesi:
+        print(f"❌ {fatura_klasoru} klasöründe desteklenen dosya bulunamadı.")
+        return
+
+    print(f"📂 Toplam {len(dosya_listesi)} dosya bulundu")
+    print("🔍 Analiz başlatılıyor...")
+    print()
+
+    # Paralel işleme
+    basarili_analiz = 0
+    basarisiz_analiz = 0
+    sonuclar = []
+
+    with ProcessPoolExecutor(max_workers=min(multiprocessing.cpu_count(), 4)) as executor:
+        future_to_file = {
+            executor.submit(analyze_file_for_pool, dosya, rapor_klasoru, analiz_tipi): dosya
+            for dosya in dosya_listesi
+        }
+
+        for future in as_completed(future_to_file):
+            dosya = future_to_file[future]
+            try:
+                sonuc = future.result()
+                if "hata" in sonuc:
+                    print(f"❌ {os.path.basename(dosya)}: {sonuc['hata']}")
+                    basarisiz_analiz += 1
+                else:
+                    print(f"✅ {os.path.basename(dosya)}: Analiz tamamlandı")
+                    basarili_analiz += 1
+                    sonuclar.append(sonuc)
+            except Exception as e:
+                print(f"❌ {os.path.basename(dosya)}: {str(e)}")
+                basarisiz_analiz += 1
+
+    print("\n" + "=" * 50)
+    print("📊 ANALİZ SONUÇLARI")
+    print("=" * 50)
+    print(f"✅ Başarılı: {basarili_analiz}")
+    print(f"❌ Başarısız: {basarisiz_analiz}")
+    print(f"📈 Başarı Oranı: {(basarili_analiz / len(dosya_listesi) * 100):.1f}%")
+
+    if sonuclar:
+        # Detaylı rapor oluştur
+        rapor_dosyasi = os.path.join(rapor_klasoru, "hibrit_analiz_raporu.json")
+        with open(rapor_dosyasi, 'w', encoding='utf-8') as f:
+            json.dump({
+                "analiz_tarihi": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "analiz_tipi": analiz_tipi,
+                "toplam_dosya": len(dosya_listesi),
+                "basarili_analiz": basarili_analiz,
+                "basarisiz_analiz": basarisiz_analiz,
+                "sonuclar": sonuclar
+            }, f, indent=2, ensure_ascii=False)
+
+        print(f"📄 Rapor kaydedildi: {rapor_dosyasi}")
+
+        # Performans özeti
+        performans_ozeti(sonuclar, rapor_klasoru, analiz_tipi)
 
 def ayarları_yukle() -> dict:
     """
@@ -857,10 +967,183 @@ def pattern_matching_basari_analizi(sonuc: dict) -> dict:
     
     return pattern_basari
 
+# --- Worker Initialization ---
+def initialize_worker():
+    """
+    Her bir alt işlem (worker) başladığında bu fonksiyon bir kez çalışır.
+    Analyzer'ı burada başlatarak her fatura için tekrar yüklenmesini önler.
+    """
+    global analyzer_instance
+    print(f"🔧 Worker (PID: {os.getpid()}) başlatılıyor...")
+    analyzer_instance = HibritFaturaAnalizor()
+    print(f"✅ Worker (PID: {os.getpid()}) hazır.")
+
+
+# --- Analiz Fonksiyonları ---
+def run_analysis(dosya_yolu: str) -> Optional[Dict[str, Any]]:
+    """Bir faturayı analiz eder ve sonuçları döndürür."""
+    global analyzer_instance
+    if analyzer_instance is None:
+        print(f"❌ HATA: Analyzer (PID: {os.getpid()}) başlatılamamış.")
+        return None
+
+    try:
+        print(f"Processing {os.path.basename(dosya_yolu)} on PID {os.getpid()}")
+        return analyzer_instance.analiz_et(dosya_yolu)
+    except Exception as e:
+        return {"hata": f"'{os.path.basename(dosya_yolu)}' analizinde hata", "detay": traceback.format_exc()}
+
+
+def main():
+    """
+    Ana analiz sürecini yönetir. Belirtilen klasördeki tüm faturaları
+    işler ve sonuçları tek bir JSON raporunda birleştirir.
+    """
+    print("🚀 Akıllı Fatura Tanıma Uygulaması Başlatılıyor...")
+    print("="*50)
+
+    # Ayarları yükle
+    ayarlar = ayarları_yukle()
+    if not ayarlar:
+        return
+
+    # Rapor klasörünü oluştur ve bu koşu için zaman damgalı alt klasör aç
+    rapor_klasoru = ayarlar['klasor_yollari']['rapor_klasoru']
+    os.makedirs(rapor_klasoru, exist_ok=True)
+    run_klasoru = os.path.join(rapor_klasoru, datetime.now().strftime('%Y%m%d_%H%M%S'))
+    os.makedirs(run_klasoru, exist_ok=True)
+    log_ayarlarini_yap(run_klasoru)
+
+    # Paralel iş parçası sayısı (0 veya yoksa otomatik)
+    parallel_workers = 0
+    try:
+        parallel_workers = int(ayarlar.get('parallel_workers', 0))
+    except Exception:
+        parallel_workers = 0
+
+    # Fatura ve rapor klasör yolları (config'den)
+    fatura_klasoru = ayarlar['klasor_yollari']['fatura_klasoru']
+    
+    if not os.path.exists(fatura_klasoru):
+        hata_mesaji = f"Fatura klasörü bulunamadı: '{fatura_klasoru}'. Lütfen faturalarınızı bu klasöre koyun veya config.json dosyasını güncelleyin."
+        print(f"❌ Hata: {hata_mesaji}")
+        logging.error(hata_mesaji)
+        return
+
+    # Desteklenen resim ve PDF formatları (config'den)
+    desteklenen_formatlar = ayarlar['desteklenen_formatlar']
+    
+    # Analiz edilecek dosyaları bul
+    dosya_listesi = [os.path.join(fatura_klasoru, f) for f in os.listdir(fatura_klasoru) if f.lower().endswith(('.pdf', '.png', '.jpg', '.jpeg'))]
+    
+    # Hata ayıklama için dosya listesini 3 ile sınırla
+    # dosya_listesi = dosya_listesi[:3]
+    # print(f"🐛 HATA AYIKLAMA MODU: Sadece ilk {len(dosya_listesi)} dosya işlenecek.")
+
+    if not dosya_listesi:
+        print(f"Uyarı: '{fatura_klasoru}' klasöründe analiz edilecek dosya bulunamadı.")
+        return
+
+    # Paralel işleme havuzu
+    max_workers = 4 
+    print(f"🔩 Paralel worker sayısı {max_workers} ile sınırlandırıldı.")
+    toplam_dosya_sayisi = len(dosya_listesi)
+    
+    # NİHAİ DÜZELTME: initargs kaldırıldı, çünkü worker'ın moda ihtiyacı yok.
+    with ProcessPoolExecutor(max_workers=max_workers, initializer=initialize_worker) as executor:
+        futures = {executor.submit(run_analysis, dosya): dosya for dosya in dosya_listesi}
+        
+        sonuclar = []
+        print(f"\n🚀 {toplam_dosya_sayisi} fatura için analiz başlıyor...")
+        for i, future in enumerate(as_completed(futures), 1):
+            dosya_yolu = futures[future]
+            try:
+                sonuc = future.result()
+                if sonuc:
+                    if "hata" in sonuc:
+                        print(f"[{i}/{toplam_dosya_sayisi}] ❌ {os.path.basename(dosya_yolu)}: {sonuc['hata']}")
+                        with open(os.path.join(rapor_klasoru, "analiz_hatalari.log"), "a", encoding="utf-8") as f:
+                            f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {os.path.basename(dosya_yolu)} - {sonuc.get('detay', sonuc['hata'])}\n")
+                    else:
+                        print(f"[{i}/{toplam_dosya_sayisi}] ✅ {os.path.basename(dosya_yolu)}: Analiz tamamlandı")
+                        sonuclar.append(sonuc)
+            except Exception as e:
+                print(f"[{i}/{toplam_dosya_sayisi}] ❌ {os.path.basename(dosya_yolu)}: Ciddi hata - {str(e)}")
+                with open(os.path.join(rapor_klasoru, "analiz_hatalari.log"), "a", encoding="utf-8") as f:
+                    f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Ciddi Hata: {os.path.basename(dosya_yolu)}\n")
+                    f.write(traceback.format_exc() + "\n")
+                
+    print(f"\n{'='*50}\n📊 ANALİZ TAMAMLANDI\n{'='*50}")
+
+    # Raporları oluştur
+    if sonuclar:
+        rapor_dosyasi = os.path.join(run_klasoru, f"toplu_fatura_raporu_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+        
+        with open(rapor_dosyasi, 'w', encoding='utf-8') as f:
+            json.dump(sonuclar, f, ensure_ascii=False, indent=4)
+        
+        # Sonuçları CSV olarak da kaydet (koşu klasörüne)
+        sonuclari_csv_kaydet(run_klasoru, sonuclar)
+
+        print("\n" + "="*50)
+        print("📊 ANALİZ TAMAMLANDI")
+        
+        basarili_sayisi = len(sonuclar)
+        hatali_sayisi = len(hatali_dosyalar)
+        
+        print(f"✅ Başarıyla analiz edilen fatura sayısı: {basarili_sayisi}")
+        if hatali_sayisi > 0:
+            print(f"❌ Hatalı veya işlenemeyen fatura sayısı: {hatali_sayisi}")
+            print(f"📄 Detaylar için 'analiz_hatalari.log' dosyasına bakın.")
+        
+        # JSON raporunu yeni formatla kaydet
+        formatli_json_raporu = [sonuclari_turkce_formatla(sonuc) for sonuc in sonuclar]
+        rapor_dosyasi_formatli = os.path.join(run_klasoru, f"toplu_fatura_raporu_formatli_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+        with open(rapor_dosyasi_formatli, 'w', encoding='utf-8') as f:
+            json.dump(formatli_json_raporu, f, ensure_ascii=False, indent=4)
+
+        print(f"📄 Detaylı (orijinal) JSON rapor dosyası oluşturuldu: {rapor_dosyasi}")
+        print(f"📄 Formaplanmış Türkçe JSON rapor dosyası oluşturuldu: {rapor_dosyasi_formatli}")
+        
+        # 🧠 AKILLI TEST ANALİZİ BAŞLAT
+        print("\n" + "="*50)
+        print("🧠 AKILLI TEST ANALİZİ BAŞLATILIYOR...")
+        print("="*50)
+        
+        akilli_analiz_sonucu = akilli_test_analizi_yap(sonuclar, run_klasoru)
+        akilli_analiz_html_kaydet(akilli_analiz_sonucu, run_klasoru)
+        golden_degerlendirme_yap(run_klasoru, sonuclar)
+
+        print("="*50)
+
 if __name__ == "__main__":
-    # --- KULLANIM MODLARI ---
-    # 1. Normal Analiz (Tüm faturaları işler)
-    ana_analiz_süreci()
+    import sys
+
+    # Komut satırı argümanlarını kontrol et
+    if len(sys.argv) > 1:
+        analiz_tipi = sys.argv[1].lower()
+        if analiz_tipi in ["hibrit", "ai", "ml"]:
+            print("🤖 HİBRİT ANALİZ MODU SEÇİLDİ (Regex + AI)")
+            hibrit_analiz_süreci("hibrit")
+        elif analiz_tipi in ["regex", "normal"]:
+            print("📋 REGEX ANALİZ MODU SEÇİLDİ")
+            hibrit_analiz_süreci("regex")
+        else:
+            print(f"❌ Bilinmeyen analiz tipi: {analiz_tipi}")
+            print("Kullanım: python main.py [hibrit|regex]")
+            sys.exit(1)
+    else:
+        # Varsayılan olarak hibrit analiz (eğer AI sistemi varsa)
+        if IS_HYBRID_AVAILABLE:
+            print("🎯 VARSAYILAN: HİBRİT ANALİZ (Regex + AI)")
+            hibrit_analiz_süreci("hibrit")
+        else:
+            print("📋 HİBRİT SİSTEM BULUNAMADI, REGEX ANALİZİNE GEÇİLDİ")
+            hibrit_analiz_süreci("regex")
+
+    # --- ALTERNATİF KULLANIM MODLARI ---
+    # 1. Sadece Regex Analiz
+    # ana_analiz_süreci()
 
     # 2. Ham Metin Dışa Aktarma (Sadece bir fatura için OCR metnini .txt olarak kaydeder)
     # Yorum satırını kaldırıp, dosya yolunu güncelleyerek kullanabilirsiniz.

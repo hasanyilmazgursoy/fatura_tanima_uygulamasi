@@ -1,0 +1,18 @@
+{
+  "training_date": "2025-08-25 12:57:28",
+  "model_path": "./layoutlm_quick_model",
+  "epochs": 15,
+  "batch_size": 2,
+  "device": "cuda",
+  "final_metrics": {
+    "eval_loss": 3.2081801891326904,
+    "eval_precision": 0.34333333333333327,
+    "eval_recall": 0.4,
+    "eval_f1": 0.3493333333333333,
+    "eval_accuracy": 0.3493333333333333,
+    "eval_runtime": 0.3224,
+    "eval_samples_per_second": 6.204,
+    "eval_steps_per_second": 3.102,
+    "epoch": 12.0
+  }
+}

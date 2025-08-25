@@ -1,0 +1,41 @@
+<View>
+  <Image name="image" value="$image"/>
+  <Labels name="label" toName="image">
+    <Label value="fatura_numarasi" background="#FF0000"/>
+    <Label value="fatura_tarihi" background="#FF4500"/>
+    <Label value="fatura_tipi" background="#FF6347"/>
+    <Label value="ettn" background="#FFD700"/>
+    <Label value="son_odeme_tarihi" background="#FFA500"/>
+    <Label value="satici_firma_unvani" background="#0000FF"/>
+    <Label value="satici_adres" background="#4169E1"/>
+    <Label value="satici_telefon" background="#1E90FF"/>
+    <Label value="satici_email" background="#00BFFF"/>
+    <Label value="satici_vergi_dairesi" background="#87CEEB"/>
+    <Label value="satici_vergi_numarasi" background="#ADD8E6"/>
+    <Label value="satici_web_sitesi" background="#B0E0E6"/>
+    <Label value="satici_ticaret_sicil" background="#AFEEEE"/>
+    <Label value="satici_mersis_no" background="#E0FFFF"/>
+    <Label value="alici_firma_unvani" background="#008000"/>
+    <Label value="alici_adres" background="#32CD32"/>
+    <Label value="alici_telefon" background="#90EE90"/>
+    <Label value="alici_email" background="#98FB98"/>
+    <Label value="alici_tckn" background="#00FF00"/>
+    <Label value="alici_musteri_no" background="#7CFC00"/>
+    <Label value="urun_aciklama" background="#800080"/>
+    <Label value="urun_miktar" background="#8A2BE2"/>
+    <Label value="birim_fiyat" background="#DA70D6"/>
+    <Label value="urun_tutar" background="#DDA0DD"/>
+    <Label value="kdv_orani" background="#EE82EE"/>
+    <Label value="mal_hizmet_toplam" background="#FF1493"/>
+    <Label value="toplam_iskonto" background="#DC143C"/>
+    <Label value="vergi_haric_tutar" background="#FF69B4"/>
+    <Label value="hesaplanan_kdv" background="#FF00FF"/>
+    <Label value="vergiler_dahil_toplam" background="#FFB6C1"/>
+    <Label value="genel_toplam" background="#FFC0CB"/>
+    <Label value="odeme_sekli" background="#8B4513"/>
+    <Label value="banka_bilgileri" background="#A0522D"/>
+    <Label value="kargo_bilgisi" background="#CD853F"/>
+    <Label value="siparis_no" background="#D2691E"/>
+  </Labels>
+  <Rectangle name="bbox" toName="image" strokeWidth="3"/>
+</View>
