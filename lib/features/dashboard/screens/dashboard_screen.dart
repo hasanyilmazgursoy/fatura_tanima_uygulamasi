@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:fatura_yeni/features/dashboard/models/invoice_model.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -15,6 +22,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late Future<List<Invoice>> _invoicesFuture;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -36,6 +44,131 @@ class _DashboardScreenState extends State<DashboardScreen> {
         );
       }
       return [];
+    }
+  }
+
+  // --- Dosya/Görüntü Seçim Metotları ---
+
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      // Kamera sadece tek fotoğraf çekebilir
+      if (source == ImageSource.camera) {
+        final XFile? pickedFile = await _picker.pickImage(source: source);
+        if (pickedFile != null) {
+          if (kDebugMode) {
+            print('Seçilen resim yolu: ${pickedFile.path}');
+          }
+          _showSuccessSnackbar('Resim seçildi!');
+        }
+      } else {
+        // Galeri çoklu seçime izin verir
+        final List<XFile> pickedFiles = await _picker.pickMultiImage();
+        if (pickedFiles.isNotEmpty) {
+          if (kDebugMode) {
+            for (var file in pickedFiles) {
+              print('Seçilen resim yolu: ${file.path}');
+            }
+          }
+          _showSuccessSnackbar('${pickedFiles.length} resim seçildi!');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Resim seçerken hata: $e');
+      }
+      _showErrorSnackbar('Resim seçilemedi.');
+    }
+  }
+
+  Future<void> _pickFile() async {
+    try {
+      final FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
+        allowMultiple: true,
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        // TODO: Seçilen dosyaları işle
+        if (kDebugMode) {
+          for (var file in result.files) {
+            print('Seçilen dosya adı: ${file.name}');
+            print('Seçilen dosya yolu: ${file.path}');
+          }
+        }
+        _showSuccessSnackbar('${result.files.length} dosya seçildi!');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Dosya seçerken hata: $e');
+      }
+      _showErrorSnackbar('Dosya seçilemedi.');
+    }
+  }
+
+  void _showSuccessSnackbar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+  }
+
+  void _showErrorSnackbar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  void _showImageSourceActionSheet(BuildContext context) {
+    // Mobil platformlar için ModalBottomSheet göster
+    if (Platform.isAndroid || Platform.isIOS) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Kameradan Çek'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _pickImage(ImageSource.camera);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Galeriden Seç'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _pickImage(ImageSource.gallery);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.attach_file),
+                  title: const Text('Dosya Seç (PDF, Belge)'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    _pickFile();
+                  },
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } else {
+      // Web veya Desktop için basit bir diyalog veya doğrudan dosya seçici
+      _pickFile();
     }
   }
 
@@ -69,40 +202,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildDashboardContent(
       BuildContext context, double todayExpenditure, List<Invoice> invoices) {
+    // For reminders, let's take the 2 most recent invoices as an example
+    final reminderInvoices = invoices.take(2).toList();
+
     return CustomScrollView(
       slivers: [
         _buildHeader(context, todayExpenditure),
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSectionTitle(context, 'Reminder', onAdd: () {}),
-                    const SizedBox(height: 10),
-                    _buildReminderItem(
-                      context,
-                      'Get Receipts up-to-date',
-                      'Due on July 29, 2020',
-                      isChecked: true,
-                      isStarred: true,
-                    ),
-                    const SizedBox(height: 10),
-                    _buildReminderItem(
-                      context,
-                      'Export Expenses Stats',
-                      'Due on July 20, 2020',
-                    ),
-                    const SizedBox(height: 30),
-                    _buildSectionTitle(context, 'Receipts'),
-                    const SizedBox(height: 10),
-                    _buildRecentReceipts(context, invoices),
-                  ],
-                ),
-              ),
-            ],
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSectionTitle(context, 'Hatırlatmalar', onAdd: () {}),
+                const SizedBox(height: 10),
+                if (reminderInvoices.isNotEmpty)
+                  _buildReminderItem(
+                    context,
+                    '${reminderInvoices[0].sellerName} faturası',
+                    'Son Ödeme: ${DateFormat('d MMMM y', 'tr_TR').format(reminderInvoices[0].date)}',
+                    isStarred: true,
+                  ),
+                if (reminderInvoices.length > 1) ...[
+                  const SizedBox(height: 10),
+                  _buildReminderItem(
+                    context,
+                    '${reminderInvoices[1].sellerName} faturası',
+                    'Son Ödeme: ${DateFormat('d MMMM y', 'tr_TR').format(reminderInvoices[1].date)}',
+                  ),
+                ],
+                const SizedBox(height: 30),
+                _buildSectionTitle(context, 'Son Fişler'),
+                const SizedBox(height: 10),
+                _buildRecentReceipts(context, invoices),
+              ],
+            ),
           ),
         ),
       ],
@@ -135,7 +269,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome back,',
+                      'Hoş geldin,',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 28,
@@ -143,7 +277,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                     Text(
-                      'Jimmy!',
+                      'Kullanıcı!', // Static name for now
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 32,
@@ -186,7 +320,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'TODAY\'S EXPENDITURE',
+              'BUGÜNKÜ HARCAMA',
               style: TextStyle(
                 color: Colors.grey[600],
                 fontSize: 12,
@@ -288,20 +422,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildRecentReceipts(BuildContext context, List<Invoice> invoices) {
-    // Take first 5 for example
-    final recentInvoices = invoices.take(5).toList();
-
     return SizedBox(
       height: 160,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: recentInvoices.length + 1,
+        itemCount: invoices.length + 1, // +1 for the upload card
         separatorBuilder: (context, index) => const SizedBox(width: 15),
         itemBuilder: (context, index) {
           if (index == 0) {
             return _buildUploadCard(context);
           }
-          final invoice = recentInvoices[index - 1];
+          final invoice = invoices[index - 1];
           return _buildReceiptCard(context, invoice);
         },
       ),
@@ -317,7 +448,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: InkWell(
         onTap: () {
-          // TODO: Implement receipt upload
+          _showImageSourceActionSheet(context);
         },
         borderRadius: BorderRadius.circular(12),
         child: Column(
@@ -334,7 +465,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              "Upload Receipt",
+              "Fiş Yükle",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.grey[700], fontWeight: FontWeight.w500),

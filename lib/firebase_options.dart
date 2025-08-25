@@ -41,48 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCvkeHjd24OseCa5el4X0H_sLXA4lrrX7Q',
-    appId: '1:251889727921:web:078e94db56dd533febe590',
-    messagingSenderId: '251889727921',
-    projectId: 'faturatanimauygulamasi',
-    authDomain: 'faturatanimauygulamasi.firebaseapp.com',
-    storageBucket: 'faturatanimauygulamasi.firebasestorage.app',
-    measurementId: 'G-JR1H899CZL',
+    apiKey: 'AIzaSyAkGB_uUFYJL2yQnY8x7G8_-Ik8wO6Q5QQ',
+    appId: '1:313660975832:web:2c97559b989e7eb4ca45ad',
+    messagingSenderId: '313660975832',
+    projectId: 'yepyenifa',
+    authDomain: 'yepyenifa.firebaseapp.com',
+    storageBucket: 'yepyenifa.firebasestorage.app',
+    measurementId: 'G-THTLSFQSMJ',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBHqOojiqkl9SIAoHE5tN2ld82OCFgoM2U',
-    appId: '1:251889727921:android:d1bbbaaf5b28f9fcebe590',
-    messagingSenderId: '251889727921',
-    projectId: 'faturatanimauygulamasi',
-    storageBucket: 'faturatanimauygulamasi.firebasestorage.app',
+    apiKey: 'AIzaSyBVd9B-3pk6txxGOqnOjcI16mq_ucIG_fA',
+    appId: '1:313660975832:android:184502d4f45cafb7ca45ad',
+    messagingSenderId: '313660975832',
+    projectId: 'yepyenifa',
+    storageBucket: 'yepyenifa.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBBp91I8D2psjE46vHr3jR25zy5PS6XZuk',
-    appId: '1:251889727921:ios:4af0a05a49218e56ebe590',
-    messagingSenderId: '251889727921',
-    projectId: 'faturatanimauygulamasi',
-    storageBucket: 'faturatanimauygulamasi.firebasestorage.app',
+    apiKey: 'AIzaSyBVVPKHVSzR-l6CGhwqtTqijY7AxJMmJWY',
+    appId: '1:313660975832:ios:d1162ed0186f6542ca45ad',
+    messagingSenderId: '313660975832',
+    projectId: 'yepyenifa',
+    storageBucket: 'yepyenifa.firebasestorage.app',
     iosBundleId: 'com.example.faturaYeni',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBBp91I8D2psjE46vHr3jR25zy5PS6XZuk',
-    appId: '1:251889727921:ios:4af0a05a49218e56ebe590',
-    messagingSenderId: '251889727921',
-    projectId: 'faturatanimauygulamasi',
-    storageBucket: 'faturatanimauygulamasi.firebasestorage.app',
+    apiKey: 'AIzaSyBVVPKHVSzR-l6CGhwqtTqijY7AxJMmJWY',
+    appId: '1:313660975832:ios:d1162ed0186f6542ca45ad',
+    messagingSenderId: '313660975832',
+    projectId: 'yepyenifa',
+    storageBucket: 'yepyenifa.firebasestorage.app',
     iosBundleId: 'com.example.faturaYeni',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCvkeHjd24OseCa5el4X0H_sLXA4lrrX7Q',
-    appId: '1:251889727921:web:c874642c1e895692ebe590',
-    messagingSenderId: '251889727921',
-    projectId: 'faturatanimauygulamasi',
-    authDomain: 'faturatanimauygulamasi.firebaseapp.com',
-    storageBucket: 'faturatanimauygulamasi.firebasestorage.app',
-    measurementId: 'G-CJLD3G5BDP',
+    apiKey: 'AIzaSyAkGB_uUFYJL2yQnY8x7G8_-Ik8wO6Q5QQ',
+    appId: '1:313660975832:web:b99e357bd9949ad9ca45ad',
+    messagingSenderId: '313660975832',
+    projectId: 'yepyenifa',
+    authDomain: 'yepyenifa.firebaseapp.com',
+    storageBucket: 'yepyenifa.firebasestorage.app',
+    measurementId: 'G-Y7X3K0DJ35',
   );
+
 }

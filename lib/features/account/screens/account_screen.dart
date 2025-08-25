@@ -1,5 +1,4 @@
 // lib/features/account/screens/account_screen.dart
-import 'package:fatura_yeni/core/services/firebase_service.dart';
 import 'package:fatura_yeni/core/services/storage_service.dart';
 import 'package:fatura_yeni/features/auth/screens/login_register_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final _storageService = StorageService();
-  final _firebaseService = FirebaseService();
   bool _isLoading = false;
 
   Future<void> _logout() async {
@@ -22,7 +20,7 @@ class _AccountScreenState extends State<AccountScreen> {
     });
     try {
       await _storageService.deleteToken();
-      await _firebaseService.signOut();
+      // Firebase oturumu artık yönetilmediği için signOut çağrısı kaldırıldı.
       if (mounted) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const LoginRegisterScreen()),

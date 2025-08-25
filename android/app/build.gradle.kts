@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.fatura_yeni"
+    namespace = "com.example.faturayeni"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.fatura_yeni"
+        applicationId = "com.example.faturayeni"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdkVersion(flutter.minSdkVersion)
@@ -50,4 +50,9 @@ flutter {
 dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
     implementation("com.google.firebase:firebase-auth")
+
+    // Firebase App Check için gerekli bağımlılıklar
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    // Debug Provider için gerekli
+    implementation("com.google.firebase:firebase-appcheck-debug")
 }

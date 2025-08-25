@@ -1,7 +1,8 @@
 // lib/features/main/main_screen.dart
 
+import 'package:fatura_yeni/features/auth/screens/register_screen.dart';
 import 'package:fatura_yeni/features/dashboard/screens/dashboard_screen.dart';
-import 'package:fatura_yeni/features/scanner/screens/scanner_screen.dart';
+import 'package:fatura_yeni/features/scan/screens/scan_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fatura_yeni/features/account/screens/account_screen.dart';
@@ -19,15 +20,23 @@ class _MainScreenState extends State<MainScreen> {
   // Bottom Navigasyon'da gösterilecek ekranlar
   static final List<Widget> _widgetOptions = <Widget>[
     const DashboardScreen(),
-    const ScannerScreen(),
+    const ScanScreen(),
     const Text('Expenses Screen'), // TODO: Harcamalar ekranı buraya gelecek
-    const AccountScreen(), // TODO: Hesap ekranı buraya gelecek
+    const AccountScreen(),
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    // Tarama butonu (index 1) için özel davranış
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const RegisterScreen()),
+      );
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -44,7 +53,17 @@ class _MainScreenState extends State<MainScreen> {
             // Sol navigasyon menüsü (desktop web için)
             NavigationRail(
               selectedIndex: _selectedIndex,
-              onDestinationSelected: _onItemTapped,
+              onDestinationSelected: (index) {
+                // Tarama butonu (index 1) için özel davranış
+                if (index == 1) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ScanScreen()),
+                  );
+                } else {
+                  _onItemTapped(index);
+                }
+              },
               labelType: NavigationRailLabelType.all,
               destinations: const [
                 NavigationRailDestination(
@@ -81,22 +100,45 @@ class _MainScreenState extends State<MainScreen> {
 
     // Mobil ve küçük ekranlar için bottom navigation
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.camera_alt), label: 'Tarama'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.receipt_long), label: 'Harcamalar'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Hesap'),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ScanScreen()),
+          );
+        },
+        shape: const CircleBorder(),
+        child: const Icon(Icons.camera_alt),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home,
+                  color: _selectedIndex == 0
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey),
+              onPressed: () => _onItemTapped(0),
+              tooltip: 'Anasayfa',
+            ),
+            const SizedBox(width: 40), // The space for the FAB
+            IconButton(
+              icon: Icon(Icons.person,
+                  color: _selectedIndex == 2
+                      ? Theme.of(context).primaryColor
+                      : Colors.grey),
+              onPressed: () => _onItemTapped(2), // Index'i 2 olarak güncelledik
+              tooltip: 'Hesap',
+            ),
+          ],
+        ),
       ),
     );
   }

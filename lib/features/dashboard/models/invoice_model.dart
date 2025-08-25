@@ -13,23 +13,35 @@ class Invoice {
 
   // JSON'dan Invoice nesnesine dönüştürme
   factory Invoice.fromJson(Map<String, dynamic> json) {
-    // JSON'daki verileri güvenli bir şekilde ayrıştırma
-    String seller =
-        json['structured']?['satici_firma_unvani'] ?? 'Bilinmeyen Satıcı';
-    String dateStr = json['structured']?['fatura_tarihi'] ?? '';
-    String totalStr =
-        json['structured']?['genel_toplam']?.replaceAll(',', '.') ?? '0.0';
+    final structuredData = json['structured'] as Map<String, dynamic>? ?? {};
+
+    String seller = structuredData['satici_vergi_dairesi'] as String? ??
+        structuredData['satici_firma_unvani'] as String? ??
+        'Bilinmeyen Satıcı';
+
+    String dateStr = structuredData['fatura_tarihi'] as String? ?? '';
+    String totalStr = (structuredData['genel_toplam'] as String? ?? '0.0')
+        .replaceAll('.', '')
+        .replaceAll(',', '.');
 
     DateTime parsedDate;
     try {
-      // Tarih formatını (örn: 28-12-2022) ayrıştırma
-      List<String> dateParts = dateStr.split('-');
-      if (dateParts.length == 3) {
-        parsedDate = DateTime(
-          int.parse(dateParts[2]),
-          int.parse(dateParts[1]),
-          int.parse(dateParts[0]),
-        );
+      if (dateStr.contains('-')) {
+        final parts = dateStr.split('-');
+        if (parts.length == 3) {
+          parsedDate = DateTime(
+              int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+        } else {
+          parsedDate = DateTime.now();
+        }
+      } else if (dateStr.contains('.')) {
+        final parts = dateStr.split('.');
+        if (parts.length == 3) {
+          parsedDate = DateTime(
+              int.parse(parts[2]), int.parse(parts[1]), int.parse(parts[0]));
+        } else {
+          parsedDate = DateTime.now();
+        }
       } else {
         parsedDate = DateTime.now();
       }
@@ -38,8 +50,7 @@ class Invoice {
     }
 
     return Invoice(
-      sellerName:
-          seller.split(' ').take(2).join(' '), // Çok uzun isimleri kısalt
+      sellerName: seller,
       date: parsedDate,
       totalAmount: double.tryParse(totalStr) ?? 0.0,
     );

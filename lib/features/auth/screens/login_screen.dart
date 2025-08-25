@@ -14,7 +14,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController(text: "jimmygrammy@gmail.com");
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
   bool _isLoading = false;
@@ -23,6 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final _storageService = StorageService();
 
   Future<void> _login() async {
+    if (_formKey.currentState?.validate() != true) {
+      return;
+    }
     setState(() {
       _isLoading = true;
     });
@@ -33,9 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
 
-      final token = response['token'];
-      if (token != null) {
-        await _storageService.saveToken(token);
+      // YENİ BACKEND'İN YANITINA GÖRE GÜNCELLENDİ
+      if (response['token'] != null && response['user'] != null) {
+        await _storageService.saveToken(response['token']);
         if (mounted) {
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const MainScreen()),
@@ -43,12 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
       } else {
-        throw Exception('Login failed: Token is null');
+        throw Exception('Giriş başarısız: Sunucudan token alınamadı.');
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: ${e.toString()}')),
+          SnackBar(content: Text(e.toString())),
         );
       }
     } finally {
@@ -85,16 +89,19 @@ class _LoginScreenState extends State<LoginScreen> {
               horizontal: horizontalPadding,
               vertical: 24.0,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: screenSize.height * 0.05),
-                _buildLogo(context),
-                SizedBox(height: screenSize.height * 0.1),
-                _buildLoginForm(context),
-                const SizedBox(height: 40),
-                _buildFooter(context),
-              ],
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: screenSize.height * 0.05),
+                  _buildLogo(context),
+                  SizedBox(height: screenSize.height * 0.1),
+                  _buildLoginForm(context),
+                  const SizedBox(height: 40),
+                  _buildFooter(context),
+                ],
+              ),
             ),
           ),
         ),
@@ -120,23 +127,32 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Email Alanı
-        Text("Email Address", style: theme.textTheme.labelSmall),
+        Text("E-posta Adresi", style: theme.textTheme.labelSmall),
         TextFormField(
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(
-            hintText: "jimmygrammy@gmail.com",
+            hintText: "E-posta adresinizi girin",
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Lütfen e-posta adresinizi girin.';
+            }
+            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+              return 'Lütfen geçerli bir e-posta adresi girin.';
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 24),
 
         // Şifre Alanı
-        Text("Password", style: theme.textTheme.labelSmall),
+        Text("Şifre", style: theme.textTheme.labelSmall),
         TextFormField(
           controller: _passwordController,
           obscureText: !_isPasswordVisible,
           decoration: InputDecoration(
-            hintText: "Enter your password",
+            hintText: "Şifrenizi girin",
             suffixIcon: IconButton(
               icon: Icon(
                 _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
@@ -149,6 +165,12 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Lütfen şifrenizi girin.';
+            }
+            return null;
+          },
         ),
       ],
     );
@@ -169,13 +191,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: CircularProgressIndicator(
                       strokeWidth: 2, color: Colors.white),
                 )
-              : const Text('Login'),
+              : const Text('Giriş Yap'),
         ),
         const SizedBox(height: 16),
         TextButton(
           onPressed: () {/* TODO: Şifremi unuttum ekranı */},
           child: Text(
-            "Forgot Password?",
+            "Şifremi Unuttum?",
             style: theme.textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),
           ),
         ),
@@ -183,14 +205,14 @@ class _LoginScreenState extends State<LoginScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("New User? ", style: theme.textTheme.bodyLarge),
+            Text("Yeni misin? ", style: theme.textTheme.bodyLarge),
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const RegisterScreen()));
               },
               child: Text(
-                "Create Account",
+                "Hesap Oluştur",
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.primaryColor,
                   fontWeight: FontWeight.bold,

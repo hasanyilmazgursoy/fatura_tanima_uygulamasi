@@ -1,10 +1,10 @@
 // lib/features/auth/screens/register_screen.dart
 
 import 'package:fatura_yeni/core/services/api_service.dart';
-import 'package:fatura_yeni/core/services/firebase_service.dart';
 import 'package:fatura_yeni/core/services/storage_service.dart';
-import 'package:fatura_yeni/features/main/main_screen.dart';
 import 'package:fatura_yeni/features/auth/screens/otp_screen.dart';
+import 'package:fatura_yeni/features/main/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -17,66 +17,69 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController(text: "Jimmy Grammy");
-  final _emailController = TextEditingController(text: "jimmygrammy@gmail.com");
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   String _fullPhoneNumber = '';
 
   bool _isPasswordVisible = false;
   bool _isLoading = false;
 
-  final ApiService _apiService = ApiService();
-  final FirebaseService _firebaseService = FirebaseService();
-  final StorageService _storageService = StorageService();
+  // Firebase Auth servisini başlatalım
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<void> _register() async {
+  Future<void> _sendOtp() async {
     if (_formKey.currentState?.validate() != true) {
+      return;
+    }
+    if (_fullPhoneNumber.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Lütfen geçerli bir telefon numarası girin.')),
+      );
       return;
     }
     setState(() {
       _isLoading = true;
     });
 
-    try {
-      // Bu fonksiyon artık doğrudan kayıt yapmayacak, sadece SMS gönderecek.
-      // Token alma işlemi OtpScreen'e taşındı.
-      await _firebaseService.getFirebaseIdToken(
-        phoneNumber: _fullPhoneNumber,
-        onCodeSent: (String verificationId) {
-          // SMS başarıyla gönderildiğinde bu blok çalışır.
-          // Kullanıcıyı, aldığı verificationId ve diğer form bilgileriyle
-          // OtpScreen'e yönlendir.
-          if (mounted) {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => OtpScreen(
-                  verificationId: verificationId,
-                  name: _nameController.text,
-                  email: _emailController.text,
-                  password: _passwordController.text,
-                  fullPhoneNumber: _fullPhoneNumber,
-                ),
-              ),
-            );
-          }
-        },
-      );
-      // Not: getFirebaseIdToken'ın bu versiyonu hemen bir token döndürmeyecek,
-      // bu yüzden onCodeSent callback'ini bekliyoruz. Hata yönetimi
-      // getFirebaseIdToken içindeki completer tarafından yapılıyor.
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Hata: ${e.toString()}')),
-        );
-      }
-    } finally {
-      if (mounted) {
+    await _auth.verifyPhoneNumber(
+      phoneNumber: _fullPhoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        // Bu genellikle Android'de otomatik doğrulama durumunda çalışır
+        // Bu demoda bu kısmı basit tutuyoruz.
         setState(() {
           _isLoading = false;
         });
-      }
-    }
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        setState(() {
+          _isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text('Telefon doğrulaması başarısız: ${e.message}')),
+        );
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        // Kod başarıyla gönderildiğinde OTP ekranına yönlendir
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => OtpScreen(
+            verificationId: verificationId,
+            email: _emailController.text,
+            password: _passwordController.text,
+            phoneNumber: _fullPhoneNumber,
+            displayName: _nameController.text,
+          ),
+        ));
+        setState(() {
+          _isLoading = false;
+        });
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        // Otomatik kod alma zaman aşımına uğradığında
+      },
+    );
   }
 
   @override
@@ -111,7 +114,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _buildFormFields(context),
                   const SizedBox(height: 40),
                   ElevatedButton(
-                    onPressed: _isLoading ? null : _register,
+                    onPressed: _isLoading
+                        ? null
+                        : _sendOtp, // Buton artık _sendOtp'yi çağırıyor
                     child: _isLoading
                         ? const SizedBox(
                             height: 20,
@@ -119,7 +124,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: CircularProgressIndicator(
                                 strokeWidth: 2, color: Colors.white),
                           )
-                        : const Text('Continue'),
+                        : const Text(
+                            'Telefon Numarasını Doğrula'), // Buton metni güncellendi
                   ),
                 ],
               ),
@@ -151,46 +157,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Full Name
-        Text("Full Name", style: labelStyle),
+        Text("Ad Soyad", style: labelStyle),
         TextFormField(
           controller: _nameController,
-          decoration: const InputDecoration(hintText: "Enter your full name"),
+          decoration:
+              const InputDecoration(hintText: "Adınızı ve soyadınızı girin"),
           validator: (value) =>
-              value!.isEmpty ? "Please enter your name" : null,
+              value!.isEmpty ? "Lütfen adınızı ve soyadınızı girin" : null,
         ),
         const SizedBox(height: 24),
 
         // Email Address
-        Text("Email Address", style: labelStyle),
+        Text("E-posta Adresi", style: labelStyle),
         TextFormField(
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(hintText: "Enter your email"),
+          decoration:
+              const InputDecoration(hintText: "E-posta adresinizi girin"),
           validator: (value) =>
-              value!.isEmpty ? "Please enter your email" : null,
+              value!.isEmpty ? "Lütfen e-posta adresinizi girin" : null,
         ),
         const SizedBox(height: 24),
 
         // Phone Number
-        Text("Phone Number", style: labelStyle),
+        Text("Telefon Numarası", style: labelStyle),
         IntlPhoneField(
-          initialCountryCode: 'TR', // Nijerya bayrağı için
+          initialCountryCode: 'TR',
           decoration: const InputDecoration(
-            hintText: 'Phone Number',
+            hintText: 'Telefon Numarası',
           ),
           onChanged: (phone) {
             _fullPhoneNumber = phone.completeNumber;
           },
+          // Anlık çökmeyi önlemek için validator'ı kaldırıyoruz.
+          // Kontrolü butona basıldığında yapacağız.
+          // validator: (phone) {
+          //   if (phone == null || !phone.isValidNumber()) {
+          //     return 'Lütfen geçerli bir telefon numarası girin.';
+          //   }
+          //   return null;
+          // },
         ),
         const SizedBox(height: 24),
 
         // Password
-        Text("Password", style: labelStyle),
+        Text("Şifre", style: labelStyle),
         TextFormField(
           controller: _passwordController,
           obscureText: !_isPasswordVisible,
           decoration: InputDecoration(
-            hintText: "Enter New Password",
+            hintText: "Yeni şifrenizi girin",
             suffixIcon: IconButton(
               icon: Icon(
                 _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
@@ -203,9 +219,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               },
             ),
           ),
-          validator: (value) => value!.length < 6
-              ? "Password must be at least 6 characters"
-              : null,
+          validator: (value) =>
+              value!.length < 6 ? "Şifre en az 6 karakter olmalıdır" : null,
         ),
       ],
     );

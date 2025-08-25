@@ -45,5 +45,18 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<!-- Fotoğraf Galerisi İzin Açıklaması -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Fatura fotoğraflarını galerinizden seçmek için bu izne ihtiyaç var.</string>
+
+	<!-- Kamera İzin Açıklaması -->
+	<key>NSCameraUsageDescription</key>
+	<string>Fatura fotoğraflarını çekmek için bu izne ihtiyaç var.</string>
+
+	<!-- Mikrofon İzin Açıklaması (Kamera paketi için gerekli) -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Fatura taraması sırasında video kaydı için bu izne ihtiyaç var.</string>
+
 </dict>
 </plist>
