@@ -1,107 +1,31 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# Virtualenv
+# Sanal Ortam
 venv/
-ENV/
-env/
-# virtualenv
-# virtualenvwrapper
-.direnv/
-.env
+/venv/
 
-# Spyder project settings
-.spyderproject
-.spyproject
+# Python cache
+__pycache__/
+*.pyc
 
-# Rope project settings
-.ropeproject
+# IDE ve OS'a özel dosyalar
+.idea/
+.vscode/
+.DS_Store
 
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# Ignored directories
+# Veri ve Yükleme Klasörleri
+# Bu klasörler kullanıcıya özel ve potansiyel olarak hassas veriler içerir.
+fatura/
+fatura_png/
 fatura_uploads/
-test_reports/
-layoutlm_dataset/
-*.arrow
+dataset/
 
-# Ignore environment variables
-.env*
+# Makine Öğrenmesi Veri Seti ve Model
+# Bu klasörler büyük boyutludur ve depoya dahil edilmemelidir.
+layoutlm_dataset/
+layoutlm_quick_model/
+
+# Çıktı ve Raporlar
+# Bu klasörler program her çalıştığında yeniden oluşturulur.
+test_reports/
+
+# Log dosyaları
+*.log

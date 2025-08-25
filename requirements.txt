@@ -1,0 +1,20 @@
+# Temel Kütüphaneler
+numpy
+pandas
+Pillow
+scipy
+
+# Görüntü İşleme ve OCR
+opencv-python
+pytesseract
+PyMuPDF
+
+# Makine Öğrenmesi (Hugging Face)
+torch
+transformers
+datasets
+accelerate
+seqeval
+
+# Web Arayüzü
+streamlit
