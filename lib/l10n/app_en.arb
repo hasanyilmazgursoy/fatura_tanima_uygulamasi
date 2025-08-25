@@ -1,0 +1,15 @@
+{
+    "@@locale": "en",
+    "dashboardTitle": "Dashboard",
+    "welcomeBack": "Welcome back, {name}!",
+    "@welcomeBack": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "todayExpenditure": "Today's Expenditure",
+    "reminders": "Reminders",
+    "receipts": "Recent Receipts"
+}

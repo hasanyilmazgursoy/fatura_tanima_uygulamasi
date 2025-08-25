@@ -1,0 +1,15 @@
+{
+    "@@locale": "tr",
+    "dashboardTitle": "Anasayfa",
+    "welcomeBack": "Hoş geldin, {name}!",
+    "@welcomeBack": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "todayExpenditure": "Bugünkü Harcama",
+    "reminders": "Hatırlatmalar",
+    "receipts": "Son Fişler"
+}
