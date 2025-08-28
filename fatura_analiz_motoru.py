@@ -119,15 +119,68 @@ class FaturaAnalizMotoru:
             formatted_blocks.append({'text': text, 'coords': (x0, top, x1, bottom)})
         return formatted_blocks
 
-    def _identify_blocks(self, blocks: List[Dict], page_size: Tuple[float, float]) -> Dict[str, str]:
+    def _compute_boundaries(self, blocks: List[Dict], page_size: Tuple[float, float]) -> Dict[str, float]:
+        page_width, page_height = page_size
+        # Varsayılan eşikler
+        x_divider = page_width * 0.52
+        y_seller_end = page_height * 0.18
+        y_buyer_info_end = page_height * 0.38
+        y_totals_start = page_height * 0.48
+
+        try:
+            # Dinamik ayarlama: toplamlar için çapa kelimeler
+            total_anchors = [
+                'ödenecek', 'vergiler dahil', 'mal hizmet toplam', 'toplam iskonto',
+                'hesaplanan kdv', 'genel toplam', 'ödenecek tutar'
+            ]
+            y_candidates = []
+            for b in blocks:
+                t = b['text'].lower()
+                if any(a in t for a in total_anchors):
+                    # Toplamlar genelde bu bloğun merkezinin biraz üstünden başlar
+                    _, y0, _, y1 = b['coords']
+                    y_candidates.append((y0 + y1) / 2)
+            if y_candidates:
+                est = min(y_candidates)  # en yukarıdaki toplam-ilişkili blok
+                # Bir miktar yukarı tolerans (satır başlarına denk getirmek için)
+                y_totals_start = max(page_height * 0.35, est - page_height * 0.03)
+
+            # Fatura bilgileri (sağ üst) için çapa: Fatura No, ETTN, Fatura Tarihi
+            info_anchors = ['fatura no', 'ettn', 'fatura tarihi', 'düzenleme']
+            info_y = []
+            info_x = []
+            for b in blocks:
+                t = b['text'].lower()
+                if any(a in t for a in info_anchors):
+                    x0, y0, x1, y1 = b['coords']
+                    info_y.append((y0 + y1) / 2)
+                    info_x.append((x0 + x1) / 2)
+            if info_y:
+                y_buyer_info_end = max(y_buyer_info_end, max(info_y) + page_height * 0.02)
+            if info_x:
+                # Sağ ağırlıklı ise x_divider biraz sağa alınır
+                median_x = sorted(info_x)[len(info_x)//2]
+                x_divider = max(x_divider, median_x - page_width * 0.02)
+        except Exception:
+            self.logger.warning('Dinamik sınır tahmini başarısız, varsayılanlar kullanılacak')
+
+        return {
+            'x_divider': x_divider,
+            'y_seller_end': y_seller_end,
+            'y_buyer_info_end': y_buyer_info_end,
+            'y_totals_start': y_totals_start,
+        }
+
+    def _identify_blocks(self, blocks: List[Dict], page_size: Tuple[float, float], boundaries: Optional[Dict[str, float]] = None) -> Dict[str, str]:
         page_width, page_height = page_size
         identified_block_texts = {'satici': [], 'alici': [], 'fatura_bilgileri': [], 'toplamlar': []}
 
-        # DÜZELTME 2: Koordinat değerleri faturanın gerçek görsel düzenine göre ayarlandı.
-        x_divider = page_width * 0.50
-        y_seller_end = page_height * 0.22
-        y_buyer_info_end = page_height * 0.40
-        y_totals_start = page_height * 0.60  # Toplamlar bloğu yukarı, doğru konuma çekildi.
+        if boundaries is None:
+            boundaries = self._compute_boundaries(blocks, page_size)
+        x_divider = boundaries['x_divider']
+        y_seller_end = boundaries['y_seller_end']
+        y_buyer_info_end = boundaries['y_buyer_info_end']
+        y_totals_start = boundaries['y_totals_start']
 
         for block in blocks:
             x0, y0, x1, y1 = block['coords']
@@ -159,17 +212,23 @@ class FaturaAnalizMotoru:
                     data[key] = " ".join(value.strip().split())
         return data
     
-    def _gorsel_hata_ayiklama_ciz(self, file_path: str, page_size: Tuple[float, float]):
+    def _gorsel_hata_ayiklama_ciz(self, file_path: str, page_size: Tuple[float, float], boundaries: Optional[Dict[str, float]] = None):
         try:
             image = self._pdf_sayfasini_goruntuye_cevir(file_path, dpi=150)
             if image is None: return
             page_height, page_width, _ = image.shape
             
-            # DÜZELTME 2: Görseldeki kutuların koordinatları, _identify_blocks ile senkronize edildi.
-            x_divider = int(page_width * 0.50)
-            y_seller_end = int(page_height * 0.22)
-            y_buyer_info_end = int(page_height * 0.40)
-            y_totals_start = int(page_height * 0.60)
+            if boundaries is None:
+                # Görüntü boyutundan tahmin (sayfa_size ile yakın)
+                x_divider = int(page_width * 0.52)
+                y_seller_end = int(page_height * 0.18)
+                y_buyer_info_end = int(page_height * 0.38)
+                y_totals_start = int(page_height * 0.48)
+            else:
+                x_divider = int(boundaries['x_divider'] / page_size[0] * page_width)
+                y_seller_end = int(boundaries['y_seller_end'] / page_size[1] * page_height)
+                y_buyer_info_end = int(boundaries['y_buyer_info_end'] / page_size[1] * page_height)
+                y_totals_start = int(boundaries['y_totals_start'] / page_size[1] * page_height)
 
             areas = {
                 "satici (mavi)": (0, 0, x_divider, y_seller_end),
@@ -194,7 +253,8 @@ class FaturaAnalizMotoru:
         full_text = ''
         if words:
             blocks_with_coords = self._group_words_into_blocks(words)
-            identified_blocks = self._identify_blocks(blocks_with_coords, page_size)
+            boundaries = self._compute_boundaries(blocks_with_coords, page_size)
+            identified_blocks = self._identify_blocks(blocks_with_coords, page_size, boundaries)
             full_text = "\n".join([block['text'] for block in blocks_with_coords])
         else:
             # pdfplumber başarısızsa OCR fallback
@@ -202,10 +262,11 @@ class FaturaAnalizMotoru:
             ocr_text = self._ocr_fulltext_fallback(dosya_yolu)
             full_text = ocr_text
             identified_blocks = {k: '' for k in ['satici', 'alici', 'fatura_bilgileri', 'toplamlar']}
+            boundaries = None
 
         # Debug görseli çiz (mümkünse)
         try:
-            self._gorsel_hata_ayiklama_ciz(dosya_yolu, page_size)
+            self._gorsel_hata_ayiklama_ciz(dosya_yolu, page_size, boundaries)
         except Exception:
             self.logger.warning("Debug görseli oluşturulamadı")
 
