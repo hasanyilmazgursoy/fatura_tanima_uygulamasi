@@ -1,6 +1,6 @@
 # 🧾 Akıllı Fatura Tanıma ve Veri Çıkarma Sistemi
 
-Bu proje, fatura görsellerinden ve PDF dosyalarından yapılandırılmış verileri (JSON, CSV) otomatik olarak çıkaran, gelişmiş bir Python uygulamasıdır. Özellikle, tek tip fatura düzenleri için optimize edilmiş, geometrik bölge tespiti ve akıllı veri çıkarma algoritmalarıyla yüksek doğruluk hedefler.
+Bu proje, fatura görselleri ve PDF dosyalarından yapılandırılmış verileri (JSON, CSV) otomatik olarak çıkaran gelişmiş bir Python uygulamasıdır. Özellikle belirli bir fatura düzenine göre optimize edilmiş, geometrik bölge tespiti ve akıllı veri çıkarma algoritmalarıyla yüksek doğruluk hedefler.
 
 ## ✨ Ana Özellikler
 
@@ -94,7 +94,7 @@ test_reports/
 
 ## 💡 Gelecek Vizyonu: Makine Öğrenmesi Entegrasyonu
 
-Mevcut kural tabanlı sistem, hassas veri etiketleme kapasitesiyle, projenin bir sonraki seviyesi için sağlam bir temel oluşturmaktadır: Makine Öğrenmesi (ML) ile daha esnek ve akıllı bir yapıya geçiş.
+Mevcut kural tabanlı sistem, hassas veri etiketleme kapasitesiyle, projenin bir sonraki seviyesi için sağlam bir temel oluşturmaktadır: Makine Öğrlenmesi (ML) ile daha esnek ve akıllı bir yapıya geçiş.
 
 ### Aşama 1: Veri Seti Oluşturma ve Zenginleştirme
 
