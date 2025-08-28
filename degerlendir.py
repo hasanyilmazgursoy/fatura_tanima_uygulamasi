@@ -51,15 +51,15 @@ def main():
     Ana değerlendirme betiği. Tüm faturaları analiz eder, golden dataset ile karşılaştırır
     ve detaylı bir başarı raporu oluşturur.
     """
-    print("🚀 Değerlendirme süreci başlatılıyor...")
+    logging.info("🚀 Değerlendirme süreci başlatılıyor...")
 
     # Golden dataset'i yükle
     try:
         with open('config/golden_dataset.json', 'r', encoding='utf-8') as f:
             golden_dataset = json.load(f)
-        print(f"✅ Golden dataset başarıyla yüklendi. {len(golden_dataset)} adet fatura referansı bulundu.")
+        logging.info(f"✅ Golden dataset başarıyla yüklendi. {len(golden_dataset)} adet fatura referansı bulundu.")
     except FileNotFoundError:
-        print("❌ Hata: 'config/golden_dataset.json' dosyası bulunamadı.")
+        logging.error("❌ Hata: 'config/golden_dataset.json' dosyası bulunamadı.")
         return
 
     # İşlenecek faturaları belirle
@@ -67,10 +67,10 @@ def main():
     islenicek_dosyalar = [os.path.join(fatura_klasoru, dosya_adi) for dosya_adi in golden_dataset.keys() if os.path.exists(os.path.join(fatura_klasoru, dosya_adi))]
     
     if not islenicek_dosyalar:
-        print(f"❌ '{fatura_klasoru}' içinde değerlendirilecek fatura bulunamadı.")
+        logging.error(f"❌ '{fatura_klasoru}' içinde değerlendirilecek fatura bulunamadı.")
         return
 
-    print(f"🔍 {len(islenicek_dosyalar)} adet fatura analiz edilecek...")
+    logging.info(f"🔍 {len(islenicek_dosyalar)} adet fatura analiz edilecek...")
 
     # Paralel analiz
     tum_sonuclar = {}
@@ -82,10 +82,10 @@ def main():
                 tum_sonuclar[dosya_adi] = sonuc['yapilandirilmis_veri']
             except Exception as e:
                 dosya = futures[future]
-                print(f"❌ {os.path.basename(dosya)} analiz edilirken hata oluştu: {e}")
+                logging.error(f"❌ {os.path.basename(dosya)} analiz edilirken hata oluştu: {e}")
 
 
-    print("📊 Değerlendirme sonuçları hesaplanıyor...")
+    logging.info("📊 Değerlendirme sonuçları hesaplanıyor...")
     
     # Değerlendirme
     toplam_rapor = {"dogru": 0, "yanlis": 0, "eksik": 0, "alan_bazli": defaultdict(lambda: {"dogru": 0, "yanlis": 0, "eksik": 0})}
@@ -110,19 +110,17 @@ def main():
                     toplam_rapor["alan_bazli"][alan]["eksik"] += 1
 
     # Raporu yazdır
-    print("\n" + "="*50)
-    print("Değerlendirme Raporu")
-    print("="*50)
+    logging.info("Değerlendirme Raporu")
     
     toplam_alan = toplam_rapor["dogru"] + toplam_rapor["yanlis"] + toplam_rapor["eksik"]
     basari_orani = (toplam_rapor["dogru"] / toplam_alan) * 100 if toplam_alan > 0 else 0
     
-    print(f"Genel Başarı Oranı: {basari_orani:.2f}%")
-    print(f"  - Doğru: {toplam_rapor['dogru']}")
-    print(f"  - Yanlış: {toplam_rapor['yanlis']}")
-    print(f"  - Eksik: {toplam_rapor['eksik']}")
+    logging.info(f"Genel Başarı Oranı: {basari_orani:.2f}%")
+    logging.info(f"  - Doğru: {toplam_rapor['dogru']}")
+    logging.info(f"  - Yanlış: {toplam_rapor['yanlis']}")
+    logging.info(f"  - Eksik: {toplam_rapor['eksik']}")
     
-    print("\nAlan Bazlı Başarı Oranları:")
+    logging.info("Alan Bazlı Başarı Oranları:")
     
     alan_raporlari = []
     # Alanları başarı oranına göre sırala
@@ -143,7 +141,7 @@ def main():
         })
         
     df = pd.DataFrame(alan_raporlari)
-    print(df.to_string(index=False))
+    logging.info("\n" + df.to_string(index=False))
 
     # Sonuçları dosyaya kaydet
     os.makedirs('test_reports', exist_ok=True)
@@ -160,8 +158,8 @@ def main():
             "detayli_sonuclar": detayli_sonuclar
         }, f, ensure_ascii=False, indent=4)
         
-    print(f"\n💾 Detaylı rapor '{rapor_dosyasi}' dosyasına kaydedildi.")
-    print("✅ Değerlendirme tamamlandı.")
+    logging.info(f"💾 Detaylı rapor '{rapor_dosyasi}' dosyasına kaydedildi.")
+    logging.info("✅ Değerlendirme tamamlandı.")
 
 if __name__ == "__main__":
     # Windows'ta paralel işlem için gerekli

@@ -25,7 +25,7 @@ def log_ayarlarini_yap(rapor_klasoru: str):
         filemode='w',
         encoding='utf-8'
     )
-    print(f"📝 Hata kayıtları (log) şu dosyaya yazılacak: {log_dosyasi}")
+    logging.info(f"📝 Hata kayıtları (log) şu dosyaya yazılacak: {log_dosyasi}")
 
 def analyze_file_for_pool(path: str, output_dir: str) -> Dict:
     """ProcessPoolExecutor ile kullanılabilir, üst seviye fonksiyon."""
@@ -47,14 +47,14 @@ def ayarları_yukle() -> dict:
     try:
         with open(config_dosyasi, 'r', encoding='utf-8') as f:
             ayarlar = json.load(f)
-        print("✅ Konfigürasyon dosyası başarıyla yüklendi.")
+        logging.info("✅ Konfigürasyon dosyası başarıyla yüklendi.")
         return ayarlar
     except FileNotFoundError:
-        print(f"❌ Hata: Konfigürasyon dosyası bulunamadı: '{config_dosyasi}'")
-        print("Lütfen proje ana dizininde bu dosyanın olduğundan emin olun.")
+        logging.error(f"❌ Hata: Konfigürasyon dosyası bulunamadı: '{config_dosyasi}'")
+        logging.error("Lütfen proje ana dizininde bu dosyanın olduğundan emin olun.")
         return None
     except json.JSONDecodeError:
-        print(f"❌ Hata: '{config_dosyasi}' dosyası geçerli bir JSON formatında değil.")
+        logging.error(f"❌ Hata: '{config_dosyasi}' dosyası geçerli bir JSON formatında değil.")
         return None
 
 def sonuclari_csv_kaydet(rapor_klasoru: str, tum_sonuclar: list):
@@ -97,9 +97,9 @@ def sonuclari_csv_kaydet(rapor_klasoru: str, tum_sonuclar: list):
             # Her bir faturanın verisini bir satır olarak yaz
             writer.writerows(yazilacak_veriler)
         
-        print(f"📄 CSV raporu da başarıyla oluşturuldu: {csv_dosyasi}")
+        logging.info(f"📄 CSV raporu da başarıyla oluşturuldu: {csv_dosyasi}")
     except Exception as e:
-        print(f"❌ CSV dosyası yazılırken bir hata oluştu: {e}")
+        logging.error(f"❌ CSV dosyası yazılırken bir hata oluştu: {e}")
         logging.error(f"CSV dosyası yazılırken bir hata oluştu: {e}")
 
 
@@ -168,7 +168,7 @@ def sonuclari_turkce_formatla(analiz_sonucu: Dict) -> Dict:
 def ocr_metnini_disa_aktar(dosya_yolu: str, cikti_dosyasi: str):
     """Tek bir dosyanın ham OCR metnini dışa aktarır."""
     # BU FONKSİYON GEÇİCİ OLARAK DEVRE DIŞI BIRAKILDI
-    print("ocr_metnini_disa_aktar fonksiyonu geçici olarak devre dışı.")
+    logging.warning("ocr_metnini_disa_aktar fonksiyonu geçici olarak devre dışı.")
     return
     # try:
     #     with open('config.json', 'r', encoding='utf-8') as f:
@@ -191,7 +191,7 @@ def ocr_metnini_disa_aktar(dosya_yolu: str, cikti_dosyasi: str):
 def hizli_test_calistir(ham_metin_dosyasi: str):
     """Kaydedilmiş ham metin üzerinden sadece Regex analizini çalıştırır."""
     # BU FONKSİYON GEÇİCİ OLARAK DEVRE DIŞI BIRAKILDI
-    print("hizli_test_calistir fonksiyonu geçici olarak devre dışı.")
+    logging.warning("hizli_test_calistir fonksiyonu geçici olarak devre dışı.")
     return
     # try:
     #     with open('config.json', 'r', encoding='utf-8') as f:
@@ -226,24 +226,23 @@ def ana_analiz_süreci():
             config = json.load(f)
         tesseract_path = config.get('tesseract_cmd_path')
     except FileNotFoundError:
-        print("config.json bulunamadı.")
+        logging.warning("config.json bulunamadı.")
 
     analiz_motoru = FaturaAnalizMotoru(tesseract_cmd_path=tesseract_path)
     
-    print(f"Tek dosya analizi başlatılıyor: {tek_dosya_yolu}")
+    logging.info(f"Tek dosya analizi başlatılıyor: {tek_dosya_yolu}")
     sonuclar = analiz_motoru.analiz_et(tek_dosya_yolu)
     
-    print("\n--- ANALİZ SONUÇLARI ---")
-    print(json.dumps(sonuclar.get('yapilandirilmis_veri'), indent=2, ensure_ascii=False))
-    print("\nDebug görseli 'test_reports/debug_images' klasörüne kaydedildi.")
+    logging.info("--- ANALİZ SONUÇLARI ---")
+    logging.info(json.dumps(sonuclar.get('yapilandirilmis_veri'), indent=2, ensure_ascii=False))
+    logging.info("Debug görseli 'test_reports/debug_images' klasörüne kaydedildi.")
 
 
 def akilli_test_analizi_yap(tum_sonuclar: list, rapor_klasoru: str):
     """
     🧠 Test sonuçlarını akıllıca analiz eder ve iyileştirme önerileri sunar
     """
-    print("\n🧠 AKILLI TEST ANALİZİ BAŞLATILIYOR...")
-    print("="*60)
+    logging.info("🧠 AKILLI TEST ANALİZİ BAŞLATILIYOR...")
     
     # Analiz verilerini topla
     analiz_verileri = {
@@ -427,52 +426,40 @@ def akilli_analiz_raporu_yazdir(analiz_verileri: dict, basari_oranlari: dict):
     """
     📊 Akıllı analiz raporunu ekrana yazdırır
     """
-    print("\n📊 AKILLI TEST ANALİZ RAPORU")
-    print("="*60)
-    
-    print(f"📈 TOPLAM FATURA SAYISI: {analiz_verileri['toplam_fatura']}")
-    print()
-    
-    print("🎯 ALAN BAŞARI ORANLARI:")
+    logging.info("📊 AKILLI TEST ANALİZ RAPORU")
+    logging.info(f"📈 TOPLAM FATURA SAYISI: {analiz_verileri['toplam_fatura']}")
+    logging.info("🎯 ALAN BAŞARI ORANLARI:")
     for alan, oran in basari_oranlari.items():
-        print(f"   {alan.replace('_', ' ').title()}: {oran}")
-    print()
-    
-    print("🔍 HATA TÜRÜ ANALİZİ:")
+        logging.info(f"   {alan.replace('_', ' ').title()}: {oran}")
+    logging.info("🔍 HATA TÜRÜ ANALİZİ:")
     for hata_turu, sayi in analiz_verileri['hata_turleri'].items():
         if sayi > 0:
-            print(f"   {hata_turu.replace('_', ' ').title()}: {sayi} fatura")
-    print()
-    
-    print("💡 İYİLEŞTİRME ÖNERİLERİ:")
+            logging.info(f"   {hata_turu.replace('_', ' ').title()}: {sayi} fatura")
+    logging.info("💡 İYİLEŞTİRME ÖNERİLERİ:")
     for oneri in analiz_verileri['iyilestirme_onerileri']:
-        print(f"   {oneri}")
-    print()
-    
-    print("📊 OCR KALİTE DAĞILIMI:")
+        logging.info(f"   {oneri}")
+    logging.info("📊 OCR KALİTE DAĞILIMI:")
     for kalite, sayi in analiz_verileri['ocr_kalite_analizi'].items():
         yuzde = (sayi / analiz_verileri['toplam_fatura']) * 100
-        print(f"   {kalite}: {sayi} fatura (%{yuzde:.1f})")
-    
-    print()
-    print("🎯 PATTERN MATCHING BAŞARI ORANI:")
+        logging.info(f"   {kalite}: {sayi} fatura (%{yuzde:.1f})")
+    logging.info("🎯 PATTERN MATCHING BAŞARI ORANI:")
     if 'pattern_matching_basari' in analiz_verileri and analiz_verileri['pattern_matching_basari']:
         toplam_basari = sum(p['basari_orani'] for p in analiz_verileri['pattern_matching_basari'])
         ortalama_basari = toplam_basari / len(analiz_verileri['pattern_matching_basari'])
-        print(f"   Ortalama Pattern Matching Başarı Oranı: %{ortalama_basari:.1f}")
+        logging.info(f"   Ortalama Pattern Matching Başarı Oranı: %{ortalama_basari:.1f}")
         
         # En başarılı ve en başarısız faturalar
         basarili_faturalar = [p for p in analiz_verileri['pattern_matching_basari'] if p['basari_orani'] >= 80]
         basarisiz_faturalar = [p for p in analiz_verileri['pattern_matching_basari'] if p['basari_orani'] < 50]
         
-        print(f"   Yüksek Başarılı (≥80%): {len(basarili_faturalar)} fatura")
-        print(f"   Düşük Başarılı (<50%): {len(basarisiz_faturalar)} fatura")
+        logging.info(f"   Yüksek Başarılı (≥80%): {len(basarili_faturalar)} fatura")
+        logging.info(f"   Düşük Başarılı (<50%): {len(basarisiz_faturalar)} fatura")
         
         if basarisiz_faturalar:
-            print("   En Düşük Başarılı Faturalar:")
+            logging.info("   En Düşük Başarılı Faturalar:")
             for fatura in sorted(basarisiz_faturalar, key=lambda x: x['basari_orani'])[:3]:
                 dosya_adi = os.path.basename(fatura['dosya'])
-                print(f"     {dosya_adi}: %{fatura['basari_orani']:.1f}")
+                logging.info(f"     {dosya_adi}: %{fatura['basari_orani']:.1f}")
 
 def akilli_analiz_raporu_kaydet(analiz_verileri: dict, rapor_klasoru: str):
     """
@@ -483,7 +470,7 @@ def akilli_analiz_raporu_kaydet(analiz_verileri: dict, rapor_klasoru: str):
     with open(rapor_dosyasi, 'w', encoding='utf-8') as f:
         json.dump(analiz_verileri, f, ensure_ascii=False, indent=4)
     
-    print(f"💾 Akıllı analiz raporu kaydedildi: {rapor_dosyasi}")
+    logging.info(f"💾 Akıllı analiz raporu kaydedildi: {rapor_dosyasi}")
 
 def akilli_analiz_html_kaydet(analiz_verileri: dict, rapor_klasoru: str):
     """
@@ -532,7 +519,7 @@ def akilli_analiz_html_kaydet(analiz_verileri: dict, rapor_klasoru: str):
     with open(html_yolu, 'w', encoding='utf-8') as f:
         f.write(html)
 
-    print(f"📄 HTML özet oluşturuldu: {html_yolu}")
+    logging.info(f"📄 HTML özet oluşturuldu: {html_yolu}")
 
 def _norm_amount(s: str) -> str:
     if not s:
@@ -560,12 +547,12 @@ def golden_degerlendirme_yap(run_klasoru: str, tum_sonuclar: list):
     import os, json, csv
     golden_path = os.path.join('golden', 'golden.json')
     if not os.path.exists(golden_path):
-        print("ℹ️ Golden set bulunamadı (golden/golden.json). Değerlendirme atlandı.")
+        logging.info("ℹ️ Golden set bulunamadı (golden/golden.json). Değerlendirme atlandı.")
         return
     try:
         golden = json.load(open(golden_path, encoding='utf-8'))
     except Exception as e:
-        print(f"❌ Golden set yüklenemedi: {e}")
+        logging.error(f"❌ Golden set yüklenemedi: {e}")
         return
 
     # Golden formatı: [{"dosya": "filename.pdf", "expected": {"fatura_numarasi": "...", ...}}]
@@ -613,13 +600,13 @@ def golden_degerlendirme_yap(run_klasoru: str, tum_sonuclar: list):
         w.writeheader(); w.writerows(results)
 
     # Özet
-    print('📐 Golden değerlendirme (alan başarı oranları):')
+    logging.info('📐 Golden değerlendirme (alan başarı oranları):')
     for f in fields:
         tot = field_total.get(f,0) or 0
         hit = field_hits.get(f,0)
         oran = (hit/tot*100) if tot else 0.0
-        print(f"  - {f}: {hit}/{tot} (%{oran:.1f})")
-    print(f"📄 Golden raporları: {out_json}, {out_csv}")
+        logging.info(f"  - {f}: {hit}/{tot} (%{oran:.1f})")
+    logging.info(f"📄 Golden raporları: {out_json}, {out_csv}")
 
 def hata_turu_tespit_et(eksik_alanlar: list, ocr_stats: dict, regex_sonuclari: dict) -> str:
     """
@@ -748,13 +735,13 @@ if __name__ == "__main__":
             config = json.load(f)
         tesseract_path = config.get('tesseract_cmd_path')
     except FileNotFoundError:
-        print(f"config.json bulunamadı: {config_dosya_yolu}")
+        logging.warning(f"config.json bulunamadı: {config_dosya_yolu}")
 
     analiz_motoru = FaturaAnalizMotoru(tesseract_cmd_path=tesseract_path)
     
-    print(f"Tek dosya analizi başlatılıyor: {tek_dosya_yolu}")
+    logging.info(f"Tek dosya analizi başlatılıyor: {tek_dosya_yolu}")
     sonuclar = analiz_motoru.analiz_et(tek_dosya_yolu)
     
-    print("\n--- ANALİZ SONUÇLARI ---")
-    print(json.dumps(sonuclar.get('yapilandirilmis_veri'), indent=2, ensure_ascii=False))
-    print("\nDebug görseli 'test_reports/debug_images' klasörüne kaydedildi.")
+    logging.info("--- ANALİZ SONUÇLARI ---")
+    logging.info(json.dumps(sonuclar.get('yapilandirilmis_veri'), indent=2, ensure_ascii=False))
+    logging.info("Debug görseli 'test_reports/debug_images' klasörüne kaydedildi.")
