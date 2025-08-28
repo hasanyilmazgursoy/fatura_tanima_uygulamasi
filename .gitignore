@@ -32,6 +32,10 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+ios/Flutter/ephemeral/
+macos/Flutter/ephemeral/
+*.apk
+fatura_backend/src/config/serviceAccountKey.json
 
 # Symbolication related
 app.*.symbols
