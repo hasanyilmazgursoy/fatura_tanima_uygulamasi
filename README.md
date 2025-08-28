@@ -1,21 +1,21 @@
-# 🧾 Akıllı Fatura Tanıma Uygulaması
+# 🧾 Akıllı Fatura Tanıma ve Veri Çıkarma Sistemi
 
-Bu proje, **OCR (Optik Karakter Tanıma)** ve **Görsel Düzen Analizi** tekniklerini kullanarak fatura görsellerinden ve PDF dosyalarından otomatik olarak yapılandırılmış veri çıkaran gelişmiş bir Python uygulamasıdır. Özellikle belirli bir fatura düzenine göre optimize edilmiş, geometrik bölge tespiti ile hassas veri çıkarma yeteneğine sahiptir.
+Bu proje, fatura görsellerinden ve PDF dosyalarından yapılandırılmış verileri (JSON, CSV) otomatik olarak çıkaran, gelişmiş bir Python uygulamasıdır. Özellikle, tek tip fatura düzenleri için optimize edilmiş, geometrik bölge tespiti ve akıllı veri çıkarma algoritmalarıyla yüksek doğruluk hedefler.
 
 ## ✨ Ana Özellikler
 
-- **Geniş Format Desteği:** Hem resim dosyalarını (`.png`, `.jpg` vb.) hem de `.pdf` formatındaki faturaları doğrudan işleyebilir.
-- **Esnek Yapılandırma:** Tüm ayarlar (dosya yolları, OCR komut yolu) `config.json` dosyası üzerinden kolayca yönetilebilir.
-- **Hassas Blok Tespiti:** Kullanıcı tanımlı geometrik bölgelere (Satıcı, Alıcı, Fatura Bilgileri, Toplamlar) dayalı güçlü bir blok tespit mekanizması ile verileri ayrıştırır.
-- **Kapsamlı Veri Çıkarma:** Fatura No, Tarih, Tutar, VKN, Adres, Ürün Kalemleri gibi onlarca farklı alanı tanımak için optimize edilmiş Regex desenleri ve `pdfplumber` tabanlı tablo çıkarma yöntemleri kullanır.
-- **Çift Raporlama Sistemi:** Analiz sonuçlarını hem makine tarafından okunabilir `JSON` hem de Excel gibi programlarla uyumlu `CSV` formatında sunar.
-- **Gelişmiş Hata Yönetimi:** Analiz sırasında oluşan hataları `analiz_hatalari.log` dosyasına kaydederek sorun takibini kolaylaştırır.
-- **Yüksek Başarılı OCR:** Tesseract motoru, Türkçe ve İngilizce dilleri için optimize edilmiştir.
-- **Görsel Hata Ayıklama:** Tespit edilen geometrik bölgeleri faturanın üzerine çizerek görsel doğrulama imkanı sunar.
+- **Çoklu Format Desteği:** PNG, JPG ve PDF formatındaki fatura dosyalarını işleyebilir.
+- **Hassas Geometrik Bölge Tespiti:** Kullanıcı tarafından belirlenmiş, özel koordinatlara dayalı geometrik bölgeler (Satıcı Bilgileri, Fatura Detayları, Alıcı Bilgileri, Toplamlar) kullanarak faturanın farklı alanlarını ayrıştırır.
+- **Kapsamlı Veri Çıkarma:** `config/patterns.json` dosyasında tanımlanan Regex desenleri ile fatura numarası, tarih, tutarlar, VKN, adres gibi ana bilgileri; `pdfplumber` ve `pandas` entegrasyonu ile ise ürün/hizmet kalemlerini tablolar halinde çıkarır.
+- **Esnek Yapılandırma:** Tesseract OCR motorunun yolu, fatura ve rapor klasörleri gibi tüm uygulama ayarları `config.json` üzerinden kolayca yönetilir.
+- **Yüksek Başarılı OCR:** Tesseract OCR motoru, Türkçe (tur) ve İngilizce (eng) dilleri için optimize edilmiş, güvenilir metin tanıma sağlar.
+- **Görsel Hata Ayıklama (Debug):** Tespit edilen geometrik bölgeleri ve çıkarılan verileri doğrudan fatura görseli üzerine çizerek görsel doğrulama ve hata ayıklama imkanı sunar.
+- **Detaylı Raporlama:** Analiz sonuçlarını hem makine tarafından okunabilir JSON hem de kolay işlenebilir CSV formatında sunar.
+- **Hata Yönetimi:** Analiz sırasında oluşan hataları `analiz_hatalari.log` dosyasına kaydederek sorun takibini kolaylaştırır.
 
-## 🚀 Kurulum
+## 🚀 Kurulum ve Çalıştırma
 
-#### 1. Gerekli Kütüphaneler
+### 1. Gerekli Kütüphaneler
 
 Projeyi çalıştırmak için aşağıdaki Python kütüphanelerini yükleyin:
 
@@ -23,7 +23,7 @@ Projeyi çalıştırmak için aşağıdaki Python kütüphanelerini yükleyin:
 pip install opencv-python pytesseract numpy PyMuPDF pdfplumber pandas
 ```
 
-#### 2. Tesseract OCR Kurulumu
+### 2. Tesseract OCR Kurulumu
 
 Bu uygulama, metin tanıma için Tesseract OCR motorunu kullanır.
 
@@ -32,17 +32,9 @@ Bu uygulama, metin tanıma için Tesseract OCR motorunu kullanır.
 3.  **Yol Belirtme:** `config.json` dosyanızda `tesseract_cmd_path` anahtarına Tesseract'ın `tesseract.exe` dosyasının tam yolunu belirtin. Örneğin:
     `"tesseract_cmd_path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"`
 
-## 📖 Nasıl Kullanılır?
+### 3. Proje Ayarları (`config.json`)
 
-Projenin kullanımı oldukça basittir.
-
-#### 1. Faturaları Hazırlama
-
-Analiz etmek istediğiniz tüm fatura dosyalarını (`.png`, `.jpg`, `.pdf` vb.) proje ana dizinindeki `fatura` klasörünün içine veya bu klasörün altındaki herhangi bir klasöre koyun.
-
-#### 2. Ayarları Gözden Geçirme (İsteğe Bağlı)
-
-`config.json` dosyasını açarak faturaların bulunduğu veya raporların kaydedileceği klasör isimlerini değiştirebilirsiniz. Ayrıca Tesseract yolunu belirtmeyi unutmayın.
+`config.json` dosyasını açarak faturaların bulunduğu (`fatura_klasoru`) ve raporların kaydedileceği (`rapor_klasoru`) klasör isimlerini değiştirebilirsiniz. Ayrıca, **Tesseract yolunu mutlaka belirtin**.
 
 ```json
 {
@@ -57,85 +49,69 @@ Analiz etmek istediğiniz tüm fatura dosyalarını (`.png`, `.jpg`, `.pdf` vb.)
 }
 ```
 
-#### 3. Analizi Başlatma
+### 4. Analizi Başlatma
 
-Tek bir dosyayı test etmek veya toplu analiz yapmak için `main.py` dosyasını kullanın. Genellikle `main.py` dosyasını doğrudan çalıştırarak tüm süreci başlatırsınız:
+Analiz etmek istediğiniz tüm fatura dosyalarını (`.png`, `.jpg`, `.pdf` vb.) `config.json`'da belirtilen `fatura_klasoru` içine yerleştirin (alt klasörler de taranır).
+
+Daha sonra, aşağıdaki komutu terminalde çalıştırarak tüm analiz sürecini başlatın:
 
 ```bash
 python main.py
 ```
 
-Program, `config.json`'da belirtilen `fatura_klasoru` içindeki tüm dosyaları tarar ve her çalıştırmada zaman damgalı bir koşu klasörü oluşturur:
+Program, her çalıştırmada zaman damgalı bir koşu klasörü oluşturur. Bu klasörde detaylı raporları ve görsel hata ayıklama çıktılarını bulacaksınız:
 
 ```
 test_reports/
   └── YYYYMMDD_HHMMSS/
       ├── toplu_fatura_raporu_*.json
       ├── toplu_fatura_raporu_*.csv
-      ├── toplu_fatura_raporu_formatli_*.json
       ├── akilli_analiz_raporu_*.json
-      ├── akilli_analiz_ozet_*.html     # Alan bazlı başarı ve öneriler
-      ├── golden_evaluation.json/csv    # Golden set karşılaştırma (varsa)
-      ├── analiz_hatalari.log
-      └── debug_processed_*.png
-
+      ├── debug_processed_*.png
+      └── analiz_hatalari.log
 ```
 
-Not: Windows’ta konsol kodlaması hatası görürseniz `python -X utf8 main.py` komutunu kullanın.
+**Not:** Windows’ta konsol kodlaması hatası görürseniz `python -X utf8 main.py` komutunu kullanın.
 
 ## 📂 Proje Yapısı
 
 ```
 .
-├── fatura/                  # Analiz edilecek faturaların bulunduğu klasör
+├── fatura/                  # Analiz edilecek faturaların bulunduğu klasör (config.json'dan ayarlanır)
 │   └── <alt_klasorler>/     # Alt klasörler de taranır
-├── test_reports/            # Her koşu için zaman damgalı alt klasörler
-│   └── YYYYMMDD_HHMMSS/
+├── test_reports/            # Analiz raporlarının ve debug görsellerinin kaydedildiği klasör
+│   └── YYYYMMDD_HHMMSS/     # Her koşu için oluşturulan zaman damgalı alt klasör
 │       ├── ... (rapor dosyaları ve debug görselleri)
 ├── config/
-│   ├── config.json          # Uygulama ayarları
-│   └── patterns.json        # Regex desenleri
+│   ├── config.json          # Genel uygulama ayarları (Tesseract yolu, klasörler vb.)
+│   └── patterns.json        # Regex desenleri ve blok atamaları
 ├── golden/
-│   └── golden_dataset.json  # Golden set (beklenen alanlar) - opsiyonel
-├── fatura_analiz_motoru.py  # Yeni ana analiz motoru (OCR, blok tespiti, Regex)
-├── main.py                  # Projenin ana giriş noktası
-└── README.md                # Bu dosya
+│   └── golden_dataset.json  # Modelin performansını değerlendirmek için kullanılan "gerçek" veri seti (isteğe bağlı)
+├── fatura_analiz_motoru.py  # OCR, kelime ve blok gruplama, geometrik bölge tespiti ve veri çıkarma mantığını içeren ana motor
+├── main.py                  # Projenin ana giriş noktası ve analiz akışını yönetir
+└── README.md                # Bu proje hakkında genel bilgi
 ```
 
-## 🎯 İyileştirme ve Gelecek Adımlar
+## 💡 Gelecek Vizyonu: Makine Öğrenmesi Entegrasyonu
 
-Bu projenin mevcut durumu sağlam bir temel oluşturmaktadır. Gelecekte yapılabilecek potansiyel iyileştirmeler şunlardır:
-
-- **Regex Desenlerini Genişletme:** Daha fazla fatura formatını tanımak için `config/patterns.json` dosyasına desen ekleyerek sistemi kod değişmeden zenginleştirmek.
-- **Makine Öğrenmesi Modelleri:** Veri çıkarma doğruluğunu en üst seviyeye taşımak için Named Entity Recognition (NER) veya Layout-Aware (örn: LayoutLM) modelleri eğitmek.
-- **Web Arayüzü:** Flask veya Django kullanarak kullanıcıların faturaları tarayıcı üzerinden yükleyebileceği ve sonuçları görebileceği bir arayüz oluşturmak.
-
-Bu proje, fatura görüntülerinden (PDF, PNG, JPG vb.) metinleri tanımak ve bu metinleri yapılandırılmış (JSON, CSV) verilere dönüştürmek için geliştirilmiş akıllı bir OCR ve veri çıkarma sistemidir.
-
-Sistem, Tesseract OCR motorunu, gelişmiş görüntü işleme tekniklerini (OpenCV), `pdfplumber` ile tablo çıkarma ve hassas geometrik bölge tespitini kullanarak faturalardaki bilgileri yüksek doğrulukla çıkarmayı hedefler.
-
-## Gelecek Vizyonu: Makine Öğrenmesi Yol Haritası
-
-Mevcut kural tabanlı sistem, yüksek doğrulukla veri etiketleme kapasitesine sahiptir. Bu, sistemi bir sonraki seviyeye taşımak için mükemmel bir zemin hazırlar: Makine Öğrenmesi (ML) ile daha esnek ve akıllı bir yapıya geçiş.
+Mevcut kural tabanlı sistem, hassas veri etiketleme kapasitesiyle, projenin bir sonraki seviyesi için sağlam bir temel oluşturmaktadır: Makine Öğrenmesi (ML) ile daha esnek ve akıllı bir yapıya geçiş.
 
 ### Aşama 1: Veri Seti Oluşturma ve Zenginleştirme
 
-- **Mevcut Sistemin Kullanımı:** Geliştirdiğimiz `FaturaAnalizMotoru` sistemi, yüzlerce veya binlerce faturayı işleyerek otomatik olarak etiketlenmiş bir veri seti oluşturmak için kullanılacaktır. Her fatura için çıkarılan yapılandırılmış JSON çıktısı, model eğitimi için temel veri kaynağımız olacaktır.
-- **Doğrulama ve Düzeltme Arayüzü:** (Opsiyonel) Kullanıcıların, sistem tarafından yanlış etiketlenen verileri düzeltebileceği basit bir web arayüzü (örn. Flask veya Django ile) geliştirilebilir. Bu, "insan-döngüde" (human-in-the-loop) bir yaklaşım sağlayarak veri setinin kalitesini en üst düzeye çıkaracaktır.
-- **Veri Formatı:** Veriler, NER (Named Entity Recognition - İsimlendirilmiş Varlık Tanıma) modellerinin eğitimi için uygun bir formata dönüştürülecektir (örn. IOB2 formatı: B-SATICI, I-SATICI, B-TARIH, O).
+-   **Mevcut Sistemin Kullanımı:** Geliştirdiğimiz `FaturaAnalizMotoru` sistemi, yüzlerce veya binlerce faturayı işleyerek otomatik olarak etiketlenmiş bir veri seti oluşturmak için kullanılacaktır. Her fatura için çıkarılan yapılandırılmış JSON çıktısı, ML model eğitimi için temel veri kaynağımız olacaktır.
+-   **Doğrulama ve Düzeltme Arayüzü (Opsiyonel):** Kullanıcıların, sistem tarafından yanlış etiketlenen verileri düzeltebileceği basit bir web arayüzü geliştirilebilir. Bu "insan-döngüde" (human-in-the-loop) yaklaşım, veri setinin kalitesini ve modelin doğruluğunu sürekli artıracaktır.
+-   **Veri Formatı:** Oluşturulan veri setleri, NER (Named Entity Recognition - İsimlendirilmiş Varlık Tanıma) modellerinin eğitimi için uygun bir formata (örn. IOB2 formatı: B-SATICI, I-SATICI, B-TARIH, O) dönüştürülecektir.
 
 ### Aşama 2: Model Seçimi ve Eğitimi
 
-- **Model Mimarisi:** Fatura anlama görevleri için state-of-the-art sonuçlar veren LayoutLM, LiLT veya Donut gibi Transformer tabanlı, metin ve düzen (layout) bilgisini bir arada kullanan bir model seçilecektir. Bu modeller, sadece metni değil, metnin faturadaki konumunu da anladıkları için çok daha isabetli sonuçlar verirler.
-- **Eğitim Süreci:** Oluşturulan etiketli veri seti kullanılarak seçilen model, belirli varlıkları (fatura numarası, tarih, toplam tutar, satıcı adı vb.) tanımak üzere eğitilecektir.
-- **Fine-Tuning:** Önceden eğitilmiş (pre-trained) bir modelin kendi veri setimizle yeniden eğitilmesi (fine-tuning), daha az veri ile daha yüksek başarı elde etmemizi sağlayacaktır.
+-   **Model Mimarisi:** Fatura anlama görevleri için en son teknoloji sonuçlar veren LayoutLM, LiLT veya Donut gibi Transformer tabanlı, metin ve düzen (layout) bilgisini bir arada kullanan modeller seçilecektir. Bu modeller, sadece metni değil, metnin faturadaki konumunu da anladıkları için çok daha isabetli sonuçlar verirler.
+-   **Eğitim Süreci:** Etiketli veri seti kullanılarak seçilen ML modeli, belirli varlıkları (fatura numarası, tarih, toplam tutar, satıcı adı vb.) tanımak üzere eğitilecektir.
+-   **Fine-Tuning:** Önceden eğitilmiş (pre-trained) bir modelin, kendi veri setimizle yeniden eğitilmesi (fine-tuning), daha az veri ile daha yüksek başarı elde etmemizi sağlayacaktır.
 
-### Aşama 3: Entegrasyon ve Hibrit Model
+### Aşama 3: Entegrasyon ve Hibrit Yaklaşım
 
-- **ML Modelinin Entegrasyonu:** Eğitilen model, mevcut sisteme yeni bir "analiz motoru" olarak entegre edilecektir.
-- **Hibrit Yaklaşım:** Başlangıçta, hem kural tabanlı sistemin hem de ML modelinin sonuçları karşılaştırılabilir.  
-  - Eğer ML modeli bir alanda düşük bir güven skoru verirse, kural tabanlı sistemin sonucu yedek olarak kullanılabilir.  
-  - Bu hibrit yaklaşım, sistemin genel güvenilirliğini artırır ve geçiş sürecini daha pürüzsüz hale getirir.
-- **Sürekli İyileştirme:** Yeni gelen ve doğrulanan faturalar, modelin periyodik olarak yeniden eğitilmesi için kullanılarak sistemin zamanla daha da akıllı hale gelmesi sağlanacaktır.
+-   **ML Modelinin Entegrasyonu:** Eğitilen ML modeli, mevcut kural tabanlı sisteme yeni bir "analiz motoru" olarak entegre edilecektir.
+-   **Hibrit Yaklaşım:** Başlangıçta, hem kural tabanlı sistemin hem de ML modelinin sonuçları karşılaştırılabilir. Eğer ML modeli bir alanda düşük bir güven skoru verirse, kural tabanlı sistemin sonucu yedek olarak kullanılabilir. Bu hibrit yaklaşım, sistemin genel güvenilirliğini artırır ve geçiş sürecini daha pürüzsüz hale getirir.
+-   **Sürekli İyileştirme:** Yeni gelen ve doğrulanan faturalar, modelin periyodik olarak yeniden eğitilmesi için kullanılarak sistemin zamanla daha da akıllı hale gelmesi sağlanacaktır.
 
 Bu yol haritası, projenin sadece mevcut sorunları çözmekle kalmayıp, aynı zamanda endüstri standardı teknolojileri kullanarak geleceğe dönük, ölçeklenebilir ve çok daha güçlü bir yapıya kavuşmasını sağlayacaktır.
