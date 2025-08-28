@@ -521,26 +521,8 @@ def akilli_analiz_html_kaydet(analiz_verileri: dict, rapor_klasoru: str):
 
     logging.info(f"📄 HTML özet oluşturuldu: {html_yolu}")
 
-def _norm_amount(s: str) -> str:
-    if not s:
-        return ''
-    t = str(s).upper().replace('TL','').replace('TRY','').replace('₺','').strip()
-    import re
-    t = re.sub(r'[^0-9.,]', '', t)
-    t = t.replace('.', '').replace(',', '.')
-    try:
-        val = float(t)
-        return f"{val:.2f}"
-    except Exception:
-        return ''
+from utils import norm_amount as _norm_amount, norm_date as _norm_date
 
-def _norm_date(s: str) -> str:
-    if not s:
-        return ''
-    import re
-    t = re.sub(r'[^0-9./\-]', '', str(s))
-    t = re.sub(r"\s*[/\-.]\s*", '-', t)
-    return t
 
 def golden_degerlendirme_yap(run_klasoru: str, tum_sonuclar: list):
     """golden/golden.json dosyası varsa, çıkardığımız alanları beklenenlerle karşılaştırır."""

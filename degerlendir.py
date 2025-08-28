@@ -5,6 +5,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from tqdm import tqdm
 import pandas as pd
 from collections import defaultdict
+from utils import norm_amount, norm_date
 import logging
 
 def degerlendir(analiz_sonuclari: dict, dogruluk_verisi: dict) -> dict:
@@ -20,13 +21,17 @@ def degerlendir(analiz_sonuclari: dict, dogruluk_verisi: dict) -> dict:
         bulunan_deger = str(bulunan_deger_raw).strip() if bulunan_deger_raw is not None else None
         beklenen_deger_str = str(beklenen_deger).strip()
 
-        # Para birimi gibi ek metinleri temizle (örn: "100,00 TL" -> "100,00")
-        if bulunan_deger:
-            bulunan_deger = bulunan_deger.replace("TL", "").replace("EUR", "").replace("USD", "").replace("TRY", "").replace("₺", "").strip()
+        # Ortak normalizasyon: miktar ve tarih alanlarını normalize et
+        if bulunan_deger and 'tarih' in anahtar:
+            bulunan_deger = norm_date(bulunan_deger)
+            beklenen_deger_str = norm_date(beklenen_deger_str)
+        elif bulunan_deger and ('tutar' in anahtar or 'toplam' in anahtar or 'kdv' in anahtar):
+            bulunan_deger = norm_amount(bulunan_deger)
+            beklenen_deger_str = norm_amount(beklenen_deger_str)
 
         if bulunan_deger is not None and bulunan_deger != "":
             # Karşılaştırma yaparken küçük farklılıkları tolere et (örn: boşluk, büyük/küçük harf, .00 vs)
-            if bulunan_deger.lower().replace(',', '.') == beklenen_deger_str.lower().replace(',', '.'):
+            if str(bulunan_deger).lower() == str(beklenen_deger_str).lower():
                 rapor["dogru"] += 1
                 rapor["detaylar"][anahtar] = {"durum": "Doğru", "beklenen": beklenen_deger_str, "bulunan": bulunan_deger_raw}
             else:

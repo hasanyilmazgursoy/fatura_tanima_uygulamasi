@@ -10,6 +10,7 @@ import pytesseract
 import fitz  # PyMuPDF
 import pdfplumber
 import pandas as pd
+from utils import validate_patterns_structure
 
 class FaturaAnalizMotoru:
     """
@@ -21,18 +22,22 @@ class FaturaAnalizMotoru:
             pytesseract.pytesseract.tesseract_cmd = tesseract_cmd_path
         self.logger = logging.getLogger(__name__)
         self.patterns = self._load_patterns_from_config('config/patterns.json')
+        validate_patterns_structure(self.patterns, self.logger)
 
     def _load_patterns_from_config(self, config_path: str) -> Dict:
         try:
-            # DÜZELTME 1: Dosya yolu mantığı düzeltildi.
-            # Artık config klasörünü projenin içinde doğru bir şekilde bulacak.
             project_root = os.path.dirname(os.path.abspath(__file__))
-            absolute_path = os.path.join(project_root, config_path) # '..' kaldırıldı
-            
+            absolute_path = os.path.join(project_root, config_path)
             with open(absolute_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
-        except Exception as e:
-            self.logger.warning(f"'{config_path}' (Denenen yol: {absolute_path}) yüklenemedi. Hata: {e}")
+        except FileNotFoundError:
+            self.logger.error(f"Patterns dosyası bulunamadı: {config_path}")
+            return {}
+        except json.JSONDecodeError as e:
+            self.logger.error(f"Patterns JSON format hatası: satır/sütun bilinmiyor, detay: {e}")
+            return {}
+        except Exception:
+            self.logger.exception(f"Patterns yüklenirken beklenmeyen hata: {config_path}")
             return {}
 
     def _pdf_sayfasini_goruntuye_cevir(self, pdf_path: str, page_num: int = 0, dpi: int = 300) -> Optional[np.ndarray]:
