@@ -10,7 +10,7 @@ import pytesseract
 import fitz  # PyMuPDF
 import pdfplumber
 import pandas as pd
-from utils import validate_patterns_structure
+from utils import validate_patterns_structure, preprocess_image, guardian_postprocess
 
 class FaturaAnalizMotoru:
     """
@@ -69,6 +69,19 @@ class FaturaAnalizMotoru:
             except Exception as e:
                 self.logger.warning(f"Pdfplumber kelime çıkaramadı: {e}.")
         return words, page_size
+
+    def _ocr_fulltext_fallback(self, file_path: str) -> str:
+        try:
+            image = self._pdf_sayfasini_goruntuye_cevir(file_path, dpi=300)
+            if image is None:
+                return ''
+            processed = preprocess_image(image, 'auto')
+            config = '--oem 3 --psm 6'
+            text = pytesseract.image_to_string(processed, lang='tur', config=config)
+            return text or ''
+        except Exception:
+            self.logger.exception("OCR fallback sırasında hata")
+            return ''
 
     def _group_words_into_blocks(self, words: List[Dict], line_tolerance: int = 10, block_tolerance_multiplier: float = 2.5) -> List[Dict]:
         if not words: return []
@@ -178,13 +191,26 @@ class FaturaAnalizMotoru:
 
     def analiz_et(self, dosya_yolu: str) -> Dict[str, Any]:
         words, page_size = self._get_words_with_coords(dosya_yolu)
-        if not words:
-            return {"hata": "Dosyadan metin/koordinat verisi çıkarılamadı.", "yapilandirilmis_veri": {}}
-        blocks_with_coords = self._group_words_into_blocks(words)
-        identified_blocks = self._identify_blocks(blocks_with_coords, page_size)
-        self._gorsel_hata_ayiklama_ciz(dosya_yolu, page_size)
-        full_text = "\n".join([block['text'] for block in blocks_with_coords])
+        full_text = ''
+        if words:
+            blocks_with_coords = self._group_words_into_blocks(words)
+            identified_blocks = self._identify_blocks(blocks_with_coords, page_size)
+            full_text = "\n".join([block['text'] for block in blocks_with_coords])
+        else:
+            # pdfplumber başarısızsa OCR fallback
+            self.logger.warning("pdfplumber kelime çıkaramadı, OCR fallback devrede")
+            ocr_text = self._ocr_fulltext_fallback(dosya_yolu)
+            full_text = ocr_text
+            identified_blocks = {k: '' for k in ['satici', 'alici', 'fatura_bilgileri', 'toplamlar']}
+
+        # Debug görseli çiz (mümkünse)
+        try:
+            self._gorsel_hata_ayiklama_ciz(dosya_yolu, page_size)
+        except Exception:
+            self.logger.warning("Debug görseli oluşturulamadı")
+
         data = self._extract_data_from_blocks(identified_blocks, full_text)
+        data = guardian_postprocess(data)
         data['urun_kalemleri'] = self._urun_kalemlerini_cikar_pdfplumber(dosya_yolu) or []
         return {"yapilandirilmis_veri": data, "ham_metin": full_text}
 
