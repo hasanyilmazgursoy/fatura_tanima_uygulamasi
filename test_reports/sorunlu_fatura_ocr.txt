@@ -1,0 +1,37 @@
+Beşler Market Gümbet Paket
+Adnan Menderes No:29
+Bodrum/ Muğla
+Vergi Dairesi: Bodrum
+VKN: 9000068418
+MERSISNO: 12345669-111
+TICARETSICILNO: 12345669-111
+e-FATURA
+SAYIN
+Akkaya Yazılım Özelleştirme No: TR1.2
+Yıldız Kapı No:45 Senaryo: TEMELFATURA
+Kapı No:A3
+Fatura Tipi: SATIS
+Kütahya/ Kütahya
+Fatura No: MNT2023000000089
+E-Posta: bodurum88@hotmail.com
+Vergi Dairesi: Bodrum Fatura Tarihi: 01-04-2023
+VKN: 9000068418 Düzenleme Tarihi: 01-04-2023
+Düzenleme Saati: 18:27:00
+ETTN: 88e67d12-82bc-429d-a2fe-739c697b0e58
+Sıra İskonto İskonto KDV
+Mal Hizmet Miktar Birim Fiyat KDV Tutarı Diğer Vergiler Mal Hizmet Tutarı
+No Oranı Tutarı Oranı
+Chivas Regal 12 Years 100
+13 2 Adet 875,00000000 TL %0,00 0,00 TL %18,00 315,00 TL 1.750,00 TL
+cl
+Chivas Regal 12 Years 35
+14 5 Adet 360,00000000 TL %0,00 0,00 TL %18,00 324,00 TL 1.800,00 TL
+cl
+Mal Hizmet Toplam Tutarı 38.374,00 TL
+Toplam İskonto 0,00 TL
+Hesaplanan KDV(%18) 14.453,64 TL
+Vergiler Dahil Toplam Tutar 45.281,32 TL
+Ödenecek Tutar 45.281,32 TL
+havale
+Not 2
+Yalnız # KIRK BEŞ BİN İKİ YÜZ SEKSEN BİR Lira OTUZ İKİ Kuruş #

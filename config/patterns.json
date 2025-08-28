@@ -1,8 +1,35 @@
 {
-  "tarih": {
-    "desen": "\\b\\d{1,2}\\s*[/\\-.]\\s*\\d{1,2}\\s*[/\\-.]\\s*\\d{2,4}\\b",
-    "aciklama": "Tarih formatları (24.04.2023, 03 - 06 - 2025, 15/12/2024)",
-    "ornek": "24.04.2023"
-  }
+    "fatura_no": { "desen": "(?:Fatura No|FATURA NO|Fatura No:)\\s*([A-Z0-9]+)", "blok": "fatura_bilgileri" },
+    "fatura_tarihi": { "desen": "(?:Fatura Tarihi|Tarih:)\\s*([\\d./-]+)", "blok": "fatura_bilgileri" },
+    "duzenleme_tarihi": { "desen": "(?:Düzenleme Tarihi)\\s*[:]?\\s*([\\d./-]+)", "blok": "fatura_bilgileri" },
+    "duzenleme_saati": { "desen": "(?:Düzenleme Saati|Saat)\\s*[:]?\\s*([\\d:]+)", "blok": "fatura_bilgileri" },
+    "ettn": { "desen": "ETTN\\s*[:]?\\s*([a-fA-F0-9\\-]{36})" },
+    "siparis_no": { "desen": "(?:Sipariş No|Order No)\\s*[:]?\\s*(\\S+)" },
+    "siparis_tarihi": { "desen": "(?:Sipariş Tarihi|Order Date)\\s*[:]?\\s*([\\d./-]+)" },
+    "fatura_tipi": { "desen": "(?:Fatura Tipi)\\s*[:]?\\s*(Satış|IADE|TEVKIFAT|SATIS)", "blok": "fatura_bilgileri" },
+
+    "satici_unvan": { "desen": "^(.*?)(?:Ticaret Sicil No|Adres:|\\n)", "blok": "satici" },
+    "satici_adres": { "desen": "(?:Adres:)\\s*(.*?)(?:Vergi Dairesi:|\\n)", "blok": "satici" },
+    "satici_vergi_dairesi": { "desen": "(?:Vergi Dairesi:)\\s*(.*?)(?:VKN:|\\n)", "blok": "satici" },
+    "satici_vkn": { "desen": "(?:VKN|V K N)\\s*[:]?\\s*(\\d+)", "blok": "satici" },
+    "satici_mersis_no": { "desen": "(?:MERSISNO|Mersis No:)\\s*(\\d+)", "blok": "satici" },
+    "satici_ticaret_sicil_no": { "desen": "(?:Ticaret Sicil No|Tic\\.Sic\\.No:)\\s*([\\d\\-]+)", "blok": "satici" },
+
+    "alici_unvan": { "desen": "(?:SAYIN|Adı Soyadı:)\\s*(.*?)(?:Adres:|\\n)", "blok": "alici" },
+    "alici_adres": { "desen": "(?:Adres:)\\s*(.*?)(?:Vergi Dairesi:|\\n|Tel:)", "blok": "alici" },
+    "alici_vergi_dairesi": { "desen": "(?:Vergi Dairesi:)\\s*(.*?)(?:VKN:|\\n)", "blok": "alici" },
+    "alici_vkn": { "desen": "(?:VKN|V K N)\\s*[:]?\\s*(\\d+)", "blok": "alici" },
+    "alici_tel": { "desen": "(?:Tel:|Telefon:)\\s*([\\d\\s\\(\\)]+)", "blok": "alici" },
+    "alici_fax": { "desen": "(?:Fax|Faks:)\\s*([\\d\\s\\(\\)]+)", "blok": "alici" },
+    "alici_email": { "desen": "(?:E-Posta|Email:)\\s*(\\S+@\\S+)", "blok": "alici" },
+
+    "mal_hizmet_toplam_tutari": { "desen": "(?:Mal/Hizmet Toplamı|Mal Hizmet Toplam Tutarı|ARA TOPLAM)\\s*[:]?\\s*([\\d.,]+)" },
+    "toplam_iskonto": { "desen": "(?:Toplam İskonto|İSKONTO)\\s*[:]?\\s*([\\d.,]+)" },
+    "hesaplanan_kdv_yuzde_20": { "desen": "(?:Hesaplanan KDV|KDV \\%20)\\s*[:]?\\s*([\\d.,]+)" },
+    "hesaplanan_kdv_yuzde_18": { "desen": "(?:Hesaplanan KDV|KDV \\%18)\\s*[:]?\\s*([\\d.,]+)" },
+    "hesaplanan_kdv_yuzde_10": { "desen": "(?:Hesaplanan KDV|KDV \\%10)\\s*[:]?\\s*([\\d.,]+)" },
+    "vergiler_dahil_toplam_tutar": { "desen": "(?:Vergiler Dahil Toplam Tutar|TOPLAM)\\s*[:]?\\s*([\\d.,]+)" },
+    "odenecek_tutar": { "desen": "(?:Ödenecek Tutar|ÖDENECEK TOPLAM)\\s*[:]?\\s*([\\d.,]+)" },
+    "yazi_ile_tutar": { "desen": "(?:Yalnız|YALNIZ|#)[\\s:]*(.*?)(?:TL|Türk|Lirasıdır|Krş|Kuruştur|#)", "blok": "toplamlar" }
 }
 

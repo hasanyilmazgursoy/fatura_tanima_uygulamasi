@@ -1,0 +1,203 @@
+import re
+import os
+import json
+import logging
+from typing import List, Dict, Optional, Any, Tuple
+from collections import defaultdict
+import numpy as np
+import cv2
+import pytesseract
+import fitz  # PyMuPDF
+import pdfplumber
+import pandas as pd
+
+class FaturaAnalizMotoru:
+    """
+    Akıllı Fatura Tanıma Sistemi (Blok & Koordinat Tabanlı).
+    """
+
+    def __init__(self, tesseract_cmd_path: Optional[str] = None):
+        if tesseract_cmd_path and os.path.exists(tesseract_cmd_path):
+            pytesseract.pytesseract.tesseract_cmd = tesseract_cmd_path
+        self.logger = logging.getLogger(__name__)
+        self.patterns = self._load_patterns_from_config('config/patterns.json')
+
+    def _load_patterns_from_config(self, config_path: str) -> Dict:
+        try:
+            # DÜZELTME 1: Dosya yolu mantığı düzeltildi.
+            # Artık config klasörünü projenin içinde doğru bir şekilde bulacak.
+            project_root = os.path.dirname(os.path.abspath(__file__))
+            absolute_path = os.path.join(project_root, config_path) # '..' kaldırıldı
+            
+            with open(absolute_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            self.logger.warning(f"'{config_path}' (Denenen yol: {absolute_path}) yüklenemedi. Hata: {e}")
+            return {}
+
+    def _pdf_sayfasini_goruntuye_cevir(self, pdf_path: str, page_num: int = 0, dpi: int = 300) -> Optional[np.ndarray]:
+        try:
+            doc = fitz.open(pdf_path)
+            if page_num >= len(doc): return None
+            page = doc.load_page(page_num)
+            pix = page.get_pixmap(dpi=dpi)
+            img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)
+            if pix.n == 3: # RGB
+                img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+            elif pix.n == 4: # RGBA
+                img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
+            return img
+        except Exception as e:
+            self.logger.error(f"PDF sayfası görüntüye dönüştürülürken hata: {e}")
+            return None
+
+    def _get_words_with_coords(self, file_path: str) -> Tuple[List[Dict], Tuple[float, float]]:
+        words = []
+        page_size = (0.0, 0.0)
+        if file_path.lower().endswith('.pdf'):
+            try:
+                with pdfplumber.open(file_path) as pdf:
+                    if pdf.pages:
+                        page = pdf.pages[0]
+                        words = [{'text': w['text'], 'x0': w['x0'], 'top': w['top'], 'x1': w['x1'], 'bottom': w['bottom']} for w in page.extract_words(x_tolerance=2)]
+                        page_size = (page.width, page.height)
+            except Exception as e:
+                self.logger.warning(f"Pdfplumber kelime çıkaramadı: {e}.")
+        return words, page_size
+
+    def _group_words_into_blocks(self, words: List[Dict], line_tolerance: int = 10, block_tolerance_multiplier: float = 2.5) -> List[Dict]:
+        if not words: return []
+        words.sort(key=lambda w: (w['top'], w['x0']))
+        lines = []
+        if words:
+            current_line = [words[0]]
+            for word in words[1:]:
+                if abs(word['top'] - current_line[-1]['top']) < line_tolerance:
+                    current_line.append(word)
+                else:
+                    lines.append(current_line)
+                    current_line = [word]
+            lines.append(current_line)
+        blocks = []
+        if not lines: return []
+        current_block_words = lines[0]
+        avg_heights = [w['bottom'] - w['top'] for w in words if w['bottom'] > w['top']]
+        avg_height = sum(avg_heights) / len(avg_heights) if avg_heights else 10
+        block_tolerance = avg_height * block_tolerance_multiplier
+        for line in lines[1:]:
+            if (line[0]['top'] - current_block_words[-1]['bottom']) < block_tolerance:
+                current_block_words.extend(line)
+            else:
+                blocks.append(current_block_words)
+                current_block_words = line
+        blocks.append(current_block_words)
+        formatted_blocks = []
+        for block_words in blocks:
+            text = " ".join(w['text'] for w in block_words)
+            x0 = min(w['x0'] for w in block_words)
+            top = min(w['top'] for w in block_words)
+            x1 = max(w['x1'] for w in block_words)
+            bottom = max(w['bottom'] for w in block_words)
+            formatted_blocks.append({'text': text, 'coords': (x0, top, x1, bottom)})
+        return formatted_blocks
+
+    def _identify_blocks(self, blocks: List[Dict], page_size: Tuple[float, float]) -> Dict[str, str]:
+        page_width, page_height = page_size
+        identified_block_texts = {'satici': [], 'alici': [], 'fatura_bilgileri': [], 'toplamlar': []}
+
+        # DÜZELTME 2: Koordinat değerleri faturanın gerçek görsel düzenine göre ayarlandı.
+        x_divider = page_width * 0.50
+        y_seller_end = page_height * 0.22
+        y_buyer_info_end = page_height * 0.40
+        y_totals_start = page_height * 0.60  # Toplamlar bloğu yukarı, doğru konuma çekildi.
+
+        for block in blocks:
+            x0, y0, x1, y1 = block['coords']
+            block_center_x = (x0 + x1) / 2
+            block_center_y = (y0 + y1) / 2
+            if block_center_y < y_seller_end and block_center_x < x_divider:
+                identified_block_texts['satici'].append(block['text'])
+            elif y_seller_end <= block_center_y < y_buyer_info_end and block_center_x < x_divider:
+                identified_block_texts['alici'].append(block['text'])
+            elif block_center_y < y_buyer_info_end and block_center_x >= x_divider:
+                identified_block_texts['fatura_bilgileri'].append(block['text'])
+            elif block_center_y > y_totals_start:
+                identified_block_texts['toplamlar'].append(block['text'])
+        return {key: "\n".join(texts) for key, texts in identified_block_texts.items()}
+
+    def _extract_data_from_blocks(self, blocks: Dict[str, str], full_text: str) -> Dict[str, Any]:
+        data = {}
+        if not self.patterns:
+             self.logger.warning("Desenler (patterns) yüklenemediği için Regex ile veri çıkarılamıyor.")
+             return data
+        for key, pattern_info in self.patterns.items():
+            if not isinstance(pattern_info, dict): continue
+            desen = pattern_info.get('desen')
+            target_text = blocks.get(pattern_info.get('blok'), full_text)
+            if desen and target_text:
+                match = re.search(desen, target_text, re.IGNORECASE | re.DOTALL)
+                if match:
+                    value = next((g for g in match.groups() if g is not None), match.group(0))
+                    data[key] = " ".join(value.strip().split())
+        return data
+    
+    def _gorsel_hata_ayiklama_ciz(self, file_path: str, page_size: Tuple[float, float]):
+        try:
+            image = self._pdf_sayfasini_goruntuye_cevir(file_path, dpi=150)
+            if image is None: return
+            page_height, page_width, _ = image.shape
+            
+            # DÜZELTME 2: Görseldeki kutuların koordinatları, _identify_blocks ile senkronize edildi.
+            x_divider = int(page_width * 0.50)
+            y_seller_end = int(page_height * 0.22)
+            y_buyer_info_end = int(page_height * 0.40)
+            y_totals_start = int(page_height * 0.60)
+
+            areas = {
+                "satici (mavi)": (0, 0, x_divider, y_seller_end),
+                "alici (yesil)": (0, y_seller_end, x_divider, y_buyer_info_end),
+                "fatura_bilgileri (sari)": (x_divider, 0, page_width, y_buyer_info_end),
+                "toplamlar (kirmizi)": (0, y_totals_start, page_width, page_height)
+            }
+            colors = {"satici (mavi)": (255, 0, 0),"alici (yesil)": (0, 255, 0),"fatura_bilgileri (sari)": (0, 255, 255),"toplamlar (kirmizi)": (0, 0, 255)}
+            for name, (x0, y0, x1, y1) in areas.items():
+                cv2.rectangle(image, (x0, y0), (x1, y1), colors[name], 3)
+                cv2.putText(image, name.split(' ')[0], (x0 + 10, y0 + 30), cv2.FONT_HERSHEY_SIMPLEX, 1.2, colors[name], 4)
+            output_folder = "test_reports/debug_images"
+            os.makedirs(output_folder, exist_ok=True)
+            base_name = os.path.splitext(os.path.basename(file_path))[0]
+            output_path = os.path.join(output_folder, f"debug_{base_name}.png")
+            cv2.imwrite(output_path, image)
+        except Exception as e:
+            self.logger.error(f"Görsel hata ayıklama çıktısı oluşturulurken hata: {e}")
+
+    def analiz_et(self, dosya_yolu: str) -> Dict[str, Any]:
+        words, page_size = self._get_words_with_coords(dosya_yolu)
+        if not words:
+            return {"hata": "Dosyadan metin/koordinat verisi çıkarılamadı.", "yapilandirilmis_veri": {}}
+        blocks_with_coords = self._group_words_into_blocks(words)
+        identified_blocks = self._identify_blocks(blocks_with_coords, page_size)
+        self._gorsel_hata_ayiklama_ciz(dosya_yolu, page_size)
+        full_text = "\n".join([block['text'] for block in blocks_with_coords])
+        data = self._extract_data_from_blocks(identified_blocks, full_text)
+        data['urun_kalemleri'] = self._urun_kalemlerini_cikar_pdfplumber(dosya_yolu) or []
+        return {"yapilandirilmis_veri": data, "ham_metin": full_text}
+
+    def _urun_kalemlerini_cikar_pdfplumber(self, dosya_yolu: str) -> Optional[List[Dict]]:
+        if not dosya_yolu.lower().endswith('.pdf'): return None
+        try:
+            with pdfplumber.open(dosya_yolu) as pdf:
+                all_items = []
+                for page in pdf.pages:
+                    tables = page.extract_tables()
+                    if not tables: continue
+                    for table in tables:
+                        if not table or len(table) < 2: continue
+                        header = [str(cell).lower().replace('\n', ' ').strip() for cell in table[0] if cell]
+                        if 'mal hizmet' in header and 'miktar' in header:
+                            df = pd.DataFrame(table[1:], columns=header)
+                            all_items.extend(df.to_dict('records'))
+                return all_items
+        except Exception as e:
+            self.logger.error(f"pdfplumber ile tablo çıkarılırken hata: {e}")
+            return None

@@ -4,10 +4,14 @@ import csv
 import logging
 import glob
 from datetime import datetime
-from fatura_regex_analiz_yeni import FaturaRegexAnaliz
+from fatura_analiz_motoru import FaturaAnalizMotoru
 from typing import Dict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import multiprocessing
+from tqdm import tqdm
+
+# Logging'i en başta ve temel seviyede yapılandır
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def log_ayarlarini_yap(rapor_klasoru: str):
     """
@@ -26,12 +30,12 @@ def log_ayarlarini_yap(rapor_klasoru: str):
 def analyze_file_for_pool(path: str, output_dir: str) -> Dict:
     """ProcessPoolExecutor ile kullanılabilir, üst seviye fonksiyon."""
     try:
-        local = FaturaRegexAnaliz()
+        local = FaturaAnalizMotoru()
         try:
             local.output_dir = output_dir
         except Exception:
             pass
-        return local.fatura_analiz_et(path, gorsellestir=False)
+        return local.analiz_et(path)
     except Exception as e:
         return {"hata": str(e), "dosya": path}
 
@@ -161,207 +165,78 @@ def sonuclari_turkce_formatla(analiz_sonucu: Dict) -> Dict:
     return formatlanmis_sonuc
 
 
-def ocr_metnini_disa_aktar(analiz_sistemi: FaturaRegexAnaliz, dosya_yolu: str, rapor_klasoru: str):
-    """
-    Belirli bir faturayı analiz eder ve OCR'dan çıkan ham metni bir .txt dosyasına kaydeder.
-    Bu, Regex ve veri çıkarma mantığını test etmek için kullanılır.
-    """
-    print(f"\n📄 OCR Ham Metin Dışa Aktarma: {os.path.basename(dosya_yolu)}")
-    img = analiz_sistemi.resmi_yukle(dosya_yolu)
-    if img is None:
-        return
-    
-    processed_img = analiz_sistemi.resmi_on_isle(img)
-    ocr_data, _ = analiz_sistemi.metni_cikar(processed_img)
-    
-    valid_texts = [
-        text.strip()
-        for conf, text in zip(ocr_data['conf'], ocr_data['text'])
-        if int(conf) >= analiz_sistemi.min_confidence and text and text.strip()
-    ]
-    ham_metin = ' '.join(valid_texts)
-    
-    # Çıktı dosyasının adını oluştur
-    base_name = os.path.splitext(os.path.basename(dosya_yolu))[0]
-    txt_dosyasi = os.path.join(rapor_klasoru, f"hizli_test_{base_name}.txt")
-    
-    with open(txt_dosyasi, 'w', encoding='utf-8') as f:
-        f.write(ham_metin)
+def ocr_metnini_disa_aktar(dosya_yolu: str, cikti_dosyasi: str):
+    """Tek bir dosyanın ham OCR metnini dışa aktarır."""
+    # BU FONKSİYON GEÇİCİ OLARAK DEVRE DIŞI BIRAKILDI
+    print("ocr_metnini_disa_aktar fonksiyonu geçici olarak devre dışı.")
+    return
+    # try:
+    #     with open('config.json', 'r', encoding='utf-8') as f:
+    #         config = json.load(f)
+    #     tesseract_path = config.get('tesseract_cmd_path')
+    #     analiz_motoru = FaturaAnalizMotoru(tesseract_cmd_path=tesseract_path)
         
-    print(f"✅ Ham metin başarıyla kaydedildi: {txt_dosyasi}")
+    #     sonuclar = analiz_motoru.analiz_et(dosya_yolu)
+    #     ham_metin = sonuclar.get("ham_metin", "Metin çıkarılamadı.")
+        
+    #     with open(cikti_dosyasi, 'w', encoding='utf-8') as f:
+    #         f.write(ham_metin)
+        
+    #     print(f"✅ Ham metin başarıyla kaydedildi: {cikti_dosyasi}")
+    # except Exception as e:
+    #     print(f"❌ Ham metin dışa aktarılırken bir hata oluştu: {e}")
+    #     logging.error(f"Ham metin dışa aktarılırken bir hata oluştu: {e}")
 
 
-def hizli_test_calistir(analiz_sistemi: FaturaRegexAnaliz, txt_dosya_yolu: str):
-    """
-    Kaydedilmiş bir .txt dosyasındaki ham metni kullanarak sadece veri çıkarma adımını test eder.
-    """
-    print(f"\n⚡ Hızlı Test Başlatılıyor: {os.path.basename(txt_dosya_yolu)}")
-    if not os.path.exists(txt_dosya_yolu):
-        print(f"❌ Hata: Test metin dosyası bulunamadı: {txt_dosya_yolu}")
-        return
-
-    with open(txt_dosya_yolu, 'r', encoding='utf-8') as f:
-        ham_metin = f.read()
-
-    # Sadece Regex ve yapılandırılmış veri çıkarma adımlarını çalıştır
-    print("   🔍 Regex ile veri çıkarma...")
-    regex_sonuclari = analiz_sistemi.regex_ile_veri_cikar(ham_metin)
-    
-    print("   🏗️ Yapılandırılmış veri çıkarma...")
-    # Hızlı testte OCR verisi olmadığı için boş bir dict gönderiyoruz.
-    # Bu, `yapilandirilmis_veri_cikar` fonksiyonunun bu duruma göre
-    # ayarlanmasını gerektirebilir (örn. bloklara ayırmayı atlamak).
-    # Şimdilik, sadece ham metne dayalı kısımlar çalışacaktır.
-    # Daha gelişmiş bir versiyon için ocr_data'yı da JSON olarak saklayabiliriz.
-    dummy_ocr_data = {'text': [], 'conf': [], 'left': [], 'top': [], 'width': [], 'height': []}
-    structured_data = analiz_sistemi.yapilandirilmis_veri_cikar(dummy_ocr_data, ham_metin)
-
-    print("\n📊 HIZLI TEST SONUÇLARI:")
-    sonuclar = {"regex": regex_sonuclari, "structured": structured_data}
-    analiz_sistemi.sonuclari_yazdir(sonuclar)
+def hizli_test_calistir(ham_metin_dosyasi: str):
+    """Kaydedilmiş ham metin üzerinden sadece Regex analizini çalıştırır."""
+    # BU FONKSİYON GEÇİCİ OLARAK DEVRE DIŞI BIRAKILDI
+    print("hizli_test_calistir fonksiyonu geçici olarak devre dışı.")
+    return
+    # try:
+    #     with open('config.json', 'r', encoding='utf-8') as f:
+    #         config = json.load(f)
+    #     tesseract_path = config.get('tesseract_cmd_path')
+    #     analiz_motoru = FaturaAnalizMotoru(tesseract_cmd_path=tesseract_path)
+        
+    #     with open(ham_metin_dosyasi, 'r', encoding='utf-8') as f:
+    #         ham_metin = f.read()
+            
+    #     yapilandirilmis_veri = analiz_motoru.yapilandirilmis_veri_cikar(ham_metin)
+        
+    #     print("\n--- HIZLI TEST SONUÇLARI ---")
+    #     print(json.dumps(yapilandirilmis_veri, indent=2, ensure_ascii=False))
+    # except Exception as e:
+    #     print(f"❌ Hızlı test başlatılırken bir hata oluştu: {e}")
+    #     logging.error(f"Hızlı test başlatılırken bir hata oluştu: {e}")
 
 
 def ana_analiz_süreci():
     """
-    Ana fatura analiz sürecini yönetir. Belirtilen klasördeki tüm faturaları
-    işler ve sonuçları tek bir JSON raporunda birleştirir.
+    Tüm faturaları işleyen ve raporlayan ana iş akışı.
+    Bu fonksiyonu projenin ana giriş noktası olarak kullanın.
     """
-    print("🚀 Akıllı Fatura Tanıma Uygulaması Başlatılıyor...")
-    print("="*50)
-
-    # Ayarları yükle
-    ayarlar = ayarları_yukle()
-    if not ayarlar:
-        return
-
-    # Rapor klasörünü oluştur ve bu koşu için zaman damgalı alt klasör aç
-    rapor_klasoru = ayarlar['klasor_yollari']['rapor_klasoru']
-    os.makedirs(rapor_klasoru, exist_ok=True)
-    run_klasoru = os.path.join(rapor_klasoru, datetime.now().strftime('%Y%m%d_%H%M%S'))
-    os.makedirs(run_klasoru, exist_ok=True)
-    log_ayarlarini_yap(run_klasoru)
-
-    # Paralel iş parçası sayısı (0 veya yoksa otomatik)
-    parallel_workers = 0
+    # Tek bir dosyayı test etmek için bu bölümü kullan
+    tek_dosya_yolu = r"27.08.2025_Gelen Fatura (1)/05.07.2025-NYS2025000000188.pdf"
+    
+    # Tesseract yolunu config'den al
+    tesseract_path = None
     try:
-        parallel_workers = int(ayarlar.get('parallel_workers', 0))
-    except Exception:
-        parallel_workers = 0
+        with open('config.json', 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        tesseract_path = config.get('tesseract_cmd_path')
+    except FileNotFoundError:
+        print("config.json bulunamadı.")
 
-    # Fatura ve rapor klasör yolları (config'den)
-    fatura_klasoru = ayarlar['klasor_yollari']['fatura_klasoru']
+    analiz_motoru = FaturaAnalizMotoru(tesseract_cmd_path=tesseract_path)
     
-    if not os.path.exists(fatura_klasoru):
-        hata_mesaji = f"Fatura klasörü bulunamadı: '{fatura_klasoru}'. Lütfen faturalarınızı bu klasöre koyun veya config.json dosyasını güncelleyin."
-        print(f"❌ Hata: {hata_mesaji}")
-        logging.error(hata_mesaji)
-        return
-
-    # Desteklenen resim ve PDF formatları (config'den)
-    desteklenen_formatlar = ayarlar['desteklenen_formatlar']
+    print(f"Tek dosya analizi başlatılıyor: {tek_dosya_yolu}")
+    sonuclar = analiz_motoru.analiz_et(tek_dosya_yolu)
     
-    # --- TEK DOSYA TEST MODU DEVRE DIŞI BIRAKILDI ---
-    # islenicek_faturalar = [os.path.join(fatura_klasoru, '3.png')]
-    # --- TEK DOSYA TEST MODU SONU ---
+    print("\n--- ANALİZ SONUÇLARI ---")
+    print(json.dumps(sonuclar.get('yapilandirilmis_veri'), indent=2, ensure_ascii=False))
+    print("\nDebug görseli 'test_reports/debug_images' klasörüne kaydedildi.")
 
-    # İşlenecek faturaları bul (glob ile alt klasörler dahil) - (YENİDEN AKTİF EDİLDİ)
-    print(f"📂 '{fatura_klasoru}' klasöründeki tüm faturalar aranıyor...")
-    islenicek_faturalar = []
-    for format in desteklenen_formatlar:
-        # `**` operatörü, tüm alt dizinlerde aramayı sağlar (recursive=True)
-        desen = os.path.join(fatura_klasoru, '**', f'*{format}')
-        islenicek_faturalar.extend(glob.glob(desen, recursive=True))
-
-    if not islenicek_faturalar:
-        print(f"❌ '{fatura_klasoru}' klasöründe desteklenen formatta fatura bulunamadı.")
-        return
-
-    print(f"🎯 Toplam {len(islenicek_faturalar)} adet fatura analiz edilecek...")
-
-    # Tüm sonuçları ve hatalı dosyaları topla (paralel/seri)
-    tum_sonuclar = []
-    hatali_dosyalar = []
-
-    worker_count = parallel_workers if parallel_workers and parallel_workers > 0 else max(1, (os.cpu_count() or 2) - 1)
-    if worker_count > 1:
-        print(f"⚙️ Paralel analiz: {worker_count} işçi")
-        with ProcessPoolExecutor(max_workers=worker_count) as ex:
-            future_map = {ex.submit(analyze_file_for_pool, p, run_klasoru): p for p in islenicek_faturalar}
-            for fut in as_completed(future_map):
-                dosya_yolu = future_map[fut]
-                try:
-                    sonuclar = fut.result()
-                except Exception as e:
-                    hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilemedi. Hata: {e}"
-                    print(f"⚠️  Uyarı: {hata_mesaji}")
-                    logging.error(hata_mesaji)
-                    hatali_dosyalar.append(dosya_yolu)
-                    continue
-                if "hata" not in sonuclar:
-                    tum_sonuclar.append(sonuclar)
-                else:
-                    hatali_dosyalar.append(dosya_yolu)
-    else:
-        # Seri analiz
-        analiz_sistemi = FaturaRegexAnaliz()
-        try:
-            analiz_sistemi.output_dir = run_klasoru
-        except Exception:
-            pass
-        for dosya_yolu in islenicek_faturalar:
-            try:
-                print(f"\n{'─'*20} Analiz ediliyor: {os.path.basename(dosya_yolu)} {'─'*20}")
-                sonuclar = analiz_sistemi.fatura_analiz_et(dosya_yolu, gorsellestir=False)
-                if "hata" not in sonuclar:
-                    tum_sonuclar.append(sonuclar)
-                else:
-                    hatali_dosyalar.append(dosya_yolu)
-            except Exception as e:
-                hata_mesaji = f"{os.path.basename(dosya_yolu)} analiz edilirken beklenmedik bir hata oluştu: {e}"
-                print(f"❌ Beklenmedik Hata: {hata_mesaji}")
-                logging.exception(hata_mesaji)
-                hatali_dosyalar.append(dosya_yolu)
-
-    # Toplu raporu kaydet
-    if tum_sonuclar:
-        rapor_dosyasi = os.path.join(run_klasoru, f"toplu_fatura_raporu_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
-        
-        with open(rapor_dosyasi, 'w', encoding='utf-8') as f:
-            json.dump(tum_sonuclar, f, ensure_ascii=False, indent=4)
-        
-        # Sonuçları CSV olarak da kaydet (koşu klasörüne)
-        sonuclari_csv_kaydet(run_klasoru, tum_sonuclar)
-
-        print("\n" + "="*50)
-        print("📊 ANALİZ TAMAMLANDI")
-        
-        basarili_sayisi = len(tum_sonuclar)
-        hatali_sayisi = len(hatali_dosyalar)
-        
-        print(f"✅ Başarıyla analiz edilen fatura sayısı: {basarili_sayisi}")
-        if hatali_sayisi > 0:
-            print(f"❌ Hatalı veya işlenemeyen fatura sayısı: {hatali_sayisi}")
-            print(f"📄 Detaylar için 'analiz_hatalari.log' dosyasına bakın.")
-        
-        # JSON raporunu yeni formatla kaydet
-        formatli_json_raporu = [sonuclari_turkce_formatla(sonuc) for sonuc in tum_sonuclar]
-        rapor_dosyasi_formatli = os.path.join(run_klasoru, f"toplu_fatura_raporu_formatli_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
-        with open(rapor_dosyasi_formatli, 'w', encoding='utf-8') as f:
-            json.dump(formatli_json_raporu, f, ensure_ascii=False, indent=4)
-
-        print(f"📄 Detaylı (orijinal) JSON rapor dosyası oluşturuldu: {rapor_dosyasi}")
-        print(f"📄 Formaplanmış Türkçe JSON rapor dosyası oluşturuldu: {rapor_dosyasi_formatli}")
-        
-        # 🧠 AKILLI TEST ANALİZİ BAŞLAT
-        print("\n" + "="*50)
-        print("🧠 AKILLI TEST ANALİZİ BAŞLATILIYOR...")
-        print("="*50)
-        
-        akilli_analiz_sonucu = akilli_test_analizi_yap(tum_sonuclar, run_klasoru)
-        akilli_analiz_html_kaydet(akilli_analiz_sonucu, run_klasoru)
-        golden_degerlendirme_yap(run_klasoru, tum_sonuclar)
-
-        print("="*50)
 
 def akilli_test_analizi_yap(tum_sonuclar: list, rapor_klasoru: str):
     """
@@ -858,16 +733,28 @@ def pattern_matching_basari_analizi(sonuc: dict) -> dict:
     return pattern_basari
 
 if __name__ == "__main__":
-    # --- KULLANIM MODLARI ---
-    # 1. Normal Analiz (Tüm faturaları işler)
-    ana_analiz_süreci()
+    multiprocessing.freeze_support() # Windows için
+    # Tek bir dosyayı test etmek için bu bölümü kullan
+    tek_dosya_yolu = r"27.08.2025_Gelen Fatura (1)/05.07.2025-NYS2025000000188.pdf"
 
-    # 2. Ham Metin Dışa Aktarma (Sadece bir fatura için OCR metnini .txt olarak kaydeder)
-    # Yorum satırını kaldırıp, dosya yolunu güncelleyerek kullanabilirsiniz.
-    # sistem = FaturaRegexAnaliz()
-    # ocr_metnini_disa_aktar(sistem, r"fatura/5c565ea6-b2f6-4e4a-b004-75cface23500.pdf", "test_reports")
+    # Proje ana dizinini bu dosyanın konumuna göre al
+    PROJE_DIZINI = os.path.dirname(os.path.abspath(__file__))
+    config_dosya_yolu = os.path.join(PROJE_DIZINI, 'config.json')
+    
+    # Tesseract yolunu config'den al
+    tesseract_path = None
+    try:
+        with open(config_dosya_yolu, 'r', encoding='utf-8') as f:
+            config = json.load(f)
+        tesseract_path = config.get('tesseract_cmd_path')
+    except FileNotFoundError:
+        print(f"config.json bulunamadı: {config_dosya_yolu}")
 
-    # 3. Hızlı Test (Kaydedilmiş .txt üzerinden sadece veri çıkarma testi yapar)
-    # Yorum satırını kaldırıp, .txt dosyasının yolunu vererek kullanabilirsiniz.
-    # sistem = FaturaRegexAnaliz()
-    # hizli_test_calistir(sistem, r"test_reports/hizli_test_5c565ea6-b2f6-4e4a-b004-75cface23500.txt")
+    analiz_motoru = FaturaAnalizMotoru(tesseract_cmd_path=tesseract_path)
+    
+    print(f"Tek dosya analizi başlatılıyor: {tek_dosya_yolu}")
+    sonuclar = analiz_motoru.analiz_et(tek_dosya_yolu)
+    
+    print("\n--- ANALİZ SONUÇLARI ---")
+    print(json.dumps(sonuclar.get('yapilandirilmis_veri'), indent=2, ensure_ascii=False))
+    print("\nDebug görseli 'test_reports/debug_images' klasörüne kaydedildi.")

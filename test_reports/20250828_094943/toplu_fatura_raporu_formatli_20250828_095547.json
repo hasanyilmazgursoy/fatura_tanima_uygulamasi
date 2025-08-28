@@ -1,0 +1,863 @@
+[
+    {
+        "Satıcı Vergi Dairesi": "B",
+        "Alıcı Firma/Ad Soyad": "Fatura Tarihi",
+        "Fatura No": "İNYS2025000000185",
+        "Fatura Tarihi": "05-07-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "102.936,00"
+    },
+    {
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Telefon": "9995555566666644",
+        "Fatura No": "fasxo025000000073",
+        "Fatura Tarihi": "05-05-2025",
+        "Genel Toplam / Ödenecek Tutar": "100.000,00"
+    },
+    {
+        "Alıcı Firma/Ad Soyad": "Fatura Tarihi",
+        "Fatura No": "NYS2025000000188",
+        "Fatura Tarihi": "05-07-2025",
+        "Genel Toplam / Ödenecek Tutar": "102.936,00"
+    },
+    {
+        "Satıcı Firma": "mel GANİMET BİLİŞİM ELEKTRİK ELEKTRONİK BİLGİSAYAR TEKNİK EŞ pe . DESTEK VE DANIŞMANLIK HIZM.SAN.TIC.LTD.",
+        "Satıcı Vergi Dairesi": "B",
+        "Alıcı Firma/Ad Soyad": "Fatura Tarihi",
+        "Fatura No": "İNYS2025000000191",
+        "Fatura Tarihi": "05-07-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "85.780,00"
+    },
+    {
+        "Satıcı Firma": "Tic. Sti. EE Gerçek Lastik Oto Ltd.",
+        "Satıcı Vergi Dairesi": "Ne NG VEN",
+        "Alıcı Telefon": "(435) 353",
+        "Fatura No": "İSEM2025000000050",
+        "Fatura Tarihi": "08-08-2025",
+        "ETTN": "56fdd2ba-f122-477b-9096-a3de993bf74c",
+        "Genel Toplam / Ödenecek Tutar": "109.968,00",
+        "Kalemler": [
+            {
+                "Açıklama": "10.240,00",
+                "Miktar": "GREENWAYS 2 6.400,00000000",
+                "İskonto": "2.560,00 TL",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "%20,00] 2.560,00 TL| TL"
+            },
+            {
+                "Açıklama": "6.900,00",
+                "Miktar": "185/65R15 Adet) 2 3 2.300,00000000",
+                "İskonto": "TL",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "0,00 9620,00) 1.380,00 TL} TL"
+            },
+            {
+                "Açıklama": "9.000,00",
+                "Miktar": "185/65R15 Adet| 9.000,00000000 1",
+                "İskonto": "TL",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "0,00 %20,00] 1.800,00 TL} TL"
+            },
+            {
+                "Açıklama": "101.700,00",
+                "Mal/Hizmet Tutarı": "TL"
+            },
+            {
+                "Açıklama": "10.060,00",
+                "Mal/Hizmet Tutarı": "TL"
+            },
+            {
+                "Açıklama": "( KDV(%20)|",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "Hesaplanan"
+            }
+        ]
+    },
+    {
+        "Alıcı Firma/Ad Soyad": "Akkaya Yazilim Özelleştirme No",
+        "Alıcı E-Posta": "bodurum88@hotmail.com",
+        "Fatura No": "MNT2023000000088",
+        "Fatura Tarihi": "01-04-2023",
+        "ETTN": "cd6a6a13-83f1-45fd-8f58-1ac0eb358826",
+        "Genel Toplam / Ödenecek Tutar": "38.374,00",
+        "Kalemler": [
+            {
+                "Açıklama": "Hesaplanan",
+                "Mal/Hizmet Tutarı": "13.814,64 KDV(%18)"
+            },
+            {
+                "Açıklama": "Dahil Vergiler",
+                "Mal/Hizmet Tutarı": "Tutar Toplam"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "GANİMET BİLİŞİM ELEKTRİK ELEKTRONİK DESTEK BİLGİSAYAR VE DANIŞMANLIK HİZM.SAN TİC.LTD.",
+        "Alıcı Firma/Ad Soyad": "Fatura Tarihi Uyumsoft Test Firma Düzenleme Tarihi",
+        "Fatura No": "NYS2025000000186",
+        "Fatura Tarihi": "05-07-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "102.936,00"
+    },
+    {
+        "Satıcı Vergi Dairesi": "SE",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "Fatura park",
+        "Alıcı Telefon": "(234) 234 24",
+        "Fatura No": "SEM2025000000065",
+        "Fatura Tarihi": "Fatura Tarihi:\n\n12-08-2025",
+        "Genel Toplam / Ödenecek Tutar": "147.747,60"
+    },
+    {
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "Fatura Tarihi",
+        "Fatura No": "NYS2025000000189",
+        "Fatura Tarihi": "05-07-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "102.936,00"
+    },
+    {
+        "Satıcı Firma": "tap EŞ ee Sti. Ltd.",
+        "Alıcı Firma/Ad Soyad": "end",
+        "Alıcı Adres": "No : 123/A LEAF tap jaltepe/ İstanbul Jergi Dairesi: Kozyatağı A ae ae JKN: 9000068418 Nez ay ee mi re e-FATURA ~ Özelleştirme No: Senaryor — SAYIN end © eN EZ İFatura No: ____|SeM2025000000052 Ataşehir/ İstanbul Fatura Tarihi: — 08-08-2025",
+        "Alıcı Telefon": "(435) 353",
+        "Fatura No": "SeM2025000000052",
+        "Fatura Tarihi": "08-08-2025",
+        "Toplam İskonto": "10.060,00",
+        "Genel Toplam / Ödenecek Tutar": "109.968,00",
+        "Kalemler": [
+            {
+                "Açıklama": "Toplam",
+                "Mal/Hizmet Tutarı": "10.060,00 İskonto"
+            },
+            {
+                "Açıklama": "Hesaplanan",
+                "Mal/Hizmet Tutarı": "18.328,00 KDV(%20)|_"
+            },
+            {
+                "Açıklama": "Dahil",
+                "Mal/Hizmet Tutarı": "109.968,00 Tutar Toplam"
+            },
+            {
+                "Açıklama": "Vergiler",
+                "Mal/Hizmet Tutarı": "109.968,00"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "x TICARET",
+        "Satıcı Vergi Dairesi": "es Bodrum VKN",
+        "Ticaret Sicil No": "12345669",
+        "Alıcı Firma/Ad Soyad": "Akkaya Yazılım Özelleştirme No",
+        "Alıcı E-Posta": "bodurum88@hotmail.com",
+        "Fatura No": "MINT2023000000089",
+        "Fatura Tarihi": "Fatura Tarihi:\n\n01-04-2023",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "38.374,00"
+    },
+    {
+        "Satıcı Vergi No": "12345669111",
+        "Alıcı E-Posta": "test@test.com",
+        "Alıcı Telefon": "0212200022",
+        "Fatura Tarihi": "12-04-2023",
+        "ETTN": "e2d0887e-1d6c-40fc-b2ca-9f1b1415db60",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "72.077,38",
+        "Kalemler": [
+            {
+                "Açıklama": "32",
+                "Mal/Hizmet Tutarı": "TY",
+                "KDV Oranı": "1"
+            },
+            {
+                "Açıklama": "— —"
+            },
+            {
+                "Açıklama": "|",
+                "KDV Oranı": "eno)"
+            },
+            {
+                "Açıklama": "120,80",
+                "Mal/Hizmet Tutarı": "TL 4.581,41 TL"
+            },
+            {
+                "Açıklama": "|",
+                "KDV Oranı": "se]"
+            },
+            {
+                "Açıklama": "0",
+                "Mal/Hizmet Tutarı": "TL 2.832,00",
+                "KDV Oranı": "0.0074"
+            },
+            {
+                "Açıklama": "— — —",
+                "Mal/Hizmet Tutarı": "TL 2.488,65",
+                "KDV Oranı": "ae"
+            },
+            {
+                "Açıklama": "|",
+                "KDV Oranı": "7"
+            },
+            {
+                "Açıklama": "|",
+                "Mal/Hizmet Tutarı": "08",
+                "KDV Oranı": "EE"
+            },
+            {
+                "Açıklama": "2174.93",
+                "Mal/Hizmet Tutarı": "TH"
+            },
+            {
+                "Mal/Hizmet Tutarı": "TL 11.682,00"
+            },
+            {
+                "Açıklama": "Tutarı Toplam",
+                "KDV Oranı": "Mal"
+            },
+            {
+                "Açıklama": "İskonto Toplam",
+                "Mal/Hizmet Tutarı": "TL 72.077,38"
+            },
+            {
+                "Açıklama": "KDV(%18)",
+                "Mal/Hizmet Tutarı": "TL 17.538,73"
+            },
+            {
+                "Açıklama": "Tutar Toplam Dahil",
+                "Mal/Hizmet Tutarı": "TL 114.976,11"
+            }
+        ]
+    },
+    {
+        "Alıcı Firma/Ad Soyad": "Nor may tan Fature Tar Vergi Dairesi",
+        "Genel Toplam / Ödenecek Tutar": "275.000,00"
+    },
+    {
+        "Satıcı Firma": "VE ELEKTRİK sty BİLİŞİM HİZM.SAN TİC.LTD.",
+        "Genel Toplam / Ödenecek Tutar": "80.000,00"
+    },
+    {
+        "Satıcı Vergi Dairesi": "Esenler",
+        "Alıcı Firma/Ad Soyad": "Fatura Tipi",
+        "Alıcı E-Posta": "test@test.com",
+        "Alıcı Telefon": "0212200022",
+        "Fatura No": "BTY2024000000589",
+        "Fatura Tarihi": "03-07-2024",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "123.456,00"
+    },
+    {
+        "Satıcı Firma": "es TICARET",
+        "Satıcı Vergi No": "9000068418",
+        "Ticaret Sicil No": "12345",
+        "Alıcı Firma/Ad Soyad": "UYUMSOFT BİLGİ SİSTEMLERİ VE TEKNOLOJİLERİ TİCARET ANONİM ŞİRKETİ Özelleştirme No",
+        "Alıcı Telefon": "9995555566666644",
+        "Fatura Tarihi": "03-05-2025",
+        "Genel Toplam / Ödenecek Tutar": "150.000,00"
+    },
+    {
+        "Satıcı Firma": "ERE ER Pen bi a e Ma Ltd.",
+        "Satıcı Adres": "No : 123/A ON Maltepe/ Istanbul i a paren Dİ",
+        "Alıcı Firma/Ad Soyad": "SATIS",
+        "Alıcı Adres": "No : 123/A ON Maltepe/ Istanbul i a paren Dİ",
+        "Fatura No": "İSEM2025000000051",
+        "Fatura Tarihi": "08-08-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "109.968,00"
+    },
+    {
+        "Alıcı Firma/Ad Soyad": "NE adresleri",
+        "Alıcı Adres": "leri4444den3ee555 7 KOCASINAN Kl",
+        "Alıcı E-Posta": "2zz@zz.com",
+        "Alıcı Telefon": "03523525252",
+        "Fatura No": "GRN2018000000017",
+        "Fatura Tarihi": "11-04-2018",
+        "ETTN": "29845814-fdfc-4fec-9652-1b49413550a0",
+        "Genel Toplam / Ödenecek Tutar": "109.768,35",
+        "Kalemler": [
+            {
+                "Açıklama": "Toplam",
+                "Mal/Hizmet Tutarı": "İskonto | 2.69710TLİ"
+            },
+            {
+                "Açıklama": "Hesaplanan",
+                "Mal/Hizmet Tutarı": "KDV(%8) | 1119013"
+            },
+            {
+                "Açıklama": "Hesaplanan",
+                "Mal/Hizmet Tutarı": "KDV(9618)"
+            },
+            {
+                "Açıklama": "Dahil",
+                "Mal/Hizmet Tutarı": "109.768,35 Tutar Toplam"
+            },
+            {
+                "Açıklama": "Vergiler",
+                "Mal/Hizmet Tutarı": "109.768,35"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Uyumsoft Bilgi Sistemleri Teknolojileri A.Ş.",
+        "Satıcı Vergi No": "9000068418",
+        "Ticaret Sicil No": "12345669",
+        "Alıcı Firma/Ad Soyad": "Özelleştirme No",
+        "Alıcı E-Posta": "test@test.com",
+        "Alıcı Telefon": "0212200022",
+        "Fatura No": "İYON2023341012340",
+        "Fatura Tarihi": "09-05-2023",
+        "Genel Toplam / Ödenecek Tutar": "18.797,40",
+        "Kalemler": [
+            {
+                "Açıklama": "326,21 TL",
+                "Birim Fiyat": "(o 1 Adet 552,90000000TLİ",
+                "Mal/Hizmet Tutarı": "(|",
+                "KDV Oranı": "% 18,00"
+            },
+            {
+                "Açıklama": "9.379,69 TL",
+                "Birim Fiyat": "TL 1 Adet) 15.897,78000000",
+                "Mal/Hizmet Tutarı": "(|",
+                "KDV Oranı": "Oo %18,00| 14308071"
+            },
+            {
+                "Birim Fiyat": "TL| 2.613,05000000"
+            },
+            {
+                "Birim Fiyat": "2.029,62000000",
+                "Mal/Hizmet Tutarı": "| 182,67",
+                "KDV Oranı": "oo 0,00 TLİ"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "o"
+            },
+            {
+                "Açıklama": "TH",
+                "Birim Fiyat": "OiAdetl 731,49000000TL|"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "| iAdel 372,65000000TL|",
+                "Mal/Hizmet Tutarı": "33547)",
+                "KDV Oranı": "oo Tt"
+            },
+            {
+                "Açıklama": "0",
+                "Birim Fiyat": "| 2.314,07000000TL|",
+                "Mal/Hizmet Tutarı": "28277) <<",
+                "KDV Oranı": "Tu]"
+            },
+            {
+                "Birim Fiyat": "no",
+                "Mal/Hizmet Tutarı": "P|"
+            },
+            {
+                "Açıklama": "565,92 TL",
+                "Birim Fiyat": "Adet 1 959,19000000",
+                "Mal/Hizmet Tutarı": "86,33 TL",
+                "KDV Oranı": "0,00 TL! %18,00"
+            },
+            {
+                "Açıklama": "|",
+                "Birim Fiyat": "1 Adet 971,84000000",
+                "Mal/Hizmet Tutarı": "mo",
+                "KDV Oranı": "0,00 TL] 9 %18,00"
+            },
+            {
+                "Açıklama": "573,39 TL",
+                "Mal/Hizmet Tutarı": "87,47"
+            },
+            {
+                "Açıklama": "741,25 TL",
+                "Birim Fiyat": "1.256,35000000",
+                "Mal/Hizmet Tutarı": "113,07",
+                "KDV Oranı": "0,00 TL] 9 %18,00"
+            },
+            {
+                "Açıklama": "TH",
+                "Birim Fiyat": "|"
+            },
+            {
+                "Açıklama": "|",
+                "Birim Fiyat": "7.765,10000000TL]",
+                "Mal/Hizmet Tutarı": "6886)"
+            },
+            {
+                "Açıklama": "TH",
+                "Birim Fiyat": "|",
+                "KDV Oranı": "Tt"
+            },
+            {
+                "Birim Fiyat": "|",
+                "Mal/Hizmet Tutarı": "15887",
+                "KDV Oranı": "|"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "o | Adet]_2.859,29000000T1]",
+                "KDV Oranı": "TL"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "| zade",
+                "Mal/Hizmet Tutarı": "377010)",
+                "KDV Oranı": "o"
+            },
+            {
+                "Mal/Hizmet Tutarı": "mo"
+            },
+            {
+                "Açıklama": "797,92 TL",
+                "Birim Fiyat": "1 Adet| 1.352,41000000",
+                "Mal/Hizmet Tutarı": "121,72",
+                "KDV Oranı": "0,00 TL] o %18,00"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "| 1Adet|",
+                "Mal/Hizmet Tutarı": "420071",
+                "KDV Oranı": "o"
+            },
+            {
+                "Birim Fiyat": "|",
+                "Mal/Hizmet Tutarı": "4785571), <<",
+                "KDV Oranı": "TL o"
+            },
+            {
+                "Açıklama": "O",
+                "Birim Fiyat": "|",
+                "Mal/Hizmet Tutarı": "15771)",
+                "KDV Oranı": "O"
+            },
+            {
+                "Birim Fiyat": "o | iade) o",
+                "Mal/Hizmet Tutarı": "Ban",
+                "KDV Oranı": "ooonlerso"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "o iAdet|",
+                "KDV Oranı": "o"
+            },
+            {
+                "Açıklama": "TL",
+                "Birim Fiyat": "o | 12.160,90000000TL|",
+                "KDV Oranı": "10946871"
+            },
+            {
+                "Birim Fiyat": "no",
+                "Mal/Hizmet Tutarı": "|"
+            },
+            {
+                "Açıklama": "2.519,58 TL",
+                "Birim Fiyat": "1 4.270,47000000",
+                "Mal/Hizmet Tutarı": "384,34",
+                "KDV Oranı": "0,00 TLİ %18,00]"
+            },
+            {
+                "Açıklama": "|",
+                "Birim Fiyat": "1 Adet) 1.175,34000000",
+                "Mal/Hizmet Tutarı": "105,78 U",
+                "KDV Oranı": "0,00 TL| g 9518,00)"
+            },
+            {
+                "Açıklama": "18.797,40 TL",
+                "Birim Fiyat": "| © 354 Adet| 50,00000000TU)",
+                "Mal/Hizmet Tutarı": "0000",
+                "KDV Oranı": "%18,00| 2867407"
+            },
+            {
+                "Açıklama": "11.682,00 TL",
+                "Birim Fiyat": "50,00000000",
+                "KDV Oranı": "0,00 TL! %18,00] 1.782,00"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "II Ni Becker Coating wees Boya Bess Sanayi Ticaret Ltd.",
+        "Satıcı Telefon": "0262 502 00 80",
+        "Satıcı E-Posta": "info-tr@beckers-group.com",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "Assan Aluminyum San.Tic.A.S. YAYLA MAH. D",
+        "Alıcı E-Posta": "info-tr@beckers-group.com",
+        "Alıcı Telefon": "0262 502 00 80",
+        "Fatura Tarihi": "Fatura Tarihi:\n\n14-04-2023",
+        "Para Birimi": "EUR",
+        "Genel Toplam / Ödenecek Tutar": "960,00"
+    },
+    {
+        "Alıcı Firma/Ad Soyad": "İTICARIFATURA KOÇAK PIRLANTA Fatura Tipi Beyazıd mgh",
+        "Fatura No": "SND2024000000004",
+        "Fatura Tarihi": "Fatura Tarihi: 15-03-2024",
+        "Genel Toplam / Ödenecek Tutar": "109.999,99",
+        "Kalemler": [
+            {
+                "Açıklama": "EE",
+                "Mal/Hizmet Tutarı": "EEE"
+            },
+            {
+                "Açıklama": "37.500,00",
+                "Mal/Hizmet Tutarı": "TL"
+            },
+            {
+                "Açıklama": "91.666,67 Tutarı Toplam",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "Mal"
+            },
+            {
+                "Açıklama": "İskonto",
+                "Mal/Hizmet Tutarı": "TL"
+            },
+            {
+                "Açıklama": "18.333,33 KDV(%20)",
+                "Mal/Hizmet Tutarı": "TL"
+            }
+        ]
+    },
+    {
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "Özelleştirme No",
+        "Alıcı E-Posta": "muhasebe@samm.com",
+        "Fatura No": "E-Posta",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "95.497,20"
+    },
+    {
+        "Satıcı Vergi Dairesi": "No",
+        "Satıcı Vergi No": "0730712912",
+        "Alıcı E-Posta": "info@info.com",
+        "Alıcı Telefon": "5555555555",
+        "Fatura No": "ARD2023000000022",
+        "Fatura Tarihi": "Fatura Tarihi: 22-05-2023",
+        "Genel Toplam / Ödenecek Tutar": "118.000,00"
+    },
+    {
+        "Satıcı Vergi Dairesi": "Flite",
+        "Satıcı Vergi No": "9000068418",
+        "Fatura No": "SND2024000000008",
+        "Fatura Tarihi": "Fatura Tarihi:\n\n18-03-2024",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "128.250,00"
+    },
+    {
+        "Satıcı Firma": "Sevk A.Ş.",
+        "Fatura Tarihi": "14-05-2024",
+        "Toplam İskonto": "0,00",
+        "Genel Toplam / Ödenecek Tutar": "78.576,00"
+    },
+    {
+        "Satıcı Firma": "BİLGİ TEKNOLOJİLERİ TİCARET",
+        "Alıcı Firma/Ad Soyad": "Fatura Tipi",
+        "Fatura Tarihi": "24-07-2025",
+        "Genel Toplam / Ödenecek Tutar": "179.683,00"
+    },
+    {
+        "Satıcı Firma": "Nees. MBR i TICARET",
+        "Satıcı Vergi Dairesi": "ke Istanbul z i VKN",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "AKB SHIPPING COMPANY ABC STREET AKBAL PLAZA KAT",
+        "Alıcı E-Posta": "akn@akborg.com",
+        "Alıcı Telefon": "+902163555555",
+        "Fatura No": "Icwr2023000000010",
+        "Fatura Tarihi": "18-05-2023",
+        "Genel Toplam / Ödenecek Tutar": "167.560,00"
+    },
+    {
+        "Satıcı Firma": "VE PARILTIM END.TOPLU HİZ.TUR.SAN YEMEK TİC.A.Ş.",
+        "Alıcı Firma/Ad Soyad": "GENNET TATİL EVLERİ SİTE YÖNETİCİLİĞİ Özelleştirme No",
+        "Alıcı E-Posta": "muhasebe@pariltim-newrest.eu",
+        "Alıcı Telefon": "0216 465 96 66",
+        "Fatura No": "APU2024000000001",
+        "Fatura Tarihi": "07-09-2024",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "173.540,60",
+        "Kalemler": [
+            {
+                "Açıklama": "Mal",
+                "Birim Fiyat": "Hizmet Tutarı Oranı Tutarı Oranı AŞ CENNETİ so adet",
+                "Mal/Hizmet Tutarı": "83,20000000 TL"
+            }
+        ]
+    },
+    {
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "Fatura No",
+        "Alıcı E-Posta": "mert.alparsian@uyumsoft.com",
+        "Fatura No": "MRT2025000000004",
+        "Fatura Tarihi": "17-06-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "81.600,00"
+    },
+    {
+        "Alıcı Telefon": "(2",
+        "Fatura No": "HRC2023000000018",
+        "Fatura Tarihi": "23-05-2023",
+        "Genel Toplam / Ödenecek Tutar": "153.990,00"
+    },
+    {
+        "Satıcı E-Posta": "oznur.ozden@uyumsoft.com",
+        "Satıcı Vergi Dairesi": "NIKSAR",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "ect Senaryo",
+        "Alıcı E-Posta": "oznur.ozden@uyumsoft.com",
+        "Alıcı Telefon": "(555) 5555555",
+        "Fatura No": "ksn2025000000002",
+        "Fatura Tarihi": "18-06-2025",
+        "ETTN": "89091ae5-38d3-420f-bfb2-635181ce19a8",
+        "Para Birimi": "TRY",
+        "Genel Toplam / Ödenecek Tutar": "90.000,00"
+    },
+    {
+        "Fatura No": "0090000089",
+        "Genel Toplam / Ödenecek Tutar": "89.410,50",
+        "Kalemler": [
+            {
+                "Açıklama": "Dahil Vergiler",
+                "Mal/Hizmet Tutarı": "Toplam"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "iS erent TICARET",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "BEŞER BALATACILIK SAN",
+        "Alıcı E-Posta": "mustafa.guler@beser.com.tr",
+        "Alıcı Telefon": "0216 465 96 66",
+        "Fatura No": "PRT2024000003508",
+        "Fatura Tarihi": "07-09-2024",
+        "Genel Toplam / Ödenecek Tutar": "243.966,80"
+    },
+    {
+        "Satıcı Firma": "TİC.A.Ş.",
+        "Alıcı Firma/Ad Soyad": "YONCA GIDA SAN. İŞL",
+        "Alıcı E-Posta": "muhasebe@pariltim-newrest.eu",
+        "Fatura Tarihi": "Fatura Tarihi:\n\n07-09-2024",
+        "Toplam İskonto": "0,00",
+        "Genel Toplam / Ödenecek Tutar": "38.526,64"
+    },
+    {
+        "Satıcı Firma": "Gerçek Oto Lastik Sanayi Tic. Ltd.",
+        "Satıcı Telefon": "(435) 353",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "FaturaTipi",
+        "Alıcı Adres": "No : 123/A 5 $e nf Maltepe/ İstanbul LR",
+        "Alıcı Telefon": "(435) 353",
+        "Fatura No": "Atagehit/",
+        "Fatura Tarihi": "25-08-2025",
+        "ETTN": "7d481f48-0558-420e-bd89-47a46c3f7396",
+        "Genel Toplam / Ödenecek Tutar": "150.000,00"
+    },
+    {
+        "Satıcı Vergi Dairesi": "OE B",
+        "Alıcı Telefon": "0242 2594092",
+        "Fatura No": "0188147341",
+        "Fatura Tarihi": "18-06-2025",
+        "Genel Toplam / Ödenecek Tutar": "158.400,00"
+    },
+    {
+        "Satıcı Firma": "e-FATURA TICARET",
+        "Satıcı Vergi Dairesi": "B",
+        "Satıcı Vergi No": "9000068418",
+        "Ticaret Sicil No": "40368",
+        "Alıcı E-Posta": "defaultpk@muhasebat.gov.tr",
+        "Alıcı Telefon": "0242 2594092",
+        "Fatura No": "0188147349",
+        "Fatura Tarihi": "25-06-2025",
+        "Genel Toplam / Ödenecek Tutar": "220.000,00"
+    },
+    {
+        "Ticaret Sicil No": "324000887200015",
+        "Alıcı Firma/Ad Soyad": "özelleştirme No",
+        "Alıcı Telefon": "0242 2594092",
+        "Fatura No": "0188147342",
+        "Fatura Tarihi": "18-06-2025",
+        "ETTN": "f2f40d65-5a3e-4d1c-bce0-043f69a78724",
+        "Genel Toplam / Ödenecek Tutar": "198.000,00",
+        "Kalemler": [
+            {
+                "Açıklama": "180.000,00",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "18.000,00"
+            },
+            {
+                "Açıklama": "180.000,00 Tutarı Toplam",
+                "Mal/Hizmet Tutarı": "TL"
+            },
+            {
+                "Açıklama": "18.000,00",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "Hesaplanan"
+            },
+            {
+                "Açıklama": "198.000,00 Tutar Toplam",
+                "Mal/Hizmet Tutarı": "TL",
+                "KDV Oranı": "Vergiler"
+            }
+        ]
+    },
+    {
+        "Satıcı Adres": "1 uyumsoft o ‘i ore ii Talas/ Kayseri oT E-Posta: dfsdf@ggh.gfgh ay : : 2. K ry me LF ie",
+        "Satıcı E-Posta": "dfsdf@ggh.gfgh",
+        "Alıcı Firma/Ad Soyad": "Senaryo",
+        "Alıcı Adres": "1 uyumsoft o ‘i ore ii Talas/ Kayseri oT E-Posta: dfsdf@ggh.gfgh ay : : 2. K ry me LF ie",
+        "Alıcı E-Posta": "dfsdf@ggh.gfgh",
+        "Fatura Tarihi": "28-05-2025",
+        "ETTN": "c8dd4798-42d4-4fdf-b165-1b8a24236b2d",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "90.000,00"
+    },
+    {
+        "Alıcı E-Posta": "gultekin.cataltepe@pargesoft.com",
+        "Alıcı Telefon": "5334262729",
+        "Fatura No": "GCE2025000000020",
+        "Fatura Tarihi": "01-07-2025",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "132.718,80"
+    },
+    {
+        "Satıcı Firma": "PARILTIM END.TOPLU YEMEK HİZ.TUR.SAN.VE GÖZTEPE TİC.A.Ş.",
+        "Alıcı Firma/Ad Soyad": "AKFEN TURIZM YATIRIMLARI VE ISLET MECİLİK A.Ş",
+        "Alıcı Telefon": "0216 465 96 66",
+        "Fatura No": "PRT2024000003502",
+        "Fatura Tarihi": "07-09-2024",
+        "Genel Toplam / Ödenecek Tutar": "254.488,85",
+        "Kalemler": [
+            {
+                "Açıklama": "OGLE YEMEĞİ-AKFEN TURİZM LOFT OTEL 505 Adet",
+                "Mal/Hizmet Tutarı": "121,18000000 TL"
+            },
+            {
+                "Açıklama": "OGLE",
+                "Birim Fiyat": "YEMEĞİ-AKFEN TURİZM LOFT OTEL 505 Adet",
+                "Mal/Hizmet Tutarı": "121,18000000 TL"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "ie TICARET",
+        "Satıcı Vergi No": "9000068418",
+        "Satıcı Mersis No": "0721038111300018",
+        "Alıcı Firma/Ad Soyad": "SOA TOPLU YEMEK ÜRETİM VE SERVİS AS. Özelleştirme No",
+        "Alıcı Telefon": "0216 465 96 66",
+        "Fatura No": "PRT2024000003547",
+        "Fatura Tarihi": "14-09-2024",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "226.754,00"
+    },
+    {
+        "Satıcı Firma": "VE TİC.A.Ş.",
+        "Alıcı Firma/Ad Soyad": "SOA TOPLU YEMEK URETIM VE SERVIS A.S. özelleştirme No",
+        "Alıcı Telefon": "0530 763 15 49",
+        "Fatura Tarihi": "14-09-2024",
+        "Genel Toplam / Ödenecek Tutar": "226.754,00",
+        "Kalemler": [
+            {
+                "Açıklama": "GERÇEK",
+                "Mal/Hizmet Tutarı": "USÜLDE"
+            },
+            {
+                "Açıklama": "DEĞER",
+                "Mal/Hizmet Tutarı": "VERGİSİ(Y010)"
+            },
+            {
+                "Açıklama": "Dahil Vergiler",
+                "Mal/Hizmet Tutarı": "Toplam"
+            },
+            {
+                "Açıklama": "Torbalı İzmir",
+                "Mal/Hizmet Tutarı": "İZMİR 35880"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "da ge ro e TICARET",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "Fatura Tarihi",
+        "Alıcı E-Posta": "test@test.com",
+        "Fatura No": "RSE2003000000171",
+        "Fatura Tarihi": "29-04-2023",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "94.400,00"
+    },
+    {
+        "Satıcı Firma": "TİC.A.Ş.",
+        "Alıcı Firma/Ad Soyad": "BESER BALATACILIK SAN.VE TİC.A.Ş. Özelleştirme No",
+        "Alıcı E-Posta": "muhasebe@pariltim-newrest.eu",
+        "Alıcı Telefon": "0216 465 96 66",
+        "Fatura Tarihi": "14-09-2024",
+        "ETTN": "d90b9219-bf00-4893-9bf2-fec6371e92b0",
+        "Genel Toplam / Ödenecek Tutar": "260.642,80"
+    },
+    {
+        "Satıcı Firma": "TİC.A.Ş.",
+        "Satıcı Telefon": "0216 465 96 66",
+        "Satıcı Vergi Dairesi": "BEYKOZ",
+        "Alıcı Firma/Ad Soyad": "SOA TOPLU YEMEK ÜRETİM VE SERVİS A.Ş. Özelleştirme No",
+        "Alıcı E-Posta": "muhasebe@pariltim-newrest.eu",
+        "Alıcı Telefon": "0216 465 96 66",
+        "Fatura No": "PRT2024000003555",
+        "Fatura Tarihi": "14-09-2024",
+        "Genel Toplam / Ödenecek Tutar": "226.754,00",
+        "Kalemler": [
+            {
+                "Açıklama": "GERÇEK",
+                "Mal/Hizmet Tutarı": "USÜLDE"
+            },
+            {
+                "Açıklama": "DEĞER",
+                "Mal/Hizmet Tutarı": "VERGISI(%10)}"
+            },
+            {
+                "Açıklama": "Dahil",
+                "Mal/Hizmet Tutarı": "Toplam"
+            }
+        ]
+    },
+    {
+        "Satıcı E-Posta": "test@test.com",
+        "Satıcı Vergi Dairesi": "test",
+        "Satıcı Vergi No": "9000068418",
+        "Ticaret Sicil No": "12345",
+        "Alıcı Firma/Ad Soyad": "Fatura Tipi",
+        "Alıcı E-Posta": "test@test.com",
+        "Fatura Tarihi": "30-03-2023",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "169.999,99"
+    },
+    {
+        "Satıcı Firma": "east TICARET",
+        "Satıcı Adres": "I Ozellestirme No: TR1.2 Roan Senaryo: - İTICARIFATURA | Fatura Tipi: BARTIN/ BARTIN : E-Posta: Bos Fatura",
+        "Satıcı Vergi Dairesi": "Bartın feat at ao VKN",
+        "Satıcı Vergi No": "9000068418",
+        "Ticaret Sicil No": "1",
+        "Alıcı Firma/Ad Soyad": "TEST FRIMAS TEST ADRESI Ozellestirme No",
+        "Alıcı Adres": "I Ozellestirme No: TR1.2 Roan Senaryo: — İTICARIFATURA | Fatura Tipi: BARTIN/ BARTIN : E-Posta: Bos Fatura",
+        "Alıcı Telefon": "05050000000",
+        "Fatura No": "kPs2024000000054",
+        "Fatura Tarihi": "Fatura Tarihi: [30-06-2024",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "1.406.500,00"
+    },
+    {
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "MİNG KARGO YURTİÇİ VE YURTDIŞI MNG KARGO YURTİÇİ VE YURTDIŞI Özelleştirme No",
+        "Alıcı Telefon": "0212 366 59 97",
+        "Fatura No": "PRT2024000003357",
+        "Fatura Tarihi": "29-07-2024",
+        "Para Birimi": "TL",
+        "Genel Toplam / Ödenecek Tutar": "10.560,00"
+    },
+    {
+        "Satıcı Telefon": "1111",
+        "Satıcı E-Posta": "fatura@ACME.com",
+        "Satıcı Vergi Dairesi": "ESENLER VKN",
+        "Satıcı Vergi No": "9000068418",
+        "Alıcı Firma/Ad Soyad": "TEST MÜŞTERİSİ DEFTERDAR MAH.OTAKCILAR CADDESİ.FLATOFİS İSTANBUL İŞ MERK.K",
+        "Alıcı E-Posta": "fatura@ACME.com",
+        "Alıcı Telefon": "1111",
+        "Fatura Tarihi": "01-07-2021",
+        "Genel Toplam / Ödenecek Tutar": "918,00"
+    }
+]
