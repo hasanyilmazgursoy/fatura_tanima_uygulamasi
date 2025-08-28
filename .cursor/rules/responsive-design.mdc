@@ -1,0 +1,7 @@
+---
+description: Ensures all UI components and pages are fully responsive and adapt to all screen sizes, with a mobile-first approach.
+globs: []
+alwaysApply: false
+---
+
+All pages and components must be fully responsive. The layout should adapt fluidly to various screen sizes and orientations, from small mobile devices to large desktop monitors. A mobile-first approach is preferred. Use responsive units, media queries, and flexible grid/flexbox layouts to ensure a consistent and optimal user experience on all devices.

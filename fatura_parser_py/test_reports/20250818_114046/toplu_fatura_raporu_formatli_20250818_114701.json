@@ -1,0 +1,411 @@
+[
+    {
+        "Satıcı Telefon": "5377339964",
+        "Satıcı Vergi Dairesi": "D",
+        "Alıcı Telefon": "5377339964",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "&752022000008073",
+        "Fatura Tarihi": "28-12-2022",
+        "Genel Toplam / Ödenecek Tutar": "199,00",
+        "Kalemler": [
+            {
+                "Açıklama": "İçi C100 Kulak Kulaklık Siyah",
+                "Birim Fiyat": "199,00 TRY",
+                "Mal/Hizmet Tutarı": "0,00 TRY)",
+                "KDV Oranı": "(| 30,36"
+            }
+        ]
+    },
+    {
+        "Satıcı Telefon": "5369510726",
+        "Satıcı Vergi Dairesi": "SEYHAN VERGİ DAİRESİ MUD",
+        "Alıcı TCKN": "64474380938",
+        "Fatura Tarihi": "17-09-2023",
+        "ETTN": "779d9791-4597-4f67-9d6e-cdd69ec3c9ef",
+        "Genel Toplam / Ödenecek Tutar": "620,00",
+        "Kalemler": [
+            {
+                "Açıklama": "Tutarı",
+                "Birim Fiyat": "Oranı",
+                "KDV Oranı": "Oranı Nedeni"
+            },
+            {
+                "Açıklama": "748.50 ‘TL",
+                "Birim Fiyat": "“00,00 Adet O 1 748,5 TL",
+                "Mal/Hizmet Tutarı": "149,70 TL",
+                "KDV Oranı": "o 0,00 TL 620,00"
+            },
+            {
+                "Açıklama": "|",
+                "Birim Fiyat": "İİİ",
+                "KDV Oranı": "CO"
+            },
+            {
+                "Açıklama": "|",
+                "Birim Fiyat": "İİİ"
+            },
+            {
+                "Açıklama": "1/1",
+                "Birim Fiyat": "ELK/AppData/Local/Temp/Temp1 779d9791-4597-4f67-9d6e-cdd69ec3c9ef"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Ti eth sat Nazan a TICARET",
+        "Satıcı Vergi Dairesi": "mithatpasa",
+        "Ticaret Sicil No": "120449",
+        "Alıcı TCKN": "47050556620",
+        "Fatura No": "5c565ca6-b2",
+        "Fatura Tarihi": "04-03-2024",
+        "ETTN": "5c565ca6-b216-4c4a-b004-75cfacc23500",
+        "Genel Toplam / Ödenecek Tutar": "319,90",
+        "Kalemler": [
+            {
+                "Açıklama": "Edt ml+ Deodorant ml Klasik 90 150 Set",
+                "Birim Fiyat": "266,583333T",
+                "Mal/Hizmet Tutarı": "266,58TL| 53,321"
+            }
+        ]
+    },
+    {
+        "Satıcı Vergi Dairesi": "TORBALI",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "BFG2025000173284",
+        "Fatura Tarihi": "03-06-2025",
+        "ETTN": "608b81dd-6264-4d37-a1ca-8d44ab1f0a79",
+        "Genel Toplam / Ödenecek Tutar": "1.664,90"
+    },
+    {
+        "Satıcı Firma": "Mağazacılık Yeni A.Ş.",
+        "Satıcı Telefon": "0850 822 9900",
+        "Satıcı Vergi Dairesi": "SER",
+        "Fatura No": "A302023001485400",
+        "Fatura Tarihi": "17-04-2023",
+        "ETTN": "5D5337B3-19D5-1EDD-B7CA-1CE168725B20",
+        "Kalemler": [
+            {
+                "Açıklama": "Ps |",
+                "Birim Fiyat": "Kenz | 00 | ae)"
+            },
+            {
+                "Açıklama": "İade mağazalara değişim koşulları çerçevesinde, iade ve",
+                "Birim Fiyat": "ulaştığı edilmemektedir, günden itibaren siparişinizin size",
+                "KDV Oranı": "içerisinde ürünlerinizi, 14 gün"
+            },
+            {
+                "Açıklama": "edenkargo \" Akse mahallesi 552.sokak teslim ile no",
+                "Birim Fiyat": "\" adresine faturası ile birlikte gönderebilirsiniz."
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Mı is Sağlık Ürünleri . Ltd.",
+        "Satıcı Telefon": "08508408400 08508408400",
+        "Alıcı Firma/Ad Soyad": "Gokhan Çağaptay Gokhan Çağaptay bek",
+        "Alıcı E-Posta": "info@daynesaglik.com",
+        "Alıcı Telefon": "08508408400",
+        "Fatura No": "İDYN2023000195589",
+        "Fatura Tarihi": "28-08-2023",
+        "ETTN": "C84976BC-B3FF-4D85-B7E8-B36AC571E770",
+        "Genel Toplam / Ödenecek Tutar": "637,50"
+    },
+    {
+        "Satıcı Firma": "oF İth. İhr. ir Denizcan Kozmetik Ltd.",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "DRX2023000001147",
+        "Fatura Tarihi": "28-08-2023",
+        "ETTN": "48B717A4-331A-4A5A-B755-332C7F9FE675",
+        "Genel Toplam / Ödenecek Tutar": "109,00"
+    },
+    {
+        "Satıcı Telefon": "535 391 74 91",
+        "Satıcı E-Posta": "hanporium@gmail.com",
+        "Satıcı Vergi Dairesi": "BEYKOZ ANN are Pas TCKN",
+        "Ticaret Sicil No": "7461208598",
+        "Alıcı Telefon": "535 391 74 91",
+        "Alıcı TCKN": "36445648460",
+        "Fatura No": "İHNP2024000000388",
+        "Fatura Tarihi": "03-12-2024",
+        "ETTN": "1234b363-c237-4351-912e-203778cf9102",
+        "Genel Toplam / Ödenecek Tutar": "234,00"
+    },
+    {
+        "Satıcı Firma": "Danışmanlık Ticaret DSM Grup Satış A.Ş.",
+        "Satıcı Vergi Dairesi": "MASLAK Fatura No",
+        "Satıcı Vergi No": "3130557669",
+        "Satıcı Mersis No": "0313055766900016",
+        "Ticaret Sicil No": "711896",
+        "Alıcı Firma/Ad Soyad": "Çağaptay e",
+        "Alıcı E-Posta": "cagaptay09@gmail.com",
+        "Alıcı Telefon": "+905526507994",
+        "Alıcı TCKN": "11111211111",
+        "Fatura No": "TYS2023010677054",
+        "Fatura Tarihi": "24.04.2023",
+        "ETTN": "facd674b-468b-4b88-226c-629228812e17",
+        "Genel Toplam / Ödenecek Tutar": "212,97",
+        "Kalemler": [
+            {
+                "Açıklama": "| Bedeli TASIMABEDELİ Taşıma",
+                "Miktar": "16,94",
+                "Mal/Hizmet Tutarı": "16,94"
+            },
+            {
+                "Açıklama": "Siyah Lastikli Cep Detayh 8683047463384",
+                "Miktar": "Örme Paça 113,87",
+                "Mal/Hizmet Tutarı": "113,87"
+            },
+            {
+                "Açıklama": "| Örme Basic 8682582492576 Yaka",
+                "Miktar": "64,80 T-Shirt",
+                "Mal/Hizmet Tutarı": "64,80"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Alıcı Telefon": "905526507994",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2024003714883",
+        "Fatura Tarihi": "21-10-2024",
+        "ETTN": "Daf0af54-df65-4447-a764-f9d1509a0788",
+        "Genel Toplam / Ödenecek Tutar": "969,98",
+        "Kalemler": [
+            {
+                "Açıklama": "Kodu",
+                "Birim Fiyat": "N Fiyat",
+                "İskonto": "Tutarı",
+                "KDV Oranı": "Oranı Tutarı"
+            },
+            {
+                "Açıklama": "|Kinetix 1/101899925002 BECK TF 4PR Beyaz",
+                "Birim Fiyat": "41 1 TRY|",
+                "İskonto": "436,05 TRY| 512,67",
+                "KDV Oranı": "TRY| 9010,00| 51,27 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Satıcı Telefon": "+90 212 446 22 88",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2023005705750",
+        "Fatura Tarihi": "27-12-2023",
+        "ETTN": "349c324c-6ca6-446c-b191-2329cbdaaf82",
+        "Genel Toplam / Ödenecek Tutar": "636,35",
+        "Kalemler": [
+            {
+                "Açıklama": "Hizmet Mal",
+                "Birim Fiyat": "Adı Tutarı",
+                "KDV Oranı": "Hizmet Oranı"
+            },
+            {
+                "Açıklama": "Kodu",
+                "Birim Fiyat": "Fiyat",
+                "KDV Oranı": "Tutarı"
+            },
+            {
+                "Açıklama": "|Polaris Siyah Erkek Klasik 1/101467099001 357347.M3PR",
+                "Birim Fiyat": "1Çift|636,35 Bot 40 TRY| 79,55 TRY|",
+                "KDV Oranı": "564,04 TRY| %10,00) 56,40 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2024002264941",
+        "Fatura Tarihi": "06-06-2024",
+        "ETTN": "5f2b14f7-5b35-427f-8ba1-04757cd1dacc",
+        "Genel Toplam / Ödenecek Tutar": "457,98",
+        "Kalemler": [
+            {
+                "Açıklama": "Hizmet Mal",
+                "Birim Fiyat": "Adı Tutarı",
+                "KDV Oranı": "Hizmet Oranı"
+            },
+            {
+                "Açıklama": "Kodu",
+                "Birim Fiyat": "Fiyat",
+                "KDV Oranı": "Tutarı"
+            },
+            {
+                "Açıklama": "|Polaris Kadın Comfort 1/101644641001 164343.Z4FX Bronz",
+                "Birim Fiyat": "Sandalet Çift|436,35 36 1 TRY| 72,00 TRY|",
+                "KDV Oranı": "370,90 TRY| 37,09 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Satıcı Telefon": "+90 212 446 22 88",
+        "Satıcı Vergi Dairesi": "KURUMLAR MARMARA",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2024003694999",
+        "Fatura Tarihi": "18-10-2024",
+        "ETTN": "09547582-2d9b-4c23-b8e3-75386e7c77fd",
+        "Genel Toplam / Ödenecek Tutar": "1.359,82",
+        "Kalemler": [
+            {
+                "Açıklama": "Kodu",
+                "Birim Fiyat": "Fiyat",
+                "KDV Oranı": "Tutarı"
+            },
+            {
+                "Açıklama": "| Lumberjack 1/101698710001 BS PREMIUM",
+                "Birim Fiyat": "Adet|1.045,45 Laptop Çantası STD| 1 TRY|",
+                "İskonto": "248,65 TRY) 819,40",
+                "KDV Oranı": "TRY| 81,94 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "İNİSTREET MAĞAZACILIK AN FLO VE A.Ş. PAZARLAMA",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2025001157280",
+        "Fatura Tarihi": "24-04-2025",
+        "ETTN": "a5a720a6-cc42-4362-a675-d067b4f41180",
+        "Genel Toplam / Ödenecek Tutar": "1.899,98",
+        "Kalemler": [
+            {
+                "Açıklama": "1]101812484001/U.S. POLO ASSN. SANTA",
+                "Birim Fiyat": "Sneaker 40 1 TRY|",
+                "İskonto": "226,09 976,27",
+                "KDV Oranı": "TRY| 97,63 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "MAĞAZACILIK AN FLO VE A.Ş. PAZARLAMA",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2025001232610",
+        "Fatura Tarihi": "30-04-2025",
+        "ETTN": "8303805c-97d9-442b-8862-7b18f795d9ba",
+        "Genel Toplam / Ödenecek Tutar": "9610,00",
+        "Kalemler": [
+            {
+                "Açıklama": "1/101988847001|Reebok HAMPSTED",
+                "Birim Fiyat": "Çift|2.090,90 40 1",
+                "İskonto": "1.150,00 TRY| 1.045,45",
+                "KDV Oranı": "9610,00| TRY| 104,54 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Satıcı Telefon": "+90 212 446 22 88",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2023004790826",
+        "Fatura Tarihi": "19-11-2023",
+        "ETTN": "ef3118af-a837-4346-9727-2e2ab8a1a68c",
+        "Genel Toplam / Ödenecek Tutar": "374,99",
+        "Kalemler": [
+            {
+                "Açıklama": "K odu",
+                "Birim Fiyat": "N Fiyat",
+                "İskonto": "Tutarı",
+                "KDV Oranı": "Oranı Tutarı"
+            },
+            {
+                "Açıklama": "Siyah 1/101281348001 MOMENT TF 3FX",
+                "Birim Fiyat": "40 1 TRY|",
+                "İskonto": "137,50 TRY| 374,99",
+                "KDV Oranı": "TRY| 37,50 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Satıcı Telefon": "+90 212 446 22 88",
+        "Satıcı Vergi Dairesi": "KURUMLAR MARMARA a Vergi Kimlik Numarası",
+        "Satıcı Mersis No": "0388023942900019",
+        "Ticaret Sicil No": "460233",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2023005392315",
+        "Fatura Tarihi": "12-12-2023",
+        "ETTN": "e063d67a-5ae9-4579-89e0-3694165f89ca",
+        "Genel Toplam / Ödenecek Tutar": "469,98",
+        "Kalemler": [
+            {
+                "Açıklama": "K odu",
+                "Birim Fiyat": "Fiyat",
+                "İskonto": "Tutarı",
+                "KDV Oranı": "Oranı Tutarı"
+            },
+            {
+                "Açıklama": "| Travel Soft 1/101439224001 TRV2443.Z3PR",
+                "Birim Fiyat": "36 1 TRY|",
+                "İskonto": "100,00 TRY| 390,90",
+                "KDV Oranı": "TRY| %10,00} 39,09 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "FEA2023005719719",
+        "Fatura Tarihi": "28-12-2023",
+        "ETTN": "dcee131c-e9ec-4d85-82ae-e143d155d1f9",
+        "Genel Toplam / Ödenecek Tutar": "159,53",
+        "Kalemler": [
+            {
+                "Açıklama": "Hizmet Mal",
+                "Birim Fiyat": "Miktar Adı",
+                "KDV Oranı": "Hizmet"
+            },
+            {
+                "Açıklama": "K odu",
+                "Birim Fiyat": "Tutarı N Fiyat",
+                "KDV Oranı": "Oranı Tutarı"
+            },
+            {
+                "Açıklama": "|Kinetix Siyah Erkek 1/101367236004 BL LARK -3FX Kemer 90",
+                "Birim Fiyat": "Adet(81,81 1 TRY| 10,22 TRY)",
+                "KDV Oranı": "72,52 TRY| 9010,00| 7,25 TRY"
+            }
+        ]
+    },
+    {
+        "Satıcı Firma": "EGE TEKNOLOJİ KİMYA MAK.SAN.TIC.LTD.",
+        "Satıcı Vergi Dairesi": "KADIKOY VERGI DAIRESI MD",
+        "Satıcı Vergi No": "3250362543",
+        "Satıcı Mersis No": "0325036254300014",
+        "Alıcı Adres": "BATTALGAZİ MALATYA Belge No",
+        "Alıcı E-Posta": "muhasebe@egeteknoloji.com",
+        "Alıcı Telefon": "02164496778",
+        "Alıcı TCKN": "14111111111",
+        "Fatura No": "İEGA2023000088149",
+        "Fatura Tarihi": "27-08-2023",
+        "ETTN": "BC2CE324-649F-4072-99E1-884A14535E83",
+        "Genel Toplam / Ödenecek Tutar": "685,10"
+    },
+    {
+        "Satıcı E-Posta": "canasilioglu@grail.com",
+        "Satıcı Vergi Dairesi": "M",
+        "Ticaret Sicil No": "0920431683",
+        "Alıcı TCKN": "50878791296",
+        "Fatura No": "TYF2023000081024",
+        "Fatura Tarihi": "03-10-2023",
+        "ETTN": "B546CF1A-3F4D-4B31-A519-C091E220F7E4",
+        "Genel Toplam / Ödenecek Tutar": "380,85"
+    },
+    {
+        "Satıcı Firma": "barat ON PRS KOZMETİK SAN. TİC. LTD.",
+        "Alıcı TCKN": "11111111111",
+        "Fatura No": "3c7dc046-dc81-45e3-a62a-e",
+        "Fatura Tarihi": "16-09-2024",
+        "ETTN": "3c7dc046-dc81-45e3-a62a-eb8a6874cda9",
+        "Genel Toplam / Ödenecek Tutar": "500,00",
+        "Kalemler": [
+            {
+                "Açıklama": "| Butter HERBAL SCIENCE Saç Boom",
+                "Mal/Hizmet Tutarı": "O",
+                "KDV Oranı": "(|"
+            },
+            {
+                "Açıklama": "FP.03.04.009.001 1)",
+                "Mal/Hizmet Tutarı": "104,17TL| 416,68TLİ",
+                "KDV Oranı": "83,33TL"
+            }
+        ]
+    }
+]

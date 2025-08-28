@@ -1,0 +1,16 @@
+{
+    "klasor_yollari": {
+        "fatura_klasoru": "fatura",
+        "rapor_klasoru": "test_reports"
+    },
+    "parallel_workers": 0,
+    "desteklenen_formatlar": [
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".tif",
+        ".tiff",
+        ".bmp",
+        ".pdf"
+    ]
+}

@@ -1,0 +1,7 @@
+---
+description: Enforces support for light/dark themes using a centralized theming system.
+globs: []
+alwaysApply: false
+---
+
+The application must support both a light and a dark theme. All UI components will be styled using a centralized theming system (e.g., CSS variables, theme providers). Colors should not be hardcoded; instead, theme variables (e.g., `primary-background-color`, `text-color`) must be used to allow for seamless switching between modes.

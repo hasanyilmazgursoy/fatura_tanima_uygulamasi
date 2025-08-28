@@ -1,0 +1,1852 @@
+[
+    {
+        "dosya": "fatura\\2022305234296_194_08_07_2024_06_14_37_120.pdf",
+        "analiz_zamani": "2025-08-18 12:07:49",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "80.67%",
+            "toplam_kelime": 314,
+            "gecerli_kelime": 260,
+            "ham_metin_uzunlugu": 1851,
+            "ham_metin": "İÇNE DIS 7 ‘Corrofoursa eği Mah Tugay'Yolu Cad; © No:67 Blok B 34B48 Wörapa; ; SAYIN 0 ve Ma We 5 © FODEED21-7A32-CC12-E053-C9655A0A31D4 hasan yılmaz gürsoy . 0 0 % Özelleştirme No: TR1.2 telknosa No: Kapı No: ha : z Falura Tipi: SATIS we N ; Fatura No: &752022000008073 > Ne, > Fatura Tarihi: 28-12-2022 -Posta: fae) e ğü Tel: 5377339964 Fax: fes) GF Düzenlenme Tarihi: 28-12-2022 Vergi Dairesi: Düzenlenme Zamanı: = 10:37:00 TCKN: 11111111111 gArşiv Fatura Mal Hizmet Birim Fiyat Oranı İskonto Tutarı | KDV Oranı KDV Tutarı Diğer Vergiler Mal Hizmet Tutarı C100 Kulak İçi Kulaklık Siyah 199,00 TRY 0,00 TRY) (| 30,36 TRY P| 199,00 TRY Mal Hizmet Toplam Tutarı 199,00 TRY FATURATIPI:EARSIV Toplam Iskonto 0,00 TRY izni kanasımında kag tortamda itmiştir Hesaplanan Katma Değer Vergisi(%18) 30,36 TRY 1 1 iletilmiştir. ELAZIĞ ELYSİUM EXTRA-3052-7520-37287094 Vergiler Dahil Toplam Tutar 199,00 TRY Sipariş No:2022305234296 Ödenecek Tutar 199,00 TRY Kasiyer/Müşteri Temsilcisi : Onur Gürcan 199 TRY 43452800****7234 Ziraat YALNIZ # YUZDOKSANDOKUZA TL SIFIR # KR dur. İrsaliye Yerine Geçer. lade ve ürün değişimlerinde, Fatura çıktısı ile birlikte ürünün tüm aksesuarları ve ambalajı ibraz edilmelidir. \"Cayma Hakkı Kullanımı ve lade Şartları”, \"6502 Sayılı Tüketicinin Korunması Hakkındaki Kanun” ve \"Mesafeli Satışlara Dair Yönetmelik” hükümlerine tabi olacaktır. Müşterimize fatura muhteviyatı ürünlerle birlikte bandrol, garanti belgesi, Türkçe kullanım kılavuzu, yetkili servis listesi teslim edilmiştir. Fatura ile ilgili itirazlar teslim tarihinden itibaren 8 gün içerisinde yapılmadığı takdirde fatura kabul edilmiş sayılır. Kullanılmış, ambalajı bozulmuş, hijyenik, tek kullanımlık, kişiye özel ürünlerin iadesi sadece \"Ayıp\" kapsamında, yetkili servis raporu ile yapılabilmektedir. Detaylı iade koşullarını faturanızın arkasında görebilirsiniz."
+        },
+        "regex": {
+            "tarih": [
+                "28-12-2022"
+            ],
+            "para": [
+                "199,00 TRY",
+                "0,00 TRY",
+                "30,36 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "&752022000008073"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [
+                "EARSIV"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Temsilcisi"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "değişiml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": [
+                "2022305234296"
+            ]
+        },
+        "structured": {
+            "satici_vergi_dairesi": "D",
+            "satici_telefon": "5377339964",
+            "alici_tckn": "11111111111",
+            "alici_telefon": "5377339964",
+            "fatura_numarasi": "&752022000008073",
+            "fatura_tarihi": "28-12-2022",
+            "fatura_tipi": "EARSIV Toplam Iskonto",
+            "siparis_no": "2022305234296",
+            "genel_toplam": "199,00",
+            "mal_hizmet_toplam": "199,00",
+            "kalemler": [
+                {
+                    "kdv_orani": "(| 30,36",
+                    "aciklama": "İçi C100 Kulak Kulaklık Siyah",
+                    "birim_fiyat": "199,00 TRY",
+                    "tutar": "0,00 TRY)",
+                    "birim_fiyat_num": 199.0,
+                    "tutar_num": 0.0
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\5b41a434-d40d-4ee1-9054-9d9fe8095c58.pdf",
+        "analiz_zamani": "2025-08-18 12:08:10",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "50.35%",
+            "toplam_kelime": 379,
+            "gecerli_kelime": 193,
+            "ham_metin_uzunlugu": 1138,
+            "ham_metin": "17.09.2023 21:03 e-Belge = cy ‘Lr as = od. r. HACI SEKEROGLU Huzurevleri 77150 sk. Burak No:4 Kapı No:23 . jen oh 01360 Çukurova/ Adana / Türkiye sie ve Mali; ea oe ro = hee, Oo Tel: 5369510726 Fax: ELFEN a rat Web Sitesi: oe “0! # ete Peles E-Posta: hacisekeroglu01©gmail.com e ANAN Vergi Dairesi: SEYHAN VERGİ DAİRESİ MUD. Ne YE th re TCKN: 64474380938 > Karesi fa ae 7 rat | 450 Fa a ea an ihe a bj Dis i od mes Ft SAYIN MEHMET EMIR ARSLAN Hasan Varol Mh. Hasan Varol MahallesiDilek SokakKardelen ApartmaniNo 12B blokkat ldaire 4 44200 Battalgazi Malatya No: Kapı No: / Türkiye Web Sitesi: — E-Posta: Tel: Fax: Vergi Dairesi: FIRAT VERGİ DAİRESİ MÜD. TCKN: 56191253114 Fatura No: |6182023000000169 | ETTN: 779d9791-4597-4f67-9d6e-cdd69ec3c9ef İskonto/| İskonto/ | İskonto/ KDV Ni Mal Birim Fiyat | Arttırım | Arttırım Arttırım Oranı KDV Tutarı Diğer Vergiler Hizmet Oranı Tutarı Nedeni Tutarı HP Pavilion 800 SISOGAA 748.50 1 Keme Oyuncu Türkçe O 1 Adet 748,5 TL “00,00 0,00 TL -| o 620,00 149,70 TL ‘TL İİİ CO | KE İİİ | KE KE KE KE KE KE KE file:///C:/Users/UZMAN ELK/AppData/Local/Temp/Temp1 779d9791-4597-4f67-9d6e-cdd69ec3c9ef 1/1"
+        },
+        "regex": {
+            "tarih": [
+                "17.09.2023"
+            ],
+            "para": [
+                "00,00",
+                "0,00 TL",
+                "620,00",
+                "149,70 TL"
+            ],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [],
+            "tc_no": [
+                "64474380938",
+                "56191253114"
+            ],
+            "telefon": [],
+            "email": [],
+            "fatura_tipi": [],
+            "kdv_orani": [],
+            "ettn": [
+                "779d9791-4597-4f67-9d6e-cdd69ec3c9ef"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "MEHMET EMIR ARSLAN Hasan"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "Oranı Tutarı Nedeni Tutarı HP Pavilion 800 SISOGAA 748.50 1 Keme Oyuncu Türkçe O 1 Adet"
+            ],
+            "urun_miktar": [
+                "1"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_vergi_dairesi": "SEYHAN VERGİ DAİRESİ MUD",
+            "satici_telefon": "5369510726",
+            "alici_tckn": "64474380938",
+            "ettn": "779d9791-4597-4f67-9d6e-cdd69ec3c9ef",
+            "genel_toplam": "620,00",
+            "kalemler": [
+                {
+                    "kdv_orani": "Oranı Nedeni",
+                    "birim_fiyat": "Oranı",
+                    "aciklama": "Tutarı"
+                },
+                {
+                    "aciklama": "748.50 ‘TL",
+                    "kdv_orani": "o 0,00 TL 620,00",
+                    "birim_fiyat": "“00,00 Adet O 1 748,5 TL",
+                    "tutar": "149,70 TL",
+                    "tutar_num": 149.7
+                },
+                {
+                    "kdv_orani": "CO",
+                    "aciklama": "|",
+                    "birim_fiyat": "İİİ"
+                },
+                {
+                    "aciklama": "|",
+                    "birim_fiyat": "İİİ"
+                },
+                {
+                    "birim_fiyat": "ELK/AppData/Local/Temp/Temp1 779d9791-4597-4f67-9d6e-cdd69ec3c9ef",
+                    "aciklama": "1/1",
+                    "birim_fiyat_num": 1.7799791459746798e+20
+                }
+            ],
+            "fatura_tarihi": "17-09-2023"
+        }
+    },
+    {
+        "dosya": "fatura\\5c565ea6-b2f6-4e4a-b004-75cface23500.pdf",
+        "analiz_zamani": "2025-08-18 12:08:29",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "63.34%",
+            "toplam_kelime": 350,
+            "gecerli_kelime": 232,
+            "ham_metin_uzunlugu": 1526,
+            "ham_metin": "odak kozmetik paz. tic Itd sti iets şchit adem yavuz sok 13/a kızılay me x gankaya/ Ankara ye > a Tel: 03124257062 fg © , ay wa end Cİ ri E-Posta: ayhanlarkozmetik@hotmail.com Ni Eri ? Vergi Dairesi: mithatpasa Ne. J: LA a VEN: 6340051850 et be 2 Nazan Ti eth sat TICARETSICILNO: 120449 a MERSISNO: e-Arşiv Fatura fait hijo a 4 fa oe ODAK KOZMETİK. a Yaf Gr Sefa Repay | Muratpaşa Ve Kargo Kampanya Kodu: 2782965126930 Mi Agi 3400518500013: Siparis No: 207753478434 Ozellestirme No: TRI.2 SAYIN EARSIVFATURA EYLE SATIS Zafer Mh. Zafer Mahallesi Sadrazam Sokak A Dursunlar Sitesi A Blok Bina No 13 Kat 3 Dairc 10 — Battalgazi/ Malatya / Türkiye Fatura Tarihi: 04-03-2024 E-Posta: TEE ETE Tcl: 5399240676 Gonderim Tarihi: 04-03-2024 15:29:01 TCKN: 47050556620 Muhasebe Fatura No: 5c565ca6-b2(6-4c4a-b004-75cfacc23500 ETIN: 5c565ca6-b2(6-4c4a-b004-75cfacc23500 sos Mal Hizmet Mal Hizmet Birim Fiyat KDV Tutarı Jagler Parfiim Bay Edt 90 ml+ Deodorant 150 ml Klasik Set 266,583333T 53,321 266,58TL| Mal Hizmet Toplam Tutarı 266,58TL Toplam İskonto 0,00TL Hesaplanan KDV(%20) 53,32TL KDV Dahil Toplam Tutar 319,90TL Ödenecek Tutar 319,90TL Yalnız ÜçYüzOnDokuzT ürkLirasıDoksanKuruş E-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Bu fatura irsaliye yerine geçer. Bu satış internet üzerinden gerçekleştirilmiştir. N11 özel indirimi (35,19b) İş bu fatura tutarı Doğuş Planet Elektronik Tic. ve Bilişim Hizmetleri A.Ş hesabına devredilmiştir. İADE BÖLÜMÜ: AD SOYAD | ADRES | İMZA | ÜRÜN | ADET | FİYAT | TUTAR | TARİH ------ |"
+        },
+        "regex": {
+            "tarih": [
+                "04-03-2024"
+            ],
+            "para": [
+                "266,58TL",
+                "0,00TL",
+                "53,32TL",
+                "319,90TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "5c565ca6-b2"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "47050556620"
+            ],
+            "telefon": [
+                "03124257062"
+            ],
+            "email": [
+                "ayhanlarkozmetik@hotmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "120449"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "EARSIVFATURA EYLE SATIS"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "Hizmet Mal Hizmet Birim Fiyat KDV Tutarı Jagler Parfiim Bay Edt 90 ml"
+            ],
+            "urun_miktar": [
+                "90",
+                "150"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": [
+                "207753478434"
+            ]
+        },
+        "structured": {
+            "satici_firma_unvani": "Ti eth sat Nazan a TICARET",
+            "satici_vergi_dairesi": "mithatpasa",
+            "satici_ticaret_sicil": "120449",
+            "alici_tckn": "47050556620",
+            "fatura_numarasi": "5c565ca6-b2",
+            "fatura_tarihi": "04-03-2024",
+            "siparis_no": "207753478434",
+            "genel_toplam": "319,90",
+            "kalemler": [
+                {
+                    "aciklama": "Edt ml+ Deodorant ml Klasik 90 150 Set",
+                    "birim_fiyat": "266,583333T",
+                    "tutar": "266,58TL| 53,321",
+                    "birim_fiyat_num": 266.583333
+                }
+            ],
+            "ettn": "5c565ca6-b216-4c4a-b004-75cfacc23500"
+        }
+    },
+    {
+        "dosya": "fatura\\62753525855359.Pdf",
+        "analiz_zamani": "2025-08-18 12:08:41",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "71.71%",
+            "toplam_kelime": 291,
+            "gecerli_kelime": 219,
+            "ham_metin_uzunlugu": 1367,
+            "ham_metin": "BOFIGO GRUP SAN. VE cae TIC. AS. iğ $ Silat > a el TORBALI MAH. & N + ee 2570.SOKAK NO:13 = 7 5 b fi ove Re İY Me TORBALI/ İZMİR NMG oo 190 Tel 0.850 885 1858 NEA Fhe LD tie tad Web Sites! : www.bofigo.com Arsiv F ah E-Posta : iletisim&bofigo.com e- rsiv atura İn Vergi Dairesi : TORBALI VKN : 1791321567 Gem) SAYIN Özelleştirme No : TRI2 EMRE TOKDEMİR , Senaryo : EARSIVFATURA Sürsürü mahallesi Kaan sokak nehir sitesi murat apartmanı binaNo2 BOFİGO Pp A) Ş. Fatura Tipl : SATIS kat 7 iç kapı 15 SÜRSÜRÜ MERKEZ Elazığ Torba Wi 19% f Fatura No + BFG2025000173284 İŞ Merkez/ Elazığ Re Fatura Tarihi : 03 - 06 - 2025 Türkiye TORNA Wi Nd: 179 132 156 Fatura Zamanı : 13:45:00 E-Posta: 4570665920 5350211484€©hepsifatura.com Sipariş Numarası : 2H4570665920HS352585535 Tel: +905013766758 Ödeme Tipi :0 TCKN:11111111111 Sipariş Kanalı : Hepsiburada ETTN: 608b81dd-6264-4d37-a1ca-8d44ab1f0a79 mr Botigo 60x120 cm 2 Raflı Çalışma Masası Bilgisayar Masası Ofis Ders Yemek o o [*] Masast Mars, 01.06.2025 02:59:00 1,0Adet 1.513,55TL 700,00 0,00TL %10,00) 151,35T 1.513,55TL Mal Hizmet Toplam Tutarı : 1.513,55TL Toplam İskonto : 0,00TL Net Tutar : 1.513,55 TL Hesaplanan KDV(910) : 151,35TL Vergiler Dahil Toplam Tutar : 1.664,90TL Ödenecek Tutar : 1.664,90TL Not:NETTUTARYAZI:BinBeşYüzOnÜç TL ElliBeş Kuruş Faprika® | Profesyonel e-ticaret sistemleri ile faturalandırılmıştır."
+        },
+        "regex": {
+            "tarih": [
+                "03 - 06 - 2025",
+                "01.06.2025"
+            ],
+            "para": [
+                "1.513,55TL",
+                "700,00",
+                "0,00TL",
+                "10,00",
+                "1.513,55 TL",
+                "151,35TL",
+                "1.664,90TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [
+                "1791321567"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+905013766758"
+            ],
+            "email": [],
+            "fatura_tipi": [],
+            "kdv_orani": [],
+            "ettn": [
+                "608b81dd-6264-4d37-a1ca-8d44ab1f0a79"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Özelleştirme No"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [],
+            "urun_miktar": [
+                "0"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": [
+                "2H4570665920HS352585535"
+            ]
+        },
+        "structured": {
+            "satici_vergi_dairesi": "TORBALI",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "BFG2025000173284",
+            "fatura_tarihi": "03-06-2025",
+            "ettn": "608b81dd-6264-4d37-a1ca-8d44ab1f0a79",
+            "siparis_no": "2H4570665920HS352585535",
+            "genel_toplam": "1.664,90",
+            "kalemler": []
+        }
+    },
+    {
+        "dosya": "fatura\\A302023001485400.pdf",
+        "analiz_zamani": "2025-08-18 12:08:56",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "70.81%",
+            "toplam_kelime": 306,
+            "gecerli_kelime": 205,
+            "ham_metin_uzunlugu": 1373,
+            "ham_metin": "Yeni Mağazacılık A.Ş. bute Burhaniye Mah. Nagehan Sk. B Apt.No:4 B/1 > oF i wae USKUDAR / ISTANBUL Bo Ne ki A le Tel: 0850 822 9900 Ki ol Ne © iğ Web Sitesi: www.A101.com.tr er a ğa OR: Vergi Dairesi: USKUDAR Gi o * vam SER Vergi Numarası: 9480423762 (Gj Ticaret Sicil No: 661036-0 Mersis No: 0-9480-4237-6200016 anaes Arsiv F | A302023001485400 GÖKHAN e-Arşiv Fatura CUMHURİYET MAHALLESİ ULUSAL EGEMENLİK BU LVARI NO:127 Lif LOJMANI CUMHURİ GAZİPAŞA YA Antalya YY | 1265374452313285 8509239912 E-Posta: CAGAPTAYOS@GMAIL.COM YANA — Vergi Dairesi: X Kimlik Numarası: 11111111111 5D5337B3-19D5-1EDD-B7CA-1CE168725B20 | KALEM No | ÜRÜNKODU | | BiRiM | BİRİM haric) | KDVORANI | KOVTUTARI | TUTAR(Vergi | Ps | Kenz | 00 | ae) YALNIZ : İKİYÜZÜÇ TL VE DOKSAN KR E-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Müşteri Kodu :A1002 Web Adresi : www.a101.com.tr Ödeme Tarihi :17.04.2023 Kargo Ünvan :MNG KARGO YURTİÇİ VE YURTDIŞI Kargo VEN :6080712084 Kargo Tarihi :18.04.2023 Ödeme Şekli E-Ticaret Kredi Karti İrsaliye yerine geçmektedir. İade koşulları çerçevesinde, mağazalara iade ve değişim kabul edilmemektedir, siparişinizin size ulaştığı günden itibaren 14 gün içerisinde ürünlerinizi, teslim edenkargo ile \" Akse mahallesi 552.sokak no 61 Çayırova-Kocaeli \" adresine faturası ile birlikte gönderebilirsiniz. Bölge kodu :9999 Bu satış internet üzerinden yapilmstir."
+        },
+        "regex": {
+            "tarih": [
+                "17.04.2023",
+                "18.04.2023"
+            ],
+            "para": [],
+            "iban": [],
+            "fatura_no": [],
+            "vergi_no": [
+                "9480423762"
+            ],
+            "tc_no": [],
+            "telefon": [],
+            "email": [
+                "CAGAPTAYOS@GMAIL.COM"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "661036"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Kodu"
+            ],
+            "alici_adres": [
+                "YA Antalya YY"
+            ],
+            "urun_aciklama": [],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [
+                "Şekli E-Ticaret"
+            ],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Mağazacılık Yeni A.Ş.",
+            "satici_vergi_dairesi": "SER",
+            "satici_telefon": "0850 822 9900",
+            "fatura_numarasi": "A302023001485400",
+            "ettn": "5D5337B3-19D5-1EDD-B7CA-1CE168725B20",
+            "odeme_sekli": "Şekli E-Ticaret",
+            "kalemler": [
+                {
+                    "aciklama": "Ps |",
+                    "birim_fiyat": "Kenz | 00 | ae)",
+                    "birim_fiyat_num": 0.0
+                },
+                {
+                    "aciklama": "İade mağazalara değişim koşulları çerçevesinde, iade ve",
+                    "birim_fiyat": "ulaştığı edilmemektedir, günden itibaren siparişinizin size",
+                    "kdv_orani": "içerisinde ürünlerinizi, 14 gün"
+                },
+                {
+                    "aciklama": "edenkargo \" Akse mahallesi 552.sokak teslim ile no",
+                    "birim_fiyat": "\" adresine faturası ile birlikte gönderebilirsiniz."
+                }
+            ],
+            "fatura_tarihi": "17-04-2023"
+        }
+    },
+    {
+        "dosya": "fatura\\c84976bc-b3ff-4d85-b7e8-b36ac571e770.pdf",
+        "analiz_zamani": "2025-08-18 12:09:14",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "78.78%",
+            "toplam_kelime": 420,
+            "gecerli_kelime": 322,
+            "ham_metin_uzunlugu": 2348,
+            "ham_metin": "eve Maliyg > Mı . . a <A Dayne Sağlık Ürünleri Ltd. Şti. is Oo # Şerifali Mah Alptekin Cad.Köroğlu İş Merkezi No.73 D.4 Umraniye 71) 34775 / İstanbul KON > Tel: 08508408400 Fax: 08508408400 cares Be Web Sitesi: www.dermokozmetika.com.tr . E-Posta: info@daynesaglik.com e-Arsiv Fatura Vergi Dairesi: SARIGAZİ VKN: 2710802150 MERSISNO: 0271080215000017 — SAYIN Gokhan Çağaptay Gokhan Çağaptay bek [Senaryo: oo JEARSIVFATURA Başharık mah. Gonca sok. Güçlü apt. Kat:3 No:4 MAL Ki Tipi: ATYA/BATTALGAZI Battalgazi No: Ek a gi ULU No: İDYN2023000195589 44000 /Malatya Fatura Tarihi [28-08-2023 Web Sitesi: atura Tari vi: - E-Posta: pf+mozoz350@trendyolmail.co ee ae Fatura Saati: [12 : 00 : 00 Vergi Dairesi: irsaliye Tarihi: [28 - 08 - 2023 TEKN: 11211111112 ante Sipariş No: TY0725295 aaa Sipariş Tarihi: (O (27 - 08 - 2023 ETTN: C84976BC-B3FF-4D85-B7E8- B36AC571E770 Satıcı iskonto | İskonto Diğer Mal Hizmet Ürün Birim Fiyat KDV Oranı KDV Tutarı v ge Kodu Oranı Tutarı ergiler Tutarı ANT Shaka ı [Fluide Spf50 50m! | 2adet| 318,75TL| ©6000) 0,00TL| (| 9620.00 106,25TL 637,5OTL ANT Shaka Fluide Spf50 50ml Mal Hizmet Toplam Tutarı 637,50TL 0,00TL KDV Matrahi(%20) 531,25TL Hesaplanan KDV(%20) 106,25TL Vergiler Dahil Toplam Tutar 637,50TL 637,50TU Not: YALNIZ: ALTIYÜZOTUZYEDİ TL ELLİ KURUŞ Not: E-arşiv izni kapsamında elektronik ortamda iletilmiştir. Not: Vadesinde ödenmeyen fatura tutarları için 967,00 gecikme faizi uygulanır. Not: Is bu fatura muhteviyatına 8 (sekiz) gün içinde itiraz edilmediği takdirde aynen kabul edilmiş sayılır. Not: Bu belgenin sevk edilen malla birlikte bulunması halinde ayrıca sevk irsaliyesi aranmaz. İrsaliye yerine geçer. Not: Banka hesap bilgileri: Not: TÜRKİYE İŞ BANKASI Not: KOŞUYOLU/İSTANBUL Şube Kodu: 01170 IBAN: TR28 0006 4000 0011 1700 5574 30 Not: Bu satış internet üzerinden yapılmıştır. DİĞER DETAY BİLGİLER Ödeme ODEMEARACISI Gönderi Taşıyıcı VKN:| 8590921777 Gönderi Taşıyıcı Ünvanı:) Trendyol Express Marketplace Gönderim / Hizmet İfa Tarihi:| 2023-08-27 Bu satış internet üzerinden yapılmıştır. e-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Faturanız, Turkcell e-Şirket Fatura Sorgulama Portalinden sorgulanip indirilebilir :https://sorgula.turkcellesirket.com/earsiv 30.08.2023 tarihinden itibaren GIB Portalinden sorgulanabilir :https://ebelge.gib.gov.tr/earsivsorgula.html İADE BÖLÜMÜ"
+        },
+        "regex": {
+            "tarih": [
+                "28-08-2023",
+                "28 - 08 - 2023",
+                "27 - 08 - 2023",
+                "30.08.2023"
+            ],
+            "para": [
+                "318,75TL",
+                "0,00TL",
+                "106,25TL",
+                "637,50TL",
+                "531,25TL",
+                "967,00"
+            ],
+            "iban": [
+                "TR28 0006 4000 0011 1700 5574 30"
+            ],
+            "fatura_no": [],
+            "vergi_no": [
+                "2710802150"
+            ],
+            "tc_no": [],
+            "telefon": [
+                "08508408400"
+            ],
+            "email": [
+                "info@daynesaglik.com",
+                "pf+mozoz350@trendyolmail.co"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv",
+                "E-arşiv",
+                "e-Arşiv",
+                "earsiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "027108021500001"
+            ],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Gokhan Çağaptay Gokhan"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [],
+            "urun_miktar": [
+                "2",
+                "50"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": [
+                "TY0725295"
+            ]
+        },
+        "structured": {
+            "satici_firma_unvani": "Mı is Sağlık Ürünleri . Ltd.",
+            "satici_telefon": "08508408400 08508408400",
+            "alici_firma_unvani": "Gokhan Çağaptay Gokhan Çağaptay bek",
+            "alici_email": "info@daynesaglik.com",
+            "alici_telefon": "08508408400",
+            "fatura_numarasi": "İDYN2023000195589",
+            "ettn": "C84976BC-B3FF-4D85-B7E8-B36AC571E770",
+            "siparis_no": "TY0725295",
+            "genel_toplam": "637,50",
+            "kalemler": [],
+            "fatura_tarihi": "28-08-2023"
+        }
+    },
+    {
+        "dosya": "fatura\\EArchive.pdf",
+        "analiz_zamani": "2025-08-18 12:09:39",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "60.55%",
+            "toplam_kelime": 426,
+            "gecerli_kelime": 261,
+            "ham_metin_uzunlugu": 1587,
+            "ham_metin": "ID YA El Merkez : a i dl - Ku, gri — Denizcan Kozmetik İth. İhr. Ltd. Şti. u Ts. ir oF Burhaniye Mahallesi Burhaniye Abdullahağa Caddesi No: No:118 ms ret 34676 Üsküdar / istanbul a Tel: 02165147171 Faks: a iF; ap” Web Sitesi: www.derminix.com.tr Py i} ay =: aki r E-posta: info@derminix.com.tr Vergi Dairesi: ÜSKÜDAR VERGİ DAİRESİ MD on VEN : 2921197346 A ka = ee e-Arşiv Fatura A Mersis No: 0292-1197-3460-0001 <I tye ft Ticaret Sicil No: mcrae ial a Fe Pees Se TILA Lior rou irk ir SAYIN bos Fatura Tip: (SATIS, | GOKHAN CAGAPTAY ; Fatura Tipi SATIS BAŞHARIK MAH. GONCA SOK. GÜÇLÜ APT. KAT:3 NO:4 Sti Belge No: DRX2023000001147 MALATYA/BATTALGAZİ KOZMER |e Tarihi: 28- 08- 2023 Bina No: Kapı No: Ned. 14:43:56 44000 Battalgazi / Malatya Sipariş No: 2211386818- TÜRKİYE Nos | No: 1682069438 TCKN : 11111111111 VE Tarihi a Ticaret Sicil No: q 7 Vade Tarihi : 28.08.2023 Mersis No: M ETTN: 48B717A4-331A-4A5A-B755-332C7F9FE675 > . oe . KDV Mal Hizmet DERMINIX YÜZ o 1 8683723517110 7110 1346268 TEMİZLEME YAGI 100ML 1 Adet 90,8300 TL 20 00 90,83 TL - / Mal / Hizmet Toplam Tutarı 90,83 T Hesaplanan KDV (% 20,00 | 18,17 T Vergiler Dahil Toplam Tutar 109,00 Tİ Ödenecek Tutar 109,00 Tİ Genel Açıklamalar Gokhan Çağaptay Yalnız YüzDokuz TL e-Arşiv faturalarınızı elektronik ortamda görüntülemek ve indirilebilmek için \" https:/ /faturasorgulama.elogo.com.tr \" platformunu kullanabilirsiniz. Banka bilgilerimiz GARANTİ BANKASI KALAMIŞ ŞUBESİ ŞUBE KODU : 0343 HESAP NO : 6297738 TRS6 0006 2000 3430 0006 2952 38 e-Arşiv izni kapsamında elektronik ortamda iletilmiştir. İrsaliye yerine geçer."
+        },
+        "regex": {
+            "tarih": [
+                "28- 08- 2023",
+                "28.08.2023"
+            ],
+            "para": [
+                "90,83 TL",
+                "90,83",
+                "20,00",
+                "18,17",
+                "109,00"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "DRX2023000001147"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "02165147171"
+            ],
+            "email": [
+                "info@derminix.com.tr"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "48B717A4-331A-4A5A-B755-332C7F9FE675"
+            ],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "bos Fatura Tip"
+            ],
+            "alici_adres": [
+                "/ Malatya Sipariş No"
+            ],
+            "urun_aciklama": [
+                "Hizmet DERMINIX YÜZ o 1 8683723517110 7110 1346268 TEMİZLEME YAGI 100ML 1 Adet"
+            ],
+            "urun_miktar": [
+                "100",
+                "1"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [
+                "bilgilerimiz GARANTİ BANKA"
+            ],
+            "kargo_bilgisi": [],
+            "siparis_no": [
+                "2211386818-"
+            ]
+        },
+        "structured": {
+            "satici_firma_unvani": "oF İth. İhr. ir Denizcan Kozmetik Ltd.",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "DRX2023000001147",
+            "ettn": "48B717A4-331A-4A5A-B755-332C7F9FE675",
+            "fatura_tipi": "SATIS BAŞHARIK MAH",
+            "siparis_no": "2211386818-",
+            "odeme_sekli": "bilgilerimiz GARANTİ BANKA",
+            "genel_toplam": "109,00",
+            "kalemler": [],
+            "fatura_tarihi": "28-08-2023"
+        }
+    },
+    {
+        "dosya": "fatura\\earchive_invoiceHNP2024000000388.pdf..pdf",
+        "analiz_zamani": "2025-08-18 12:10:27",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "71.07%",
+            "toplam_kelime": 335,
+            "gecerli_kelime": 243,
+            "ham_metin_uzunlugu": 1589,
+            "ham_metin": "— HANPORIUM MAĞAZACILIK FATİH HAN SARI sett ake: Örnekköy Mahallesi Yavuz Cad. No:3/3 No: ree tat Beykoz/ Istanbul if te; La i Tel: 535 391 74 91 ne . N O Lİ E-Posta: hanporium@gmail.com . ENG Vergi Dairesi: BEYKOZ ANN are Pas TCKN: 36445648460 ay / Ni par 3, TICARETSICILNO: 7461208598 AN iğ Cis erir BN e-ARŞIV FATURA DEN a SAYIN # İN Gökhan Çağaptay Özelleştirme No: Abdullah Paşa Mah (Ataşehir, 23040 Elazığ Merkez/Elazij Fa iye [spa Ks İsenaryo: oo İEARSIVFATURA Ömerbilginoğlu KYK) Merkez/Elazığ Merkez Elazığ No: Weta Bu Fatura Tip SATIS / Beykoz IFatura No: İHNP2024000000388 E-Posta: cagaptayO9@gmail.com Fatura Tarihi: 03-12-2024 Tel: 5526507994 Fatura Saati: 08:57:00 TEKN: Sipariş No: |992226596 mmm, Sipariş Tarihi: 03-12-2024 ETTN: 1234b363-c237-4351-912e-2¢3778cf9102 İskonto | İskonto as Mal Hizmet Fe] omnes | [sina Tree \"hn | HPM04GLS9DDE090 Xiaomi Poco X3 Pro Ekran Koruyucu 9D Kirilmaz o 1 Cam Ultra Darbe Emici Etkin 1 Adet 195 TL 00,00 0,00 TL %20,00 39,00 TL 195,00 TL Koruma Ekranı Tam Kaplar Mal Hizmet Toplam Tutarı 195,00 TL Toplam İskonto 0,00 TL Hesaplanan Kdv 020.00 39,00 TL Vergiler Dahil Toplam Tutar 234,00 TL Ödenecek Tutar 234,00 TL Not: YALNIZ İkiYüzOtuzDörtTL Not: Bizi tercih ettiğiniz için teşekkür eder iyi günlerde kullanmanı dileriz. Not: PAZARAMA Sipariş No : 992226596 Not: Işbu fatura tutarı Topkapı Danışmanlık Elektronik Hiz. Paz. Tic. A.Ş hesabına devredilmiştir. Not: Not: SÜRAT KARGO KAMPANYA KODU : PZ00488093236 Not: e-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Bu Fatura E-Dönüşüm Merkezi EDM Teknolojileri ile Üretilmiştir"
+        },
+        "regex": {
+            "tarih": [
+                "03-12-2024"
+            ],
+            "para": [
+                "00,00",
+                "0,00 TL",
+                "20,00",
+                "39,00 TL",
+                "195,00 TL",
+                "234,00 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "İHNP2024000000388"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "36445648460"
+            ],
+            "telefon": [],
+            "email": [
+                "hanporium@gmail.com",
+                "cagaptayO9@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-ARŞIV",
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "7461208598"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Çağaptay Özelleştirme No"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [],
+            "urun_miktar": [
+                "1"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": [
+                "992226596"
+            ]
+        },
+        "structured": {
+            "satici_vergi_dairesi": "BEYKOZ ANN are Pas TCKN",
+            "satici_telefon": "535 391 74 91",
+            "satici_email": "hanporium@gmail.com",
+            "satici_ticaret_sicil": "7461208598",
+            "alici_tckn": "36445648460",
+            "alici_telefon": "535 391 74 91",
+            "fatura_numarasi": "İHNP2024000000388",
+            "fatura_tarihi": "03-12-2024",
+            "siparis_no": "992226596",
+            "genel_toplam": "234,00",
+            "kalemler": [],
+            "ettn": "1234b363-c237-4351-912e-203778cf9102"
+        }
+    },
+    {
+        "dosya": "fatura\\fae4674b-468b-4b88-a26c-6a9aa8812c17.pdf",
+        "analiz_zamani": "2025-08-18 12:11:18",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "85.93%",
+            "toplam_kelime": 310,
+            "gecerli_kelime": 256,
+            "ham_metin_uzunlugu": 1824,
+            "ham_metin": "t | | 2518064359 DSM Grup Danışmanlık İletişim ve Satış Ticaret A.Ş. | | | | | | | | | | | | | | Özelleştirme No: oo TR1.2.1 Maslak Mahallesi Saat Sokak Spine Tower No:5 İç Kapı:19 Sarıyer İstanbul Senaryo: EARSIVFATURA 34485 SARIYER/ İSTANBUL ev b Yor FAX: 0212-3322368 > Fatura Tipi: SATIS Vergi Dairesi: MASLAK 3 o * Fatura No: TYS2023010677054 VKN: 3130557669 Li & MERSIS No: 0313055766900016 5 Fatura Tarihi: 24.04.2023 Ticaret Sicil No: 711896 Ş İrsaliye No: 1C12023010591788 Web Sitesi: www.dsmgrup.com Sevk Depo Id: 149 eğ we OF Irsaliye Tarihi: 24.04.2023 Unvan: Gökhan Çağaptay e-Arşiv Fatura Düzenlenme Saati: 15:37 Adres: cumhuriyet mahallesi ulusal egemenlik bulvarı no:127 meteoroloji lojmanı 07000 Anta paşa Antalya TYS2023010677054 ETTN: facd674b-468b-4b88-226c-629228812¢17 Web Sitesi: E-Posta: cagaptay09@gmail.com Teslimat No: 2518064359 Tel: +905526507994 spe Vi 3 24.04. Vergi No: TCKN: 11111211111 ade Tarihi: 24.04.2023 Yalnız***İkiyüzonlki TRY Doksanyedi KR Bu satış internet üzerinden gerçekleştirilmiştir. e-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Açıklama Miktar İskonto Net Tutar Kdv Oranı | Kdv Tutarı Ödeme Tipi: KREDIKARTI/BANKAKARTI Ödeme Tarihi: 23.04.2023 İnternet Sitesi: trendyol.com TASIMABEDELİ | Taşıma Bedeli 16,94 16,94 Kargo Tarihi: 24.04.2023 Kargo Firması: Trendyol Express Kargo VKN: 8590921777 Siyah Cep Detayh Lastikli Paça Örme 8683047463384 Eşofman Altı THMAW23EA00004 113,87 113,87 Toplam Birim Fiyat 195,61 Gri 26100 Pamuk Vatka Görünümlü Toplam İskonto 0,00 8682582492576 | Basic Yaka Örme T-Shirt 64,80 64,80 TWOSS20TS0021 Toplam Net Tutar 195,61 Toplam KDV Tutan 17.36 KDV %1 0,00 KDV 48 14,31 KDV “618 3,05 Vergiler Dahil Toplam Tutar 212,97 e-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Satış internet üzerinden gerçekleştirilmiştir. Sayfa1/1"
+        },
+        "regex": {
+            "tarih": [
+                "24.04.2023",
+                "23.04.2023"
+            ],
+            "para": [
+                "16,94",
+                "113,87",
+                "195,61",
+                "0,00",
+                "64,80",
+                "14,31",
+                "3,05",
+                "212,97"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "TYS2023010677054",
+                ""
+            ],
+            "vergi_no": [
+                "3130557669",
+                "8590921777"
+            ],
+            "tc_no": [
+                "11111211111"
+            ],
+            "telefon": [
+                "+905526507994"
+            ],
+            "email": [
+                "cagaptay09@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "031305576690001"
+            ],
+            "ticaret_sicil": [
+                "711896"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Çağaptay e"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [],
+            "urun_miktar": [
+                "37",
+                "11111211111"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Danışmanlık Ticaret DSM Grup Satış A.Ş.",
+            "satici_vergi_dairesi": "MASLAK Fatura No",
+            "satici_vergi_numarasi": "3130557669",
+            "satici_mersis_no": "0313055766900016",
+            "satici_ticaret_sicil": "711896",
+            "alici_firma_unvani": "Çağaptay e",
+            "alici_tckn": "11111211111",
+            "alici_email": "cagaptay09@gmail.com",
+            "alici_telefon": "+905526507994",
+            "fatura_numarasi": "TYS2023010677054",
+            "fatura_tarihi": "24.04.2023",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "212,97",
+            "kalemler": [
+                {
+                    "aciklama": "| Bedeli TASIMABEDELİ Taşıma",
+                    "miktar": "16,94",
+                    "tutar": "16,94",
+                    "miktar_num": 16.94,
+                    "tutar_num": 16.94
+                },
+                {
+                    "miktar": "Örme Paça 113,87",
+                    "aciklama": "Siyah Lastikli Cep Detayh 8683047463384",
+                    "tutar": "113,87",
+                    "miktar_num": 113.87,
+                    "tutar_num": 113.87
+                },
+                {
+                    "aciklama": "| Örme Basic 8682582492576 Yaka",
+                    "miktar": "64,80 T-Shirt",
+                    "tutar": "64,80",
+                    "miktar_num": 64.8,
+                    "tutar_num": 64.8
+                }
+            ],
+            "ettn": "facd674b-468b-4b88-226c-629228812e17"
+        }
+    },
+    {
+        "dosya": "fatura\\orderbabaPdf.pdf",
+        "analiz_zamani": "2025-08-18 12:12:18",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "77.57%",
+            "toplam_kelime": 471,
+            "gecerli_kelime": 358,
+            "ham_metin_uzunlugu": 2521,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 Tlf. 0 İL Cll 34218 Bağcılar / istanbul * NINEWEST yen Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 E-Posta: genelmuhasebe@flo.com.tr , ZYE GA ETK Vergi Dairesi: MARMARA KURUMLAR JO İri Vergi Kimlik Numarası: 3880239429 FON elele Web Sitesi: https://www.flo.com.tr/ te Bc Ticaret Sicil No: 460233 ys Ta bs Mersis No: 0388023942900019 eS: A SAYIN Gékhan Cagaptay - \\ e Ömer bilginoğlu kyk 23270 Merkez / Elazığ AZ : E-Posta: cagaptay09@gmail.com > Özelleştirme No: TR1.2 Tel: 905526507994 Nee Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ Ti i SATIS TCKN: 11111111111 e-Arsiv Fatura pis Müsteri No: 0000001011 Fatura No: FEA2024003714883 5 ‘ Fatura Tarihi: | 21-10-2024 ETTN: Oaf0af54-df65-4447-a764-f9d1509a0788 Son Odeme Tarihi: 21-10-2024 Bayi No: 0000001011 irsaliye Listesi Mal Hizmet Birim iskonto Mal KDV KDV Mal Hizmet Adt Miktar N Hizmet Kodu Fiyat Tutarı T Oranı Tutarı utarı 1/101899925002 |Kinetix BECK TF 4PR Beyaz Erkek Halı Saha Ayakkabısı 41 1 TRY| 436,05 TRY| 512,67 TRY| 9010,00| 51,27 TRY Mal Hizmet Toplam Tutarı: |969,98 TRY Toplam İskonto: 750,00 TRY Vergi Hariç Tutar: 881,80 TRY Hesaplanan KDV (910): Vergiler Dahil Toplam Tutar: |969,98 TRY Ödenecek Tutar: 969,98 TRY *DOKUZ YÜZ ALTMIŞ DOKUZ TÜRK LİRASI DOKSAN SEKİZ KURUŞ BANKA BİLGİLERİ *2416664672 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 *İrsaliye yerine geçer. ; 70 *İşletme Merkezi: Bağcılar/İstanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satış internet üzerinden yapılmıştır. 37 *Şatış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Sadece www.flo.com.tr'den satin almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz.Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. m . Taşıyıcı Ödeme Aracısı Gönderimjifa Ödeme Şekli VKN/TCKN Adt Taşıyıcı Unvanı/Adı Soyadı Tarihi DIGER - DIGER - Turkuvaz Dağıtım Pazarlama FLOCUZDAN 3060344764 FloCüzdan AS. 21.10.2024 MALI iADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: imza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "21-10-2024",
+                "21.10.2024"
+            ],
+            "para": [
+                "436,05 TRY",
+                "512,67 TRY",
+                "9010,00",
+                "51,27 TRY",
+                "969,98 TRY",
+                "750,00 TRY",
+                "881,80 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2024003714883"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905526507994"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "cagaptay09@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arsiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "alici_tckn": "11111111111",
+            "alici_telefon": "905526507994",
+            "fatura_numarasi": "FEA2024003714883",
+            "genel_toplam": "969,98",
+            "kalemler": [
+                {
+                    "iskonto": "Tutarı",
+                    "kdv_orani": "Oranı Tutarı",
+                    "birim_fiyat": "N Fiyat",
+                    "aciklama": "Kodu"
+                },
+                {
+                    "aciklama": "|Kinetix 1/101899925002 BECK TF 4PR Beyaz",
+                    "birim_fiyat": "41 1 TRY|",
+                    "iskonto": "436,05 TRY| 512,67",
+                    "kdv_orani": "TRY| 9010,00| 51,27 TRY",
+                    "birim_fiyat_num": 411.0
+                }
+            ],
+            "fatura_tarihi": "21-10-2024",
+            "ettn": "Daf0af54-df65-4447-a764-f9d1509a0788"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (1).pdf",
+        "analiz_zamani": "2025-08-18 12:13:05",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "78.51%",
+            "toplam_kelime": 454,
+            "gecerli_kelime": 350,
+            "ham_metin_uzunlugu": 2433,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 Tlf. 0 Pegs aC 34218 Bagcilar / Istanbul “İLAN a Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 irem İm ATL E-Posta: genelmuhasebe@flo.com.tr NE ot Pe Vergi Dairesi: MARMARA KURUMLAR YA Vergi Kimlik Numarası: 3880239429 Web Sitesi: https://www.flo.com.tr/ Da. \"büy Ticaret Sicil No: 460233 Ng EA m peat Pig a Mersis No: 0388023942900019 SAYIN VE Hasan Yılmaz Gürsoy - \\ e Ömer bilginoğlu erkek öğrenci yurdu 23040 Merkez / AZ : Elazığ Pact) . . i Özelleştirme No: TR1.2 E-Posta: 44ylmazgrsy@gmail.com ee Tel: 905377339964 > Senaryo: , EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: ; FEA2023005705750 Müşteri No: 0000001011 Fatura Tarihi: 27-12-2023 ETTN: 349c324c-6ca6-446c-b191-2329cbdaaf82 Oluşma Zamanı: 11:23:30 a m m enn Bayi No: 0000001011 İrsaliye Listesi Mal Hizmet Birim İskonto Mal KDV KDV Kodu Mal Hizmet Adı Fiyat Tutarı Hizmet Oranı Tutarı Tutarı 1/101467099001 |Polaris 357347.M3PR Siyah Erkek Klasik Bot 40 1Çift|636,35 TRY| 79,55 TRY| 564,04 TRY| %10,00) 56,40 TRY Mal Hizmet Toplam Tutarı: Toplam İskonto: Vergi Hariç Tutar: Hesaplanan KDV (9510): Vergiler Dahil Toplam Tutar: B D m Ödenecek Tutar: *ALTI YÜZ YİRMİ TÜRK LİRASI KIRK DÖRT KURUŞ BANKA BİLGİLERİ *2401790201-1 nolu sipariş faturası Garanti TRY TROY 0006 2000 4320 0006 2978 *İrsaliye yerine geçer. 70 *İşletme Merkezi: Bağcılar/İstanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satış internet üzerinden yapılmıştır. 37 *Şatış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz. Ürün bedeli iadesi online satış birimi tarafından gerceklestirilmektedir. lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. m N Taşıyıcı Ödeme Aracısı Taşıyıcı Ünvanı/Adı m ap: Odeme Sekli VKN/TCKN Adı Soyadı Tarihi DİGER - DIGER - FLOCUZDAN 720039666 FloCüzdan Aras Kargo A.Ş. 27.12.2023 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: İmza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "27-12-2023",
+                "27.12.2023"
+            ],
+            "para": [
+                "636,35 TRY",
+                "79,55 TRY",
+                "564,04 TRY",
+                "10,00",
+                "56,40 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "349c324c-6ca6-446c-b191-2329cbdaaf82"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "VE Hasan Yılmaz Gürsoy"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerceklestirilmektedir. lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "satici_telefon": "+90 212 446 22 88",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2023005705750",
+            "fatura_tarihi": "27-12-2023",
+            "ettn": "349c324c-6ca6-446c-b191-2329cbdaaf82",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "636,35",
+            "kalemler": [
+                {
+                    "aciklama": "Hizmet Mal",
+                    "kdv_orani": "Hizmet Oranı",
+                    "birim_fiyat": "Adı Tutarı"
+                },
+                {
+                    "birim_fiyat": "Fiyat",
+                    "aciklama": "Kodu",
+                    "kdv_orani": "Tutarı"
+                },
+                {
+                    "aciklama": "|Polaris Siyah Erkek Klasik 1/101467099001 357347.M3PR",
+                    "birim_fiyat": "1Çift|636,35 Bot 40 TRY| 79,55 TRY|",
+                    "kdv_orani": "564,04 TRY| %10,00) 56,40 TRY"
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (2).pdf",
+        "analiz_zamani": "2025-08-18 12:13:54",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "78.09%",
+            "toplam_kelime": 473,
+            "gecerli_kelime": 361,
+            "ham_metin_uzunlugu": 2571,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 | , 0 (ls 34218 Bağcılar / istanbul LRA NINE:WES Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 ae NINE WEST E-Posta: genelmuhasebe@flo.com.tr et Vergi Dairesi: MARMARA KURUMLAR JO : eh Vergi Kimlik Numarası: 3880239429 he Web Sitesi: https://www.flo.com.tr/ . Mi : Pa Ticaret Sicil No: 460233 ary xe Mersis No: 0388023942900019 oe erki YEN vi Ele = a ay ry SAYIN Aslıhan Gürsoy - \\ e Sadrazam Sokak Dursunlar Sitesi A blok Bina No 13 AZ kat 3 daire 10 44300 Battalgazi / Malatya NM E-Posta: hasanyilmazgursoy@gmail.com a : Özelleştirme No: TR1.2 Tel: 905399240676 EE Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: ; FEA2024002264941 Müşteri No: 0000001011 Fatura Tarihi: 06-06-2024 ETTN: 5f2b14f7-5b35-427f-8ba1-04757cd1dacc Oluşma Zamanı: 21:20:54 an a m ma Bayi No: 0000001011 İrsaliye Listesi Mal Hizmet Birim İskonto Mal KDV KDV Kodu Mal Hizmet Adı Fiyat Tutarı Hizmet Oranı Tutarı Tutarı 1/101644641001 |Polaris 164343.Z4FX Bronz Kadın Comfort Sandalet 36 1 Çift|436,35 TRY| 72,00 TRY| 370,90 TRY| 37,09 TRY Mal Hizmet Toplam Tutarı: |457,98 TRY Toplam İskonto: Vergi Hariç Tutar: Hesaplanan KDV (9610): 37,09 TRY Hesaplanan KDV (9620): Vergiler Dahil Toplam Tutar: 999010000000827QAIKD = Odenecek Tutar: *DÖRT YÜZ ELLİ YEDİ TURK LİRASI DOKSAN SEKİZ KURUŞ BANKA BİLGİLERİ *2409974413 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 *İrsaliye yerine geçer. 70 *İşletme Merkezi: Bağcılar/İstanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satış internet üzerinden yapılmıştır. 37 *Satış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Sadece www.flo.com.tr'den satin almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz.Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. Ödeme Şekli Taşıyıcı VKN/TCKN Ödeme Aracısı Adı Taşıyıcı Ünvanı/Adı Soyadı Génderim/ifa Tarihi KREDİKARTI/BANKAKARTI 720039666 Garantipay Aras Kargo A.Ş. 06.06.2024 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: İmza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "06-06-2024",
+                "06.06.2024"
+            ],
+            "para": [
+                "436,35 TRY",
+                "72,00 TRY",
+                "370,90 TRY",
+                "37,09 TRY",
+                "457,98 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905399240676"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "5f2b14f7-5b35-427f-8ba1-04757cd1dacc"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Aslıhan Gürsoy"
+            ],
+            "alici_adres": [
+                "/ Malatya NM E"
+            ],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2024002264941",
+            "fatura_tarihi": "06-06-2024",
+            "ettn": "5f2b14f7-5b35-427f-8ba1-04757cd1dacc",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "457,98",
+            "kalemler": [
+                {
+                    "aciklama": "Hizmet Mal",
+                    "kdv_orani": "Hizmet Oranı",
+                    "birim_fiyat": "Adı Tutarı"
+                },
+                {
+                    "birim_fiyat": "Fiyat",
+                    "aciklama": "Kodu",
+                    "kdv_orani": "Tutarı"
+                },
+                {
+                    "aciklama": "|Polaris Kadın Comfort 1/101644641001 164343.Z4FX Bronz",
+                    "birim_fiyat": "Sandalet Çift|436,35 36 1 TRY| 72,00 TRY|",
+                    "kdv_orani": "370,90 TRY| 37,09 TRY"
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (3).pdf",
+        "analiz_zamani": "2025-08-18 12:14:56",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "79.23%",
+            "toplam_kelime": 465,
+            "gecerli_kelime": 363,
+            "ham_metin_uzunlugu": 2552,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TASOCAGI CAD. NO:24 K:3 0 li İL 34218 Bagcilar / istanbul “İLAN iğ i by Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 ee E-Posta: genelmuhasebe@flo.com.tr NE ram Vergi Dairesi: MARMARA KURUMLAR TO ar im Vergi Kimlik Numarası: 3880239429 Web Sitesi: https://www.flo.com.tr/ 7 Ticaret Sicil No: 460233 Ne» Mersis No: 0388023942900019 KA ss e El =k e ty Hasan Yılmaz Gürsoy - \\ e Ömer bilginoğlu erkek öğrenci yurdu 23040 Merkez / AZ : Elazig m . i i Özelleştirme No: TR1.2 E-Posta: hasanyilmazgursoy@gmail.com > Tel: 905377339964 > Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: ; FEA2024003694999 Müşteri No: 0000001011 Fatura Tarihi: 18-10-2024 ETTN: 09547582-2d9b-4c23-b8e3-75386e7C¢7 7fd Oluşma Zamanı: 16:35:47 . Bayi No: 0000001011 irsaliye Listesi Mal Hizmet Birim iskonto Mal KDV KDV Kodu Mal Hizmet Adi Fiyat Tutarı Hizmet Oranı Tutarı Tutarı 1/101698710001 | Lumberjack BS PREMIUM LPTP BPCK 4FX Siyah Erkek Laptop Çantası STD| 1 Adet|1.045,45 TRY| 248,65 TRY) 819,40 TRY| 81,94 TRY Mal Hizmet Toplam Tutarı: Toplam İskonto: 400,00 TRY Vergi Hariç Tutar: 1.359,82 TRY Hesaplanan KDV (9610): Hesaplanan KDV (9620): Vergiler Dahil Toplam Tutar: 99901900009990288KEDO mi Ödenecek Tutar: *BİN DÖRT YÜZ DOKSAN DOKUZ TÜRK LİRASI DOKSAN YEDİ KURUŞ BANKA BİLGİLERİ *2416589242 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 *İrsaliye yerine geçer. ; 70 *isletme Merkezi: Bagcilar/istanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satis internet üzerinden yapılmıştır. 37 *Satis yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Sadece www.flo.com.tr'den satın almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz.Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. m N Taşıyıcı Ödeme Aracısı Taşıyıcı Ünvanı/Adı m gi we Odeme Sekli VKN/TCKN Adi Soyadı Gonderim/Ifa Tarihi DIGER - DIGER - FLOCUZDAN 0720039666 FloCüzdan Aras Kargo A.Ş. 18.10.2024 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: imza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "18-10-2024",
+                "18.10.2024"
+            ],
+            "para": [
+                "1.045,45 TRY",
+                "248,65 TRY",
+                "819,40 TRY",
+                "81,94 TRY",
+                "400,00 TRY",
+                "1.359,82 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işleml"
+            ],
+            "urun_miktar": [
+                "1"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": "KURUMLAR MARMARA",
+            "satici_telefon": "+90 212 446 22 88",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2024003694999",
+            "fatura_tarihi": "18-10-2024",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "1.359,82",
+            "kalemler": [
+                {
+                    "birim_fiyat": "Fiyat",
+                    "aciklama": "Kodu",
+                    "kdv_orani": "Tutarı"
+                },
+                {
+                    "aciklama": "| Lumberjack 1/101698710001 BS PREMIUM",
+                    "birim_fiyat": "Adet|1.045,45 Laptop Çantası STD| 1 TRY|",
+                    "iskonto": "248,65 TRY) 819,40",
+                    "kdv_orani": "TRY| 81,94 TRY",
+                    "birim_fiyat_num": 1045.451
+                }
+            ],
+            "ettn": "09547582-2d9b-4c23-b8e3-75386e7c77fd"
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (4).pdf",
+        "analiz_zamani": "2025-08-18 12:15:41",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "77.86%",
+            "toplam_kelime": 477,
+            "gecerli_kelime": 362,
+            "ham_metin_uzunlugu": 2547,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. AN İNİSTREET Sayfa 1/2 MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 ka 0 El Zİ 34218 Bağcılar / İstanbul “JAN NİNEWEST LE Ml Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 a ara: E-Posta: genelmuhasebe@flo.com.tr acc Vergi Dairesi: MARMARA KURUMLAR A hare Vergi Kimlik Numarası: 3880239429 1G 0” Tis Web Sitesi: https://www.flo.com.tr/ : ai, Ticaret Sicil No: 460233 \\s i} 8 iL Mersis No: 0388023942900019 Ne, tnt econ Bi yo: ze, e SAYIN ONE Hasan Yılmaz Gürsoy - \\ Ömer bilginoğlu erkek öğrenci yurdu 23040 Merkez / KY : Elazig . i P yO Özelleştirme No: TR1.2 E-Posta: hasanyilmazgursoy@gmail.com PN Tel: 905377339964 Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: FEA2025001157280 Müşteri No: 0000001011 Fatura Tarihi: 24-04-2025 Son Ödeme Tarihi: 24-04-2025 ETTN: a5a720a6-cc42-4362-a675-d067b4f41180 Oluşma Zamanı: 16:18:20 Bayi No: 0000001011 İrsaliye Listesi . i Mal Sıra | Mal Hizmet Birim iskonto KDV KDV utarı 1]101812484001/U.S. POLO ASSN. SANTA 4PR Siyah Erkek Sneaker 40 1 TRY| 226,09 976,27 TRY| 97,63 TRY Mal Hizmet Toplam Tutarı: (1.899,98 TRY Toplam İskonto: 400,00 TRY Vergi Hariç Tutar: 1.727,25 TRY Hesaplanan KDV (9610): 172,73 TRY oe Vergiler Dahil Toplam Tutar: |1.899,98 TRY Odenecek Tutar: 1.899,98 TRY *BIN SEKİZ YÜZ DOKSAN DOKUZ TURK LİRASI DOKSAN SEKİZ KURUŞ BANKA BİLGİLERİ *2440441162 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 70 *Irsaliye yerine geçer. Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 37 *işletme Merkezi: Bağcılar/istanbul *Bu satış internet üzerinden yapılmıştır. *Satış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Sadece www.flo.com.tr'den satin almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz.Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işlemleriyle ilgili detaylı bilgiye https:/Www.flo.com.tr/ üzerinden ulaşabilirsiniz. *İşbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. . Taşıyıcı Ödeme Aracısı Taşıyıcı Ünvanı/Adı Génderim/ifa Ödeme Şekli VKN/TCKN Adı Soyadı Tarihi DIGER - DIGER - m FLOCUZDAN 0720039666 FloCüzdan Aras Kargo A.Ş. 24.04.2025 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: N Birim Fiyat: Imza: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "24-04-2025",
+                "24.04.2025"
+            ],
+            "para": [
+                "226,09",
+                "976,27 TRY",
+                "97,63 TRY",
+                "1.899,98 TRY",
+                "400,00 TRY",
+                "1.727,25 TRY",
+                "172,73 TRY"
+            ],
+            "iban": [
+                "TR62 0006 7010 0000 0067 9295 37"
+            ],
+            "fatura_no": [
+                "FEA2025001157280"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "a5a720a6-cc42-4362-a675-d067b4f41180"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "ONE Hasan Yılmaz Gürsoy"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "İNİSTREET MAĞAZACILIK AN FLO VE A.Ş. PAZARLAMA",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2025001157280",
+            "fatura_tarihi": "24-04-2025",
+            "ettn": "a5a720a6-cc42-4362-a675-d067b4f41180",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "1.899,98",
+            "kalemler": [
+                {
+                    "birim_fiyat": "Sneaker 40 1 TRY|",
+                    "aciklama": "1]101812484001/U.S. POLO ASSN. SANTA",
+                    "iskonto": "226,09 976,27",
+                    "kdv_orani": "TRY| 97,63 TRY",
+                    "birim_fiyat_num": 401.0
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (5).pdf",
+        "analiz_zamani": "2025-08-18 12:16:31",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "77.43%",
+            "toplam_kelime": 473,
+            "gecerli_kelime": 361,
+            "ham_metin_uzunlugu": 2551,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. AN İNİSTREET Sayfa 1/2 MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 ka 0 El 34218 Bağcılar / Istanbul LRA ey Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 a in = E-Posta: genelmuhasebe@flo.com.tr kp LP Vergi Dairesi: MARMARA KURUMLAR BON a ay hi Vergi Kimlik Numarası: 3880239429 f* 0 Valera 43 7 Web Sitesi: https://www.flo.com.tr/ 7) : Ticaret Sicil No: 460233 N 3 | oe Mersis No: 0388023942900019 N MU İM ei is mamanın 82277. fal rato ge SAYIN ONE Hasan Yılmaz Gürsoy - \\ Ömer bilginoğlu erkek öğrenci yurdu 23040 Merkez / KY : Elazig i P yO Özelleştirme No: TR1.2 E-Posta: hasanyilmazgursoy@gmail.com PN Tel: 905377339964 Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: FEA2025001232610 Müşteri No: 0000001011 Fatura Tarihi: 30-04-2025 Son Odeme Tarihi: 30-04-2025 ETTN: 8303805c-97d9-442b-8862-7b18f795d9ba Oluşma Zamanı: 15:27:24 a Bayi No: 0000001011 İrsaliye Listesi Sıra | Mal Hizmet Birim iskonto Mal Hizmet | KDV KDV 1/101988847001|Reebok HAMPSTED Beyaz Erkek Sneaker 40 1 Çift|2.090,90 1.150,00 TRY| 1.045,45 TRY| 9610,00| 104,54 TRY Mal Hizmet Toplam Tutarı: (2.299,99 TRY Toplam İskonto: 2.299,99 TRY Vergi Hariç Tutar: 2.090,90 TRY Hesaplanan KDV (9610): 209,09 TRY ; Vergiler Dahil Toplam Tutar: |2.299,99 TRY Odenecek Tutar: 2.299,99 TRY *İKİ BİN İKİ YÜZ DOKSAN DOKUZ TURK LİRASI DOKSAN DOKUZ KURUŞ BANKA BİLGİLERİ *2440689846 nolu sipariş faturası Garanti TRY TROY 0006 2000 4320 0006 2978 70 *Irsaliye yerine geçer. Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 37 *İşletme Merkezi: Bağcılar/istanbul *Bu satış internet üzerinden yapılmıştır. *Satış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Sadece satin almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz.Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *İşbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. Ödeme Şekli Taşıyıcı VKN/TCKN Ödeme Aracısı Adı Taşıyıcı Ünvanı/Adı Soyadı Génderim/ifa Tarihi KREDIKARTI/BANKAKARTI 0720039666 Craftgate Aras Kargo A.S. 30.04.2025 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: i , Birim Fiyat: mza Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "30-04-2025",
+                "30.04.2025"
+            ],
+            "para": [
+                "2.090,90",
+                "1.150,00 TRY",
+                "1.045,45 TRY",
+                "9610,00",
+                "104,54 TRY",
+                "2.299,99 TRY",
+                "2.090,90 TRY",
+                "209,09 TRY"
+            ],
+            "iban": [
+                "TR62 0006 7010 0000 0067 9295 37"
+            ],
+            "fatura_no": [
+                "FEA2025001232610"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "hasanyilmazgursoy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "8303805c-97d9-442b-8862-7b18f795d9ba"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "ONE Hasan Yılmaz Gürsoy"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir.lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "MAĞAZACILIK AN FLO VE A.Ş. PAZARLAMA",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2025001232610",
+            "fatura_tarihi": "30-04-2025",
+            "ettn": "8303805c-97d9-442b-8862-7b18f795d9ba",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "9610,00",
+            "kalemler": [
+                {
+                    "aciklama": "1/101988847001|Reebok HAMPSTED",
+                    "birim_fiyat": "Çift|2.090,90 40 1",
+                    "kdv_orani": "9610,00| TRY| 104,54 TRY",
+                    "iskonto": "1.150,00 TRY| 1.045,45",
+                    "birim_fiyat_num": 2090.90401
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (6).pdf",
+        "analiz_zamani": "2025-08-18 12:17:20",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "77.92%",
+            "toplam_kelime": 475,
+            "gecerli_kelime": 360,
+            "ham_metin_uzunlugu": 2503,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 Tlf. 0 El 34218 Bağcılar / İstanbul * pees Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 Rei aie E-Posta: genelmuhasebe@flo.com.tr Oa. cant tn Vergi Dairesi: MARMARA KURUMLAR JO pe Vergi Kimlik Numarası: 3880239429 ei ek Web Sitesi: https://www.flo.com.tr/ ae i Ticaret Sicil No: 460233 MeV LE Mersis No: 0388023942900019 OX a LİE og SAYIN VE Hasan Yılmaz Gürsoy - \\ e Ömer bilginoğlu erkek öğrenci yurdu , 23350 AZ : Merkez/Elâzığ Merkez/Elazığ 23040 Merkez / Elazığ . E-Posta: 44ylmazgrsy@gmail.com a : Özelleştirme No: TR1.2 Tel: 905377339964 EE Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: ; FEA2023004790826 Müşteri No: 0000001011 Fatura Tarihi: 19-11-2023 ETTN: ef3118af-a837-4346-9727-2e2ab8a1a68c Oluşma Zamanı: 12:32:50 a na Bayi No: 0000001011 İrsaliye Listesi Mal Hizmet Birim iskonto Mal KDV KDV K Mal Hizmet Adı Miktar N Hizmet odu Fiyat Tutarı T Oranı Tutarı utarı 1/101281348001 MOMENT TF 3FX Siyah Erkek Halı Saha Ayakkabısı 40 1 TRY| 137,50 TRY| 374,99 TRY| 37,50 TRY Mal Hizmet Toplam Tutarı: Toplam İskonto: 137,50 TRY Vergi Hariç Tutar: 374,99 TRY Hesaplanan KDV (9510): 37,50 TRY Vergiler Dahil Toplam Tutar: Ödenecek Tutar: *DÖRT YÜZ ON İKİ TÜRK LİRASI KIRK DOKUZ KURUŞ BANKA BİLGİLERİ *23111910525709 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 *Irsaliye yerine geçer. ; 70 *İşletme Merkezi: Bağcılar/İstanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satış internet üzerinden yapılmıştır. 37 *Satis yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz. Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir. lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. ” Taşıyıcı Ödeme Aracısı Gonderim/ifa Odeme Sekli VKN/TCKN Adi Taşıyıcı Unvanı/Adı Soyadı Tarihi DIGER - DİGER - UPS Hızlı Kargo Taşımacılığı FLOCUZDAN 9170014856 FloCüzdan AS. 19.11.2023 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: imza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "19-11-2023",
+                "19.11.2023"
+            ],
+            "para": [
+                "137,50 TRY",
+                "374,99 TRY",
+                "37,50 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "ef3118af-a837-4346-9727-2e2ab8a1a68c"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "VE Hasan Yılmaz Gürsoy"
+            ],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir. lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "satici_telefon": "+90 212 446 22 88",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2023004790826",
+            "fatura_tarihi": "19-11-2023",
+            "ettn": "ef3118af-a837-4346-9727-2e2ab8a1a68c",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "374,99",
+            "kalemler": [
+                {
+                    "iskonto": "Tutarı",
+                    "kdv_orani": "Oranı Tutarı",
+                    "birim_fiyat": "N Fiyat",
+                    "aciklama": "K odu"
+                },
+                {
+                    "aciklama": "Siyah 1/101281348001 MOMENT TF 3FX",
+                    "birim_fiyat": "40 1 TRY|",
+                    "iskonto": "137,50 TRY| 374,99",
+                    "kdv_orani": "TRY| 37,50 TRY",
+                    "birim_fiyat_num": 401.0
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf (7).pdf",
+        "analiz_zamani": "2025-08-18 12:18:12",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "79.17%",
+            "toplam_kelime": 490,
+            "gecerli_kelime": 377,
+            "ham_metin_uzunlugu": 2606,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 | , 0 : El 34218 Bağcılar / İstanbul LRA NINE:WES TA he Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 2 E-Posta: genelmuhasebe@flo.com.tr Oa. Vergi Dairesi: MARMARA KURUMLAR JO a Vergi Kimlik Numarası: 3880239429 Web Sitesi: https://www.flo.com.tr/ . 7 B= Este. Ticaret Sicil No: 460233 a og. Mersis No: 0388023942900019 ie cal i Te 5 SAYIN Aslıhan Gürsoy - \\ e Malatya/ Battalgazi Zafer Mahallesi Sadrazam Sokak AZ Dursunlar Sitesi A blok Bina No 13 kat 3 daire i m . 10 44300 Battalgazi / Malatya “ Özelleştirme No: TR1.2 E-Posta: 44ylmazgrsy@gmail.com Senaryo: EARSIVFATURA Tel: 905399240676 e-Arşiv Fatura Fatura Tipi: SATIS Vergi Dairesi: BEYAN EDILMED! Fatura No: FEA2023005392315 TCKN: 11111111111 Fatura Tarihi: 12-12-2023 Müşteri No: 0000001011 Son Ödeme Tarihi: 12-12-2023 Oluşma Zamanı: 13:47:32 ETTN: e063d67a-5ae9-4579-89e0-3694165f89ca Bayi No: 0000001011 İrsaliye Listesi Mal Hizmet Birim iskonto Mal KDV KDV K Mal Hizmet Adı Miktar Hizmet odu Fiyat Tutarı T Oranı Tutarı utarı 1/101439224001 | Travel Soft TRV2443.Z3PR Siyah Kadın Comfort Ayakkabı 36 1 TRY| 100,00 TRY| 390,90 TRY| %10,00} 39,09 TRY Mal Hizmet Toplam Tutarı: |469,98 TRY Toplam İskonto: 100,00 TRY Vergi Hariç Tutar: Hesaplanan KDV (9510): 39,09 TRY Hesaplanan KDV (9520): B Vergiler Dahil Toplam Tutar: |469,98 TRY Ödenecek Tutar: 469,98 TRY *DÖRT YÜZ ALTMIŞ DOKUZ TÜRK LİRASI DOKSAN SEKİZ KURUŞ BANKA BİLGİLERİ *2401039730 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 *Irsaliye yerine gecer. ; 70 *İşletme Merkezi: Bağcılar/İstanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satış internet üzerinden yapılmıştır. 37 *Satış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz. Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir. lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. A ; Taşıyıcı Ödeme Aracısı Taşıyıcı Ünvanı/Adı m bi Ödeme Şekli VKN/TCKN Adi Soyadı Gonderim/Ifa Tarihi DIGER - DIGER - FLOCUZDAN 720039666 FloCüzdan Aras Kargo A.Ş. 12.12.2023 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: imza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "12-12-2023",
+                "12.12.2023"
+            ],
+            "para": [
+                "100,00 TRY",
+                "390,90 TRY",
+                "10,00",
+                "39,09 TRY",
+                "469,98 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "FEA2023005392315"
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905399240676"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "e063d67a-5ae9-4579-89e0-3694165f89ca"
+            ],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "Aslıhan Gürsoy"
+            ],
+            "alici_adres": [
+                "/ Malatya"
+            ],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir. lade ve değişim işleml"
+            ],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "satici_vergi_dairesi": "KURUMLAR MARMARA a Vergi Kimlik Numarası",
+            "satici_telefon": "+90 212 446 22 88",
+            "satici_mersis_no": "0388023942900019",
+            "satici_ticaret_sicil": "460233",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2023005392315",
+            "fatura_tarihi": "12-12-2023",
+            "ettn": "e063d67a-5ae9-4579-89e0-3694165f89ca",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "469,98",
+            "kalemler": [
+                {
+                    "iskonto": "Tutarı",
+                    "kdv_orani": "Oranı Tutarı",
+                    "aciklama": "K odu",
+                    "birim_fiyat": "Fiyat"
+                },
+                {
+                    "aciklama": "| Travel Soft 1/101439224001 TRV2443.Z3PR",
+                    "birim_fiyat": "36 1 TRY|",
+                    "iskonto": "100,00 TRY| 390,90",
+                    "kdv_orani": "TRY| %10,00} 39,09 TRY",
+                    "birim_fiyat_num": 361.0
+                }
+            ]
+        }
+    },
+    {
+        "dosya": "fatura\\orderPdf.pdf",
+        "analiz_zamani": "2025-08-18 12:19:15",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "78.72%",
+            "toplam_kelime": 473,
+            "gecerli_kelime": 374,
+            "ham_metin_uzunlugu": 2521,
+            "ham_metin": "FLO MAĞAZACILIK VE PAZARLAMA A.Ş. ma AK Sayfa MERKEZ MAH. TAŞOCAĞI CAD. NO:24 K:3 Tlf. 0 El 34218 Bağcılar / İstanbul * NINEWEST EY Tel: +90 212 446 22 88 Fax: +90 212 446 22 55 e bore Lİ E-Posta: genelmuhasebe@flo.com.tr NE eld Vergi Dairesi: MARMARA KURUMLAR JO ety a eğ : Vergi Kimlik Numarası: 3880239429 i Oy Web Sitesi: https://www.flo.com.tr/ Da. Ln pi e Ticaret Sicil No: 460233 Ne. yer. mat Mersis No: 0388023942900019 x HM 42224 4d ea one: LI fear vi ni A; Hasan Yılmaz Gürsoy - \\ e Ömer bilginoğlu erkek öğrenci yurdu 23040 Merkez / AZ : Elazığ Pact) . . i Özelleştirme No: TR1.2 E-Posta: 44ylmazgrsy@gmail.com > Tel: 905377339964 a Senaryo: EARSIVFATURA Vergi Dairesi: BEYAN EDİLMEDİ e-Arşiv Fatura Fatura Tipi: SATIS TCKN: 11111111111 Fatura No: ; FEA2023005719719 Müşteri No: 0000001011 Fatura Tarihi: 28-12-2023 ETTN: dceel31c-e9ec-4d85-82ae-e143d155d1f9 Oluşma Zamanı: 03:03:04 am m m Bayi No: 0000001011 İrsaliye Listesi Mal Hizmet Birim | İskonto Mal KDV KDV K Mal Hizmet Adı Miktar N Hizmet odu Fiyat Tutarı T Oranı Tutarı utarı 1/101367236004 |Kinetix BL LARK -3FX Siyah Erkek Kemer 90 1 Adet(81,81 TRY| 10,22 TRY) 72,52 TRY| 9010,00| 7,25 TRY Mal Hizmet Toplam Tutarı: |159,53 TRY Toplam İskonto: Vergi Hariç Tutar: Hesaplanan KDV (910): Vergiler Dahil Toplam Tutar: |159,53 TRY mi Ödenecek Tutar: 159,53 TRY *YUZ ELLİ DOKUZ TÜRK LİRASI ELLİ ÜÇ KURUŞ BANKA BİLGİLERİ *2401790201-2 nolu sipariş faturası Garanti TRY TRO9 0006 2000 4320 0006 2978 *İrsaliye yerine geçer. 70 *İşletme Merkezi: Bağcılar/İstanbul Yapı Kredi TRY TR62 0006 7010 0000 0067 9295 *Bu satış internet üzerinden yapılmıştır. 37 *Satış yapılan internet adresi: https://www.flo.com.tr/ *Ürün iadesi ve değişimi için kesinlikle ürünün faturası veya irsaliyesiyle birlikte başvurulması, ürünün kullanılmamış olması ve size ulaştığı şekilde, varsa promosyonları ve tüm aksesuarları ile teslim edilmesi gerekmektedir. . *Almış olduğunuz ürünleri mağazalarından değiştirebilir veya iade edebilirsiniz. Ürün bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir. lade ve değişim işlemleriyle ilgili detaylı bilgiye https://www.flo.com.tr/ üzerinden ulaşabilirsiniz. *Isbu faturanın tanziminde yapılan herhangi bir hatadan mütevellit haklarımız mahfuzdur. A ; Taşıyıcı Ödeme Aracısı Taşıyıcı Ünvanı/Adı m enli bi Odeme Şekli VKN/TCKN Adi Soyadı Gonderim/Ifa Tarihi DIGER - DIGER - FLOCUZDAN 720039666 FloCüzdan Aras Kargo A.Ş. 28.12.2023 MALI İADE EDEN İADE EDİLEN Adı Soyadı: Cinsi: Adresi: Miktar: İmza: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "28-12-2023",
+                "28.12.2023"
+            ],
+            "para": [
+                "81,81 TRY",
+                "10,22 TRY",
+                "72,52 TRY",
+                "9010,00",
+                "7,25 TRY",
+                "159,53 TRY"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "+90 212 446 22 88",
+                "905377339964"
+            ],
+            "email": [
+                "genelmuhasebe@flo.com.tr",
+                "44ylmazgrsy@gmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [
+                "038802394290001"
+            ],
+            "ticaret_sicil": [
+                "460233"
+            ],
+            "musteri_no": [
+                "0000001011"
+            ],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [],
+            "alici_adres": [],
+            "urun_aciklama": [
+                "bedeli iadesi online satış birimi tarafından gerçekleştirilmektedir. lade ve değişim işleml"
+            ],
+            "urun_miktar": [
+                "1"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "Sayfa ma MAĞAZACILIK AK FLO VE PAZARLAMA A.Ş.",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "FEA2023005719719",
+            "fatura_tarihi": "28-12-2023",
+            "fatura_tipi": "SATIS",
+            "genel_toplam": "159,53",
+            "kalemler": [
+                {
+                    "birim_fiyat": "Miktar Adı",
+                    "aciklama": "Hizmet Mal",
+                    "kdv_orani": "Hizmet"
+                },
+                {
+                    "birim_fiyat": "Tutarı N Fiyat",
+                    "kdv_orani": "Oranı Tutarı",
+                    "aciklama": "K odu"
+                },
+                {
+                    "aciklama": "|Kinetix Siyah Erkek 1/101367236004 BL LARK -3FX Kemer 90",
+                    "birim_fiyat": "Adet(81,81 1 TRY| 10,22 TRY)",
+                    "kdv_orani": "72,52 TRY| 9010,00| 7,25 TRY"
+                }
+            ],
+            "ettn": "dcee131c-e9ec-4d85-82ae-e143d155d1f9"
+        }
+    },
+    {
+        "dosya": "fatura\\prod_2023-09_2bda4b0f-bc47-4208-9c28-4cf54110eb73.pdf",
+        "analiz_zamani": "2025-08-18 12:20:11",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "74.02%",
+            "toplam_kelime": 360,
+            "gecerli_kelime": 259,
+            "ham_metin_uzunlugu": 1662,
+            "ham_metin": "Merkez ELE i GG . “= . .. . EGE TEKNOLOJİ KİMYA MAK.SAN.TIC.LTD.STI. m Du Eş KURBAĞLIDERE NABİZADE No: 76/A Eo 34722 KADKÖY / İSTANBUL o a ee Tel: 02164496778 Faks: (0216) 449 67 7 - Web Sitesi: www.cosmed.com.tr a nd tat E-posta: muhasebe@egeteknoloji.com | wet? Vergi Dairesi: KADIKOY VERGI DAIRESI MD VKN : 3250362543 -Arsi 451-4009 Mersis No: 0325036254300014 e-Arşiv Fatura Ticaret Sicil No; 491452 G O S M 1) COSMECEUTICALS ANATOLIA SAYIN | GOKHAN ÇAGAPTAY ARKA A BASI FaturaTipi: 7 BAŞHARIK MAH BAŞHARIK MAH. GONCA SOK. GÜÇLÜ APT. KAT:3 Fatura Tipi: SATIS NO:4 MALATYA/BATTALGAZİ BATTALGAZİ MALATYA Belge No: Bina No: Kapı No: Fatura Tarihi: 27- 08- 2023 44000 BATTALGAZİ / MALATYA . 09:54:06 Sipariş No: TCKN : 14111111111 Sipariş Tarihi: 27-08-2023 Ticaret Sicil No: Mersis No: ETTN: BC2CE324-649F-4072-99E1-884A14535E83 m Malzeme Malzeme / | Malzeme / Malzeme / Hizmet , , Iskonto Iskonto KDV KDV Diğer : e staat’ mama) | iğne) | Gen | en ATOPIA CLEANSING 114,18 570,92 570,92 T 114,18T Vergiler Dahil Toplam Tuta 685,10 T 685,10 Tİ Genel Açıklamalar Gokhan Çağaptay Başharık Mah Başharık mah. Gonca sok. Güçlü apt. K t:3 No:4 MALATYA/BATTALGAZI Battalgazi Malatya Battalgazi/Malatya Yalnız AltıYüzSeksenBeş TL On kuruş BANKA ADI ŞUBE IBAN NO GARANTİ BANKASI HASANPAŞA TR50 0006 2000 4130 0006 2954 81 ISBANKASI HASANPASA TR61 0006 4000 0011 1660 2210 35 FINANSBANK. HASANPASA TR32 0011 1000 0000 0050 1633 85 AKBANK HASANPASA TR74 0004 6002 3588 8000 1017 12 e-Arşiv faturalarınızı elektronik ortamda görüntülemek ve indirilebilmek için \" \" platformunu kullanabilirsiniz. e-Arşiv izni kapsamında elektronik ortamda iletilmiştir. Irsaliye yerine geçer."
+        },
+        "regex": {
+            "tarih": [
+                "27- 08- 2023",
+                "27-08-2023"
+            ],
+            "para": [
+                "114,18",
+                "570,92",
+                "685,10"
+            ],
+            "iban": [
+                "TR50 0006 2000 4130 0006 2954 81",
+                "TR61 0006 4000 0011 1660 2210 35",
+                "TR32 0011 1000 0000 0050 1633 85",
+                "TR74 0004 6002 3588 8000 1017 12"
+            ],
+            "fatura_no": [],
+            "vergi_no": [
+                "3250362543"
+            ],
+            "tc_no": [
+                "14111111111"
+            ],
+            "telefon": [
+                "02164496778"
+            ],
+            "email": [
+                "muhasebe@egeteknoloji.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [
+                "BC2CE324-649F-4072-99E1-884A14535E83"
+            ],
+            "mersis_no": [
+                "032503625430001"
+            ],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [],
+            "alici_adres": [
+                "BATTALGAZİ MALATYA Belge No",
+                "/ MALATYA",
+                "Battalgazi Malatya Battalgazi/Malatya Yalnız AltıYüzSeksenBeş TL On kuruş BANKA ADI ŞUBE IBAN NO GARANTİ BANKASI HASANPAŞA TR"
+            ],
+            "urun_aciklama": [],
+            "urun_miktar": [],
+            "birim_fiyat": [],
+            "odeme_sekli": [
+                "ADI ŞUBE IBAN NO GARANTİ BANKA"
+            ],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "EGE TEKNOLOJİ KİMYA MAK.SAN.TIC.LTD.",
+            "satici_vergi_dairesi": "KADIKOY VERGI DAIRESI MD",
+            "satici_vergi_numarasi": "3250362543",
+            "satici_mersis_no": "0325036254300014",
+            "alici_tckn": "14111111111",
+            "alici_adres": "BATTALGAZİ MALATYA Belge No",
+            "alici_email": "muhasebe@egeteknoloji.com",
+            "alici_telefon": "02164496778",
+            "fatura_tarihi": "27-08-2023",
+            "ettn": "BC2CE324-649F-4072-99E1-884A14535E83",
+            "odeme_sekli": "ADI ŞUBE IBAN NO GARANTİ BANKA",
+            "genel_toplam": "685,10",
+            "kalemler": [],
+            "fatura_numarasi": "İEGA2023000088149"
+        }
+    },
+    {
+        "dosya": "fatura\\prod_2023-10_370159_fd89b6e5-883e-4daf-a31c-236db74a4ffe.pdf",
+        "analiz_zamani": "2025-08-18 12:21:00",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "71.71%",
+            "toplam_kelime": 353,
+            "gecerli_kelime": 248,
+            "ham_metin_uzunlugu": 1610,
+            "ham_metin": "Web https://www. trendyol.co. LT GOKHAN ASILIOGLU KREDİ KARTI / BANKA He coe Mahalle/semt:ekin Mah. Cadde/sokak: 1624 Cad. No:38 C ER ekli: KARTI \"s he 1g 06000 Mamak / Ankara SN Ödeme İ2023-09-17 Ea Tel: - Fax: - Gb o: Tarihi: es E-Posta: canasilioglu@grail.com gi & : Vergi Dairesi: M.KARAGÜZEL VERGİ DAİRESİ MÜD. Ls Tarihi: TICARETSICILNO: 0920431683 Net Gönderi 1 TCKN: 50878791296 Taşıyan a e-Arşiv Fatura (o LS — $ Gönderi İTRENDYOL LOJİSTİK milin Taşıyan |ANONIM SIRKETI , Unvan : SAYIN OE EARSIVFATURA Gokhan Çağaptay (Fatura Tipi: İsarıs Başharık Mah. Gonca Sok. Güçlü Apt. Kat:3 No:4 Belge No: |TYF2023000081024 Malatya/battalgazi Düzenleme |03-10-2023 Tarihi: 44000 Battalgazi / Malatya 14:10:13 E-Posta: pf+5rqx9nlj@trendyolrail.com Zamanı: Tel: No: (2254931378 TCKN: 11111111111 Sivaris ee arihi: ETTN: B546CF1A-3F4D-4B31-A519-CO91E220F7E4 . a . Iskonto KDV . . . Mal Hizmet ET Tr emen Baris Saç Bakım Sütü Magic Milk Therapy Kolajen ve Eşek o 1 Sütü Desteği 200 mri R- 2Adet| 185,285 TL 212,54 TL] %20,00 31,61 189,64 TL 2222, one size Saç Dökülmesi Bakım Şampuanı At Kuyruğu Özlü 2 |Tuzsuz Kolajen Ve Keratin 2Adet| 137,825 TL 9042) o 116,311TL) %20,00 31,87 191,21 TL Katkılı 500 MI R-2022, one size Mal Hizmet Toplam Tutari 646,22 TL Toplam Iskonto 328,85 TL KDV Matrahı 317,37 TL Hesaplanan KDV(%20) 63,48 TL Vergiler Dahil Toplam Tutar 380,85 TL Ödenecek Tutar 380,85 TL Bu satış internet üzerinden yapılmıştır. İrsaliye yerine geçer. E-Arşiv İzni Kapsamında Elektronik Olarak iletilmiştir. Mal İade Edilen : Adı Soyadı: Adresi: İmzası: İade Edilen Malın: Cinsi: Miktarı: Birim Fiyat: Tutar:"
+        },
+        "regex": {
+            "tarih": [
+                "03-10-2023"
+            ],
+            "para": [
+                "212,54 TL",
+                "20,00",
+                "31,61",
+                "189,64 TL",
+                "31,87",
+                "191,21 TL",
+                "646,22 TL",
+                "328,85 TL",
+                "317,37 TL",
+                "63,48 TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                ""
+            ],
+            "vergi_no": [],
+            "tc_no": [
+                "50878791296",
+                "11111111111"
+            ],
+            "telefon": [],
+            "email": [
+                "canasilioglu@grail.com",
+                "pf+5rqx9nlj@trendyolrail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [
+                "0920431683"
+            ],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [
+                "OE EARSIVFATURA Gokhan"
+            ],
+            "alici_adres": [
+                "/ Malatya"
+            ],
+            "urun_aciklama": [
+                "Hizmet ET Tr emen Baris Saç Bakım Sütü Magic Milk Therapy Kolajen ve Eşek o 1 Sütü Desteği 200 mri R- 2Adet"
+            ],
+            "urun_miktar": [
+                "2"
+            ],
+            "birim_fiyat": [
+                "116,311TL"
+            ],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_vergi_dairesi": "M",
+            "satici_email": "canasilioglu@grail.com",
+            "satici_ticaret_sicil": "0920431683",
+            "alici_tckn": "50878791296",
+            "fatura_numarasi": "TYF2023000081024",
+            "fatura_tipi": "İsarıs Başharık Mah",
+            "genel_toplam": "380,85",
+            "kalemler": [],
+            "fatura_tarihi": "03-10-2023",
+            "ettn": "B546CF1A-3F4D-4B31-A519-C091E220F7E4"
+        }
+    },
+    {
+        "dosya": "fatura\\prod_2024-09_0263d6d4-f2c0-4616-8641-ed0005bb7293.pdf",
+        "analiz_zamani": "2025-08-18 12:21:46",
+        "ocr_istatistikleri": {
+            "ortalama_guven_skoru": "73.24%",
+            "toplam_kelime": 383,
+            "gecerli_kelime": 274,
+            "ham_metin_uzunlugu": 1931,
+            "ham_metin": "CS @ (PRS TN LUABORATORIES |) © SANS | kii PRS KOZMETİK SAN. TİC. LTD. ŞTİ. is ON barat Dörtler Sok. No:28 Girne Mah. 3 EĞ ii 34852 MALTEPE / İSTANBUL Ne e Tel: 02165044170 e Web Sitesi: www.trendyol.com e-Arşiv Fatura BE vat e-Posta: noreply@procsin.com a” Siar) jee) Vergi Dairesi: KÜÇÜKYALI VERGİ DAİRESİ Gi) İn ESTE VKN: 7330418107 Gokhan gi KEN 77 arih: 16-09-2024 Gokhan Çağaptay 4 Naat: BATTALGAZİ/ MALATYA le enli İFatura No: | WEB2024000567670 e-Posta: pf+kalnm4ro@trendyolmail.com Theoret Sted Ra: 982113 | Özelleştirme No: |TR1.2 Vergi Dairesi: TCKN: 11111111111 EARSIVFATURA MUSTERINO: 1-4-4843782 SATIS ETTN: BE30BCB5-A335-4053-8075-B1EDO10F46C8 Son Ödeme Tarihi: 19:27:27.2186273+03:00 Satıcı Ürün Kodu | Mal Hizmet Mal Hizmet Tutarı | KDV Tutarı 1) FP.03.04.009.001 | HERBAL SCIENCE Boom Butter Saç Bakım | 4.gadet) 104,17TL| O 416,68TLİ (| 83,33TL Yağı 190 ML Mal Hizmet Toplam | 416,681L KDV Matrahı (%20):|416,67TL Vergi Hariç Tutar:|416,67TL Hesaplanan GERÇEK 83,33TL USULDE KATMA DEĞER VERGİSİ (9620) : Vergiler Dahil Toplam Tutar: |500,00TL Ödenecek Tutar: | 500,00TL * Taraf : Satıcı; Girne Mah. Dörtler Sok. 28 * Taraf : Alıcı; Başharık mah. Gonca sok. Güçlü apt. Kat:3 No:4 MALATYA/BATTALGAZI Battalgazi Malatya * Delivery; Başharık Mah Başharık mah. Gonca sok. Güçlü apt. Kat:3 No:4 MALATYA/BATTALGAZİ Battalgazi Malatya * Yalnız Beşyüz Lira * Fatura Ref. Numarası :1-R-7-5664278 * Mağaza Adı :E-Ticaret Mağaza * Ödeme :TY(Trendyol Temlik Hesabı) 500TL * Bu Satış Internet Üzerinden Yapılmıştır. İLAVE DÖKÜMANLAR Belge No: 3c7dc046-dc81-45e3-a62a-eb8a6874cda9 Belge Tarihi: 16-09-2024 Belge Tipi: BARCODE Belge Adı: Barcode.jpeg ÖDEME ŞEKLİ . Odeme Sekli: Kredi Kartı Son Ödeme Tarihi: 14-09-2024 Ödeme Şekli Aciklamast:Odeme Tipi : KREDIKARTI/BANKAKARTI - Web Adresi :www.trendyol.com - Aracı : Trendyol E-Arşiv izini kapsamında elektronik ortamda iletilmiştir.Bu satış internet üzerinden gerçekleşmiştir."
+        },
+        "regex": {
+            "tarih": [
+                "16-09-2024",
+                "03.04.009",
+                "14-09-2024"
+            ],
+            "para": [
+                "104,17TL",
+                "83,33TL",
+                "416,67TL",
+                "500,00TL"
+            ],
+            "iban": [],
+            "fatura_no": [
+                "",
+                "3c7dc046-dc81-45e3-a62a-"
+            ],
+            "vergi_no": [
+                "7330418107"
+            ],
+            "tc_no": [
+                "11111111111"
+            ],
+            "telefon": [
+                "02165044170"
+            ],
+            "email": [
+                "noreply@procsin.com",
+                "pf+kalnm4ro@trendyolmail.com"
+            ],
+            "fatura_tipi": [
+                "e-Arşiv",
+                "E-Arşiv"
+            ],
+            "kdv_orani": [],
+            "ettn": [],
+            "mersis_no": [],
+            "ticaret_sicil": [],
+            "musteri_no": [],
+            "mal_hizmet_kodu": [],
+            "alici_ad_soyad": [],
+            "alici_adres": [
+                "Battalgazi Malatya"
+            ],
+            "urun_aciklama": [],
+            "urun_miktar": [
+                "190"
+            ],
+            "birim_fiyat": [],
+            "odeme_sekli": [],
+            "kargo_bilgisi": [],
+            "siparis_no": []
+        },
+        "structured": {
+            "satici_firma_unvani": "barat ON PRS KOZMETİK SAN. TİC. LTD.",
+            "alici_tckn": "11111111111",
+            "fatura_numarasi": "3c7dc046-dc81-45e3-a62a-e",
+            "ettn": "3c7dc046-dc81-45e3-a62a-eb8a6874cda9",
+            "genel_toplam": "500,00",
+            "kalemler": [
+                {
+                    "kdv_orani": "(|",
+                    "aciklama": "| Butter HERBAL SCIENCE Saç Boom",
+                    "tutar": "O"
+                },
+                {
+                    "aciklama": "FP.03.04.009.001 1)",
+                    "tutar": "104,17TL| 416,68TLİ",
+                    "kdv_orani": "83,33TL"
+                }
+            ],
+            "fatura_tarihi": "16-09-2024"
+        }
+    }
+]

@@ -1,0 +1,59 @@
+{
+  "results": [
+    {
+      "dosya": "5b41a434-d40d-4ee1-9054-9d9fe8095c58.pdf",
+      "ettn": "OK",
+      "fatura_numarasi": "EXP:GIB2023000000169|GOT:",
+      "fatura_tarihi": "EXP:10-09-2023|GOT:17-09-2023",
+      "genel_toplam": "EXP:898.20|GOT:620.00"
+    },
+    {
+      "dosya": "62753525855359.Pdf",
+      "ettn": "OK",
+      "fatura_numarasi": "OK",
+      "fatura_tarihi": "OK",
+      "genel_toplam": "OK"
+    },
+    {
+      "dosya": "A302023001485400.pdf",
+      "ettn": "OK",
+      "fatura_numarasi": "OK",
+      "fatura_tarihi": "EXP:18-04-2023|GOT:17-04-2023",
+      "genel_toplam": "EXP:203.90|GOT:"
+    },
+    {
+      "dosya": "c84976bc-b3ff-4d85-b7e8-b36ac571e770.pdf",
+      "ettn": "OK",
+      "fatura_numarasi": "OK",
+      "fatura_tarihi": "OK",
+      "genel_toplam": "OK"
+    },
+    {
+      "dosya": "EArchive.pdf",
+      "ettn": "OK",
+      "fatura_numarasi": "OK",
+      "fatura_tarihi": "OK",
+      "genel_toplam": "OK"
+    },
+    {
+      "dosya": "earchive_invoiceHNP2024000000388.pdf..pdf",
+      "ettn": "EXP:|GOT:1234b363-c237-4351-912e-203778cf9102",
+      "fatura_numarasi": "OK",
+      "fatura_tarihi": "OK",
+      "genel_toplam": "OK"
+    },
+    {
+      "dosya": "fae4674b-468b-4b88-a26c-6a9aa8812c17.pdf",
+      "ettn": "EXP:|GOT:facd674b-468b-4b88-226c-629228812e17",
+      "fatura_numarasi": "OK",
+      "fatura_tarihi": "OK",
+      "genel_toplam": "OK"
+    }
+  ],
+  "fields": [
+    "ettn",
+    "fatura_numarasi",
+    "fatura_tarihi",
+    "genel_toplam"
+  ]
+}

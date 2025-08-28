@@ -1,0 +1,7 @@
+---
+description: Requires the use of a cross-platform framework for a single codebase targeting web, iOS, and Android.
+globs: []
+alwaysApply: false
+---
+
+The project will be developed using a cross-platform framework to ensure that a single codebase serves both web and mobile (iOS/Android) targets. All components and business logic must be written in a platform-agnostic way to maximize code reuse and ensure consistent functionality across all platforms.

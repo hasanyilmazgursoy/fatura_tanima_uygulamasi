@@ -1,0 +1,67 @@
+[
+  {
+    "dosya": "A302023001485400.pdf",
+    "expected": {
+      "fatura_numarasi": "A302023001485400",
+      "fatura_tarihi": "18-04-2023",
+      "ettn": "5D5337B3-19D5-1EDD-B7CA-1CE168725B20",
+      "genel_toplam": "203,90"
+    }
+  },
+  {
+    "dosya": "EArchive.pdf",
+    "expected": {
+      "fatura_numarasi": "DRX2023000001147",
+      "fatura_tarihi": "28-08-2023",
+      "ettn": "48B717A4-331A-4A5A-B755-332C7F9FE675",
+      "genel_toplam": "109,00"
+    }
+  },
+  {
+    "dosya": "c84976bc-b3ff-4d85-b7e8-b36ac571e770.pdf",
+    "expected": {
+      "fatura_numarasi": "İDYN2023000195589",
+      "fatura_tarihi": "28-08-2023",
+      "ettn": "C84976BC-B3FF-4D85-B7E8-B36AC571E770",
+      "genel_toplam": "637,50"
+    }
+  },
+  {
+    "dosya": "62753525855359.Pdf",
+    "expected": {
+      "fatura_numarasi": "BFG2025000173284",
+      "fatura_tarihi": "03-06-2025",
+      "ettn": "608b81dd-6264-4d37-a1ca-8d44ab1f0a79",
+      "genel_toplam": "1.664,90"
+    }
+  },
+  {
+    "dosya": "5b41a434-d40d-4ee1-9054-9d9fe8095c58.pdf",
+    "expected": {
+      "fatura_numarasi": "GIB2023000000169",
+      "fatura_tarihi": "10-09-2023",
+      "ettn": "779d9791-4597-4f67-9d6e-cdd69ec3c9ef",
+      "genel_toplam": "898,20"
+    }
+  },
+  {
+    "dosya": "earchive_invoiceHNP2024000000388.pdf..pdf",
+    "expected": {
+      "fatura_numarasi": "İHNP2024000000388",
+      "fatura_tarihi": "03-12-2024",
+      "ettn": "",
+      "genel_toplam": "234,00"
+    }
+  },
+  {
+    "dosya": "fae4674b-468b-4b88-a26c-6a9aa8812c17.pdf",
+    "expected": {
+      "fatura_numarasi": "TYS2023010677054",
+      "fatura_tarihi": "24-04-2023",
+      "ettn": "",
+      "genel_toplam": "212,97"
+    }
+  }
+]
+
+
