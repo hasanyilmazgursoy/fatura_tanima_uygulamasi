@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+.env.*
+
+# IDE/OS
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# Data/Outputs
+fatura_uploads/
+27.08.2025_Gelen Fatura (1)/
+/test_reports/
+/test_reports/**
+/temp_uploads/
+profiles/__pycache__/
+
+# Logs
+*.log
+**/analiz_hatalari.log
+
+# Streamlit
+.streamlit/
+
+# Jupyter/Notebooks
+.ipynb_checkpoints/
+
+# Misc
+*.tmp
+*.bak
+
