@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import json
 import pandas as pd
+import io
 from fatura_analiz_motoru import FaturaAnalizMotoru
 
 # Geçici dosyaların kaydedileceği klasör
@@ -10,7 +11,7 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 st.set_page_config(layout="wide", page_title="Akıllı Fatura Tanıma Sistemi")
 
-def display_results(results: dict):
+def display_results(results: dict, source_path: str | None = None):
     """Analiz sonuçlarını Streamlit arayüzünde gösterir."""
     
     st.subheader("Çıkarılan Yapılandırılmış Veri")
@@ -59,9 +60,55 @@ def display_results(results: dict):
     else:
         st.warning("Dosyadan ürün/hizmet kalemi çıkarılamadı.")
 
+    # Debug görselini (varsa) göster
+    with st.expander("Debug Görselini Göster (Bölge İşaretleri)"):
+        debug_img_path = None
+        try:
+            if source_path:
+                base = os.path.splitext(os.path.basename(source_path))[0]
+                candidate = os.path.join("test_reports", "debug_images", f"debug_{base}.png")
+                if os.path.exists(candidate):
+                    debug_img_path = candidate
+        except Exception:
+            debug_img_path = None
+        if debug_img_path:
+            st.image(debug_img_path, caption=os.path.basename(debug_img_path), use_column_width=True)
+        else:
+            st.write("Debug görseli bulunamadı.")
+
     # Ham metni genişletilebilir bir alanda göster
     with st.expander("OCR'dan Çıkarılan Ham Metni Gör"):
         st.text_area("Ham Metin", results.get("ham_metin", "Ham metin bulunamadı."), height=300)
+
+    st.divider()
+
+    # Verileri düzenleme ve indirme
+    st.subheader("Verileri Düzelt ve İndir")
+    duzenlenmis = {}
+    if yapilandirilmis_veri:
+        editable_fields = {k: v for k, v in yapilandirilmis_veri.items() if k != 'urun_kalemleri'}
+        cols = st.columns(2)
+        items = list(editable_fields.items())
+        for idx, (k, v) in enumerate(items):
+            with cols[idx % 2]:
+                duzenlenmis[k] = st.text_input(k.replace('_', ' ').title(), value=str(v))
+        # Kalemleri aynen taşı
+        if 'urun_kalemleri' in yapilandirilmis_veri:
+            duzenlenmis['urun_kalemleri'] = yapilandirilmis_veri['urun_kalemleri']
+    else:
+        st.info("Düzenlenecek veri bulunamadı.")
+
+    if duzenlenmis:
+        json_bytes = json.dumps(duzenlenmis, ensure_ascii=False, indent=2).encode('utf-8')
+        st.download_button("Düzeltilmiş JSON'u İndir", data=json_bytes, file_name="duzeltilmis_sonuc.json", mime="application/json")
+
+        try:
+            flat = {k: v for k, v in duzenlenmis.items() if k != 'urun_kalemleri'}
+            buf = io.StringIO()
+            pd.DataFrame([flat]).to_csv(buf, index=False)
+            st.download_button("Düzeltilmiş CSV'yi İndir", data=buf.getvalue(), file_name="duzeltilmis_sonuc.csv", mime="text/csv")
+        except Exception as e:
+            st.warning(f"CSV çıktısı oluşturulurken hata: {e}")
 
 def main():
     """Streamlit uygulamasının ana fonksiyonu."""
@@ -102,7 +149,7 @@ def main():
                     results = analiz_motoru.analiz_et(temp_path)
                     
                     st.divider()
-                    display_results(results)
+                    display_results(results, source_path=temp_path)
 
                 except Exception as e:
                     st.error(f"Analiz sırasında beklenmedik bir hata oluştu: {e}")
