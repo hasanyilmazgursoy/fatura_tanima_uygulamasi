@@ -1,0 +1,10 @@
+{
+  "tesseract_cmd_path": "C\\\Program Files\\\Tesseract-OCR\\\tesseract.exe",
+  "klasor_yollari": {
+    "fatura_klasoru": "ornek_faturalar",
+    "rapor_klasoru": "test_reports"
+  },
+  "parallel_workers": 0,
+  "desteklenen_formatlar": [".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".pdf"]
+}
+
